@@ -1,0 +1,287 @@
+<section>
+    <h2>Map Interface</h2>
+
+    <p>
+      <strong>Definition:</strong><br> 
+        A <b>Map</b> in Java is a collection that stores <b>key-value pairs</b>.
+        Each <b>key is unique</b>, but multiple keys can map to the same value.
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <b>dictionary</b>.
+        Each word (key) has one meaning (value).
+        If you add the same word again, it will replace the old meaning.
+    </p>
+
+    <h3>Real-life Example</h3>
+    <p>
+        Consider a <b>student ID card system</b>.
+        Each student has a unique <b>ID number (key)</b> and associated <b>student details (value)</b>.
+        Two students cannot have the same ID, but different IDs may belong to students with the same name.
+    </p>
+
+    <h3>Example</h3>
+    <pre>
+  // Example of Map in Java
+  import java.util.*;
+  
+  public class MapExample {
+      public static void main(String[] args) {
+          Map<Integer, String> students = new HashMap<>();
+  
+          // Adding elements
+          students.put(101, "Alice");
+          students.put(102, "Bob");
+          students.put(103, "Charlie");
+          students.put(101, "Alex"); // Replaces Alice with Alex
+  
+          // Iterating
+          for (Map.Entry<Integer, String> entry : students.entrySet()) {
+              System.out.println("ID: " + entry.getKey() + " → Name: " + entry.getValue());
+          }
+      }
+  }
+    </pre>
+
+    <h3>UML (Text-based Diagram)</h3>
+    <pre>
+    Map (Interface)
+       ↑
+    --------------------------------------------------------
+    | HashMap | LinkedHashMap | TreeMap | Hashtable | EnumMap |
+    </pre>
+
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b>
+        <ul>
+          <li>Fast lookup by key.</li>
+          <li>Easy mapping between data.</li>         
+        </ul>
+      </li>
+      <li><b>Disadvantages:</b>
+        <ul>
+          <li>Cannot have duplicate keys.</li>
+          <li>Not part of the Collection interface.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+        <li><b>HashMap:</b> Fast, no order guarantee, allows one null key and many null values.</li>
+        <li><b>LinkedHashMap:</b> Maintains insertion order.</li>
+        <li><b>TreeMap:</b> Sorted by key (uses Red-Black Tree).</li>
+        <li><b>Hashtable:</b> Legacy, thread-safe but slower.</li>
+        <li><b>EnumMap:</b> Specialized for enum keys, very efficient.</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8: Added <code>computeIfAbsent</code>, <code>merge</code>, <code>forEach</code>, and
+            <code>replaceAll</code> methods.</li>
+        <li>Java 9: <code>Map.of()</code> introduced for creating immutable maps.</li>
+        <li>Java 21: Performance improvements for HashMap and TreeMap (better memory management).</li>
+    </ul>
+
+    <h3>Notes</h3>
+    <div class="note">
+        <b>Map</b> is not a subtype of <b>Collection</b>, but a separate hierarchy in the Java Collections Framework.
+        You can use <code>keySet()</code>, <code>values()</code>, and <code>entrySet()</code> to iterate.
+    </div>
+
+    <h3>Tips</h3>
+    <div class="tip">
+        Use <b>computeIfAbsent</b> (Java 8+) to simplify adding new values.
+        Example: <code>map.computeIfAbsent("key", k -> new ArrayList<>()).add("value");</code>
+    </div>
+
+    <h3>Realistic Example for Beginners</h3>
+    <pre>
+  // Example: Phonebook using Map
+  Map<String, String> phoneBook = new HashMap<>();
+  phoneBook.put("Alice", "9876543210");
+  phoneBook.put("Bob", "9123456780");
+  phoneBook.put("Charlie", "9988776655");
+  
+  System.out.println("Alice's Number: " + phoneBook.get("Alice"));
+    </pre>
+
+    <h3>Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li>What is the difference between HashMap and Hashtable?</li>
+            <li>How does HashMap handle collisions internally?</li>
+            <li>Why is TreeMap slower than HashMap?</li>
+            <li>Can a HashMap have null keys and values?</li>
+            <li>How does LinkedHashMap maintain order?</li>
+            <li>When would you use EnumMap?</li>
+        </ul>
+    </div>
+
+</section>
+
+<section>
+    <h2>Map Module Summery</h2>
+  
+    <!-- 1. Overview -->
+    <h3>Overview</h3>
+    <p>
+      Java <b>Map</b> interface stores <b>key-value pairs</b> where each key is unique.  
+      The key classes in Map module include:
+      <ul>
+        <li><b>HashMap:</b> Unordered, allows null key/value, O(1) average access.</li>
+        <li><b>LinkedHashMap:</b> Maintains insertion order, slightly slower than HashMap.</li>
+        <li><b>TreeMap:</b> Sorted keys, O(log n) access, uses Red-Black Tree.</li>
+        <li><b>EnumMap:</b> Specialized for enum keys, very fast and memory-efficient.</li>
+        <li><b>AbstractMap:</b> Skeletal implementation to simplify custom Map creation.</li>
+      </ul>
+    </p>
+  
+    <!-- 2. Comparison Table -->
+    <h3>Map Classes Comparison</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>HashMap</th>
+          <th>LinkedHashMap</th>
+          <th>TreeMap</th>
+          <th>EnumMap</th>
+          <th>AbstractMap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Order</td>
+          <td>Unordered</td>
+          <td>Insertion order</td>
+          <td>Sorted (natural/custom)</td>
+          <td>Enum natural order</td>
+          <td>Depends on subclass</td>
+        </tr>
+        <tr>
+          <td>Null Keys</td>
+          <td>1 null key allowed</td>
+          <td>1 null key allowed</td>
+          <td>Not allowed</td>
+          <td>Not allowed</td>
+          <td>Depends on subclass</td>
+        </tr>
+        <tr>
+          <td>Null Values</td>
+          <td>Allowed</td>
+          <td>Allowed</td>
+          <td>Allowed</td>
+          <td>Allowed</td>
+          <td>Depends on subclass</td>
+        </tr>
+        <tr>
+          <td>Time Complexity (get/put)</td>
+          <td>O(1)</td>
+          <td>O(1)</td>
+          <td>O(log n)</td>
+          <td>O(1)</td>
+          <td>Depends on subclass</td>
+        </tr>
+        <tr>
+          <td>Thread-Safe</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>Depends on subclass</td>
+        </tr>
+        <tr>
+          <td>Internal Data Structure</td>
+          <td>Hash Table</td>
+          <td>Hash Table + Linked List</td>
+          <td>Red-Black Tree</td>
+          <td>Array (indexed by enum ordinal)</td>
+          <td>Abstract structure; subclasses provide storage</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Fast lookup without order</td>
+          <td>Maintain insertion order</td>
+          <td>Sorted key map / range queries</td>
+          <td>Enum keys mapping</td>
+          <td>Custom Map implementations</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- 3. Quick Notes -->
+    <h3>Quick Notes</h3>
+    <div class="note">
+      <ul>
+        <li>Use HashMap for general-purpose key-value storage.</li>
+        <li>Use LinkedHashMap when insertion order matters.</li>
+        <li>Use TreeMap for sorted key operations or range queries.</li>
+        <li>Use EnumMap for memory-efficient maps with enum keys.</li>
+        <li>Use AbstractMap as a base class to create custom maps.</li>
+      </ul>
+    </div>
+  
+    <!-- 4. Internal Working Highlights -->
+    <h3>Internal Working</h3>
+    <ul>
+      <li><b>HashMap:</b> Array of buckets + linked lists or balanced trees for collisions.</li>
+      <li><b>LinkedHashMap:</b> HashMap + doubly-linked list to preserve insertion order.</li>
+      <li><b>TreeMap:</b> Red-Black Tree; keys sorted, O(log n) access.</li>
+      <li><b>EnumMap:</b> Array indexed by ordinal of enum; very fast and memory-efficient.</li>
+      <li><b>AbstractMap:</b> Provides default implementations; subclasses implement <code>entrySet()</code>.</li>
+    </ul>
+  
+    <!-- 5. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Variety of maps for different requirements (fast access, insertion order, sorted keys, enum-based, custom implementation).</li>
+      <li><b>Disadvantages:</b> Each has limitations (e.g., null keys not allowed in TreeMap/EnumMap, TreeMap slower than HashMap, AbstractMap cannot be instantiated).</li>
+    </ul>
+  
+    <!-- 6. Tips for Senior Developers -->
+    <h3>Tips</h3>
+    <ul>
+      <li>Choose map based on key type, ordering, and performance needs.</li>
+      <li>Use TreeMap for leaderboard, range queries, or sorted reports.</li>
+      <li>EnumMap + EnumSet combination can highly optimize memory and performance.</li>
+      <li>Use AbstractMap as base for specialized/custom maps.</li>
+      <li>Combine LinkedHashMap with access-order for LRU cache implementation.</li>
+    </ul>
+  
+    <!-- 7. Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>TreeMap does not allow null keys.</li>
+      <li>HashMap allows one null key.</li>
+      <li>EnumMap keys must be enum constants.</li>
+      <li>Time complexity differences: HashMap O(1), TreeMap O(log n), EnumMap O(1).</li>
+      <li>Iteration order: LinkedHashMap preserves insertion, TreeMap sorts keys, HashMap unordered.</li>
+      <li>AbstractMap cannot be instantiated.</li>
+    </ul>
+  
+    <!-- 8. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>Difference between HashMap, LinkedHashMap, TreeMap, EnumMap, AbstractMap?</li>
+        <li>Which Map implementation should you choose for sorted keys?</li>
+        <li>Why does EnumMap provide better performance than HashMap for enum keys?</li>
+        <li>Explain internal working of TreeMap and EnumMap.</li>
+        <li>Can HashMap/TreeMap store null keys or values?</li>
+        <li>How can LinkedHashMap be used to implement LRU cache?</li>
+        <li>What is the role of AbstractMap in custom Map implementation?</li>
+      </ul>
+    </div>
+  
+    <!-- 9. Summary -->
+    <h3>Summary</h3>
+    <p>
+      The Map module in Java Collections provides flexible options for storing key-value pairs:  
+      <b>HashMap</b> (fast, unordered), <b>LinkedHashMap</b> (preserves order), <b>TreeMap</b> (sorted), <b>EnumMap</b> (enum-efficient), and <b>AbstractMap</b> (skeletal implementation).  
+      Choosing the right map is critical for performance, memory efficiency, and maintaining order.
+    </p>
+  </section>
+  

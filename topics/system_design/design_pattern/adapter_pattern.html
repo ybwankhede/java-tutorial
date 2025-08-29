@@ -1,0 +1,155 @@
+<section id="adapter_pattern">
+    <h1>Adapter Pattern</h1>
+
+    <h2>Introduction & History</h2>
+    <p>The <b>Adapter Pattern</b> is a <b>structural design pattern</b> that helps two incompatible interfaces work
+        together. It acts like a bridge between the existing system and new functionality. The concept originates from
+        real-world adapters like power plug converters. In software engineering, it became popular through the <i>Gang
+            of Four (GoF)</i> book in 1994.</p>
+
+    <h2>Real-Life Analogy</h2>
+    <ul>
+        <li><b>Power Plug Adapter:</b> Your US laptop charger won’t fit in an Indian socket, so you use an adapter to
+            bridge the difference.</li>
+        <li><b>Language Translator:</b> A translator converts English to French so two people can communicate smoothly.
+        </li>
+    </ul>
+
+    <h2>Structure Diagram</h2>
+    <pre>
+       Client --------> Target (interface expected)
+           |                ^
+           |                |
+           v                |
+       Adapter -----------> Adaptee (existing class)
+    </pre>
+
+    <h2>Example</h2>
+    <pre>
+    // Step 1: Target interface (what client expects)
+    interface MediaPlayer {
+        void play(String filename);
+    }
+    
+    // Step 2: Adaptee (incompatible interface)
+    class AdvancedMediaPlayer {
+        void playMp4(String filename) {
+            System.out.println("Playing MP4 file: " + filename);
+        }
+    }
+    
+    // Step 3: Adapter bridges between MediaPlayer and AdvancedMediaPlayer
+    class MediaAdapter implements MediaPlayer {
+        private AdvancedMediaPlayer advancedPlayer = new AdvancedMediaPlayer();
+    
+        @Override
+        public void play(String filename) {
+            // Convert the request into adaptee’s format
+            advancedPlayer.playMp4(filename);
+        }
+    }
+    
+    // Step 4: Client uses MediaPlayer interface without worrying about internals
+    public class AdapterPatternDemo {
+        public static void main(String[] args) {
+            MediaPlayer player = new MediaAdapter();
+            player.play("song.mp4");
+        }
+    }
+    </pre>
+
+    <h2>Advantages</h2>
+    <ul>
+        <li>Makes incompatible classes work together.</li>
+        <li>Promotes reusability of existing classes.</li>
+        <li>Follows <b>Open/Closed Principle</b> (open for extension, closed for modification).</li>
+    </ul>
+
+    <h2>Disadvantages</h2>
+    <ul>
+        <li>Increases overall complexity.</li>
+        <li>Overuse may lead to confusing code structures.</li>
+    </ul>
+
+    <h2>Use Cases</h2>
+    <ul>
+        <li><b>Java IO:</b> InputStreamReader adapts InputStream to Reader.</li>
+        <li><b>Spring:</b> Adapter classes like HandlerAdapter in MVC.</li>
+        <li><b>Legacy integration:</b> Adapting old APIs to new systems.</li>
+    </ul>
+
+    <h2>Variants of Adapter Pattern</h2>
+
+    <h3>1. Class Adapter (using inheritance)</h3>
+    <pre>
+    // Uses inheritance instead of composition
+    class ClassMediaAdapter extends AdvancedMediaPlayer implements MediaPlayer {
+        @Override
+        public void play(String filename) {
+            playMp4(filename); // directly call Adaptee’s method
+        }
+    }
+    </pre>
+
+    <h3>2. Object Adapter (using composition)</h3>
+    <p>(This is the most common, shown in the main example above).</p>
+
+    <h3>3. Default Adapter (a.k.a. Interface Adapter)</h3>
+    <pre>
+    // Sometimes we don’t want to implement all interface methods.
+    interface EventListener {
+        void onClick();
+        void onHover();
+    }
+    
+    // Provide default empty implementations
+    abstract class DefaultEventAdapter implements EventListener {
+        public void onClick() {}
+        public void onHover() {}
+    }
+    
+    // Client overrides only needed method
+    class ButtonClickListener extends DefaultEventAdapter {
+        @Override
+        public void onClick() {
+            System.out.println("Button clicked!");
+        }
+    }
+    </pre>
+
+    <h2>Alternatives</h2>
+    <ul>
+        <li><b>Facade Pattern:</b> Provides a simplified interface but does not convert interfaces.</li>
+        <li><b>Bridge Pattern:</b> Decouples abstraction and implementation, not for interface mismatch.</li>
+        <li><b>Decorator Pattern:</b> Adds new behavior but doesn’t resolve incompatibility.</li>
+    </ul>
+
+    <h2>Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Adapter Pattern solve?</li>
+            <li>Difference between Adapter and Facade?</li>
+            <li>When would you choose class adapter vs object adapter?</li>
+            <li>Give real-world examples of Adapter in Java libraries.</li>
+        </ul>
+    </div>
+
+    <h2>Notes for Keywords</h2>
+    <div class="note">
+        <ul>
+            <li><b>Interface:</b> A contract that defines methods but no implementation.</li>
+            <li><b>Inheritance:</b> One class derives from another using <code>extends</code>.</li>
+            <li><b>Composition:</b> One class uses another via a reference (has-a relationship).</li>
+        </ul>
+    </div>
+
+    <h2>Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Prefer <b>Object Adapter</b> (composition) over Class Adapter to avoid tight coupling.</li>
+            <li>Use <b>Default Adapters</b> when working with interfaces with many methods.</li>
+            <li>Don’t confuse Adapter with Facade – Adapter changes interface, Facade simplifies it.</li>
+        </ul>
+    </div>
+
+</section>

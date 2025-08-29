@@ -1,0 +1,152 @@
+<section id="Flyweight_pattern">
+    <h1>Flyweight Pattern</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>
+        The <b>Flyweight Pattern</b> is a <b>structural design pattern</b> that minimizes memory usage by sharing common
+        objects instead of creating new ones. It was first popularized in the <i>Gang of Four (GoF) Design Patterns Book
+            (1994)</i> to address performance issues in systems with a large number of similar objects.
+    </p>
+
+    <h2>2. Real-Life Analogy</h2>
+    <ul>
+        <li><b>Library Chairs</b>: Instead of assigning each student a new chair, the library reuses the same set of
+            chairs (shared resource).</li>
+        <li><b>Text Editor</b>: Characters like 'a', 'b', 'c' are stored as shared objects; only their position
+            (extrinsic state) differs.</li>
+        <li><b>Video Game Trees</b>: A forest with thousands of trees shares the same tree type object (texture, shape)
+            while storing unique positions separately.</li>
+    </ul>
+
+    <h2>3. Structure Diagram</h2>
+    <pre>
+              +-------------------+
+              |   Flyweight       |  <---- Common interface
+              +-------------------+
+                       ^
+                       |
+          +-------------------------+
+          |   ConcreteFlyweight     |  <---- Shared objects
+          +-------------------------+
+                       ^
+                       |
+          +-------------------------+
+          |   UnsharedFlyweight     |  <---- Sometimes unique objects
+          +-------------------------+
+
+              +-------------------+
+              | FlyweightFactory  |  <---- Creates & manages flyweights
+              +-------------------+
+                       ^
+                       |
+              +-------------------+
+              |      Client       |  <---- Uses shared objects
+              +-------------------+
+</pre>
+
+    <h2>4. Example</h2>
+    <pre>
+// Flyweight Interface
+interface Shape {
+    void draw(int x, int y, String color); // extrinsic data (position, color)
+}
+
+// Concrete Flyweight
+class Circle implements Shape {
+    private String type = "Circle"; // intrinsic state (shared)
+
+    @Override
+    public void draw(int x, int y, String color) {
+        System.out.println("Drawing a " + type + " at (" + x + "," + y + ") with color " + color);
+    }
+}
+
+// Flyweight Factory
+class ShapeFactory {
+    private static final Map<String, Shape> shapes = new HashMap<>();
+
+    public static Shape getCircle() {
+        return shapes.computeIfAbsent("Circle", k -> new Circle());
+    }
+}
+
+// Client
+public class FlyweightDemo {
+    public static void main(String[] args) {
+        // Client requests the same Circle multiple times
+        Shape circle1 = ShapeFactory.getCircle();
+        circle1.draw(10, 20, "Red");
+
+        Shape circle2 = ShapeFactory.getCircle();
+        circle2.draw(30, 40, "Blue");
+
+        // Both circle1 and circle2 point to the SAME shared object
+        System.out.println("circle1 == circle2 ? " + (circle1 == circle2));
+    }
+}
+</pre>
+
+    <h2>5. Advantages</h2>
+    <ul>
+        <li>Reduces memory usage by sharing common objects.</li>
+        <li>Improves performance when handling large numbers of objects.</li>
+        <li>Centralized object management via <b>Factory</b>.</li>
+    </ul>
+
+    <h2>6. Disadvantages</h2>
+    <ul>
+        <li>Code complexity increases due to extrinsic vs intrinsic separation.</li>
+        <li>Difficult to manage when extrinsic state grows large.</li>
+    </ul>
+
+    <h2>7. Real-World Uses</h2>
+    <ul>
+        <li><b>Java String Pool</b>: Strings like "hello" are cached in the String Pool.</li>
+        <li><b>Integer Cache</b>: Values from -128 to 127 are cached.</li>
+        <li><b>GUI Objects</b>: Icons, fonts, buttons reused across UI.</li>
+        <li><b>Document Editors</b>: Characters stored as shared flyweight objects.</li>
+    </ul>
+
+    <h2>8. Variants</h2>
+    <ul>
+        <li><b>Intrinsic Flyweight</b>: Shared common data (e.g., shape type, texture).</li>
+        <li><b>Extrinsic Flyweight</b>: Context-dependent state (e.g., color, position).</li>
+        <li><b>Composite Flyweight</b>: Combines multiple flyweights into a group (e.g., forest of trees).</li>
+    </ul>
+
+    <h2>9. Alternatives</h2>
+    <ul>
+        <li><b>Object Pool</b>: Reuses heavy objects but allows different states.</li>
+        <li><b>Singleton</b>: Single shared instance but without extrinsic separation.</li>
+        <li><b>Caching Mechanism</b>: General caching without strict Flyweight design.</li>
+    </ul>
+
+    <h2>10. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What is the main difference between Flyweight and Singleton?</li>
+            <li>Explain intrinsic vs extrinsic state with an example.</li>
+            <li>Where is Flyweight used in the Java standard library?</li>
+            <li>How does Flyweight improve memory usage in large-scale applications?</li>
+            <li>Give a real-life scenario where Flyweight is not a good choice.</li>
+        </ul>
+    </div>
+
+    <h2>11. Notes</h2>
+    <div class="note">
+        <b>Intrinsic State:</b> Immutable, shared data (e.g., shape type).<br>
+        <b>Extrinsic State:</b> Contextual data supplied by the client (e.g., position, color).<br>
+        <b>computeIfAbsent:</b> Java 8 method that creates and stores a value only if missing.
+    </div>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Use Flyweight when you have thousands of similar objects (e.g., UI elements, game entities).</li>
+            <li>Combine with <b>Factory Pattern</b> to centralize flyweight management.</li>
+            <li>Keep intrinsic state immutable for safe sharing.</li>
+            <li>Measure performance & memory benefits before applying—it adds complexity.</li>
+        </ul>
+    </div>
+
+</section>

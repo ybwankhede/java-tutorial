@@ -1,0 +1,129 @@
+<section id="interface">
+    <h2>Interface</h2>
+
+    <p>
+      <strong>Definition:</strong><br>
+      An <b>interface</b> in Java is like a contract that defines <b>what a class must do</b>, but not <b>how</b> it does it.
+      It contains <b>abstract methods</b> (without implementation by default) and can also contain <b>default</b> and <b>static methods</b> (Java 8+) and <b>private methods</b> (Java 9+).
+    </p>
+  
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of an <b>interface</b> as a <b>remote control</b>. It has buttons like "power on", "volume up", "volume down".
+      Different TVs (Sony, Samsung, LG) can implement the same remote interface, but <b>each brand provides its own working details</b>.
+      So, the <b>remote defines what can be done</b>, but each TV decides <b>how it is done</b>.
+    </p>
+
+    <h3>Real-Life Example</h3>
+    <p>
+      Example: Payment systems.  
+      - The <b>PaymentGateway</b> interface defines methods like <code>pay()</code>, <code>refund()</code>.  
+      - Classes like <code>PayPalPayment</code>, <code>StripePayment</code>, <code>GooglePayPayment</code> implement the interface.  
+      - Each gives its own details while the user only sees <b>pay() and refund()</b>.
+    </p>
+  
+   
+    <h3>Example</h3>
+    <pre>
+    interface PaymentGateway {
+        void pay();
+        void refund();
+    }
+    
+    class PayPalPayment implements PaymentGateway {
+        @Override
+        public void pay() {
+            System.out.println("PayPalPayment starts payment using UPI.");
+        }
+    
+        @Override
+        public void refund() {
+            System.out.println("PayPalPayment refund payment by 7 working days.");
+        }
+    }
+    
+    class StripePayment implements PaymentGateway {
+        @Override
+        public void pay() {
+            System.out.println("StripePayment starts payment using NFT.");
+        }
+    
+        @Override
+        public void refund() {
+            System.out.println("StripePayment refund payment by 5 working days.");
+        }
+    }
+    
+    public class InterfaceDemo {
+        public static void main(String[] args) {
+            PaymentGateway v1 = new PayPalPayment();
+            PaymentGateway v2 = new StripePayment();
+    
+            v1.pay();
+            v2.pay();
+        }
+    }
+    </pre>
+  
+    <h3>UML Diagram (Text View)</h3>
+    <pre>
+          <<interface>> PaymentGateway
+               | pay()
+               | refund()
+                 ▲
+     ┌───────────┴───────────┐
+     |                       |
+    PayPalPayment         StripePayment
+     |                       |
+    pay()                 pay()
+    refund()              refund()
+    </pre>
+  
+    <h3>Advantages</h3>
+    <ul>
+      <li>Supports <b>multiple inheritance of type</b> (a class can implement multiple interfaces).</li>
+      <li>Defines a <b>clear contract</b> for classes to follow.</li>
+      <li>Promotes <b>loose coupling</b> and <b>testability</b>.</li>
+      <li>Good for <b>API design</b> where implementations may vary.</li>
+    </ul>
+  
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>No code reuse for abstract methods (only default/static methods allow limited reuse).</li>
+      <li>If too many interfaces are used, it may make code harder to read.</li>
+      <li>Can become confusing if misused for things better suited for abstract classes.</li>
+    </ul>
+  
+    <h3>Notes</h3>
+    <div class="note">
+      - Before Java 8, interfaces could only have <b>abstract methods</b>.<br>
+      - A class can implement multiple interfaces but can <b>extend only one class</b>.
+    </div>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li><b>Java 8</b>: Default and static methods added.</li>
+      <li><b>Java 9</b>: Private methods allowed in interfaces for code reusability.</li>
+      <li><b>Sealed Interfaces</b> (Java 15+): Allows restricting which classes can implement an interface.</li>
+    </ul>
+  
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use <b>sealed interfaces</b> (Java 15+) when you want to limit possible implementations.</li>
+      <li>Prefer <b>interfaces</b> for defining contracts in <b>microservices</b> and <b>API design</b>.</li>
+      <li>Combine with <b>dependency injection</b> (Spring, CDI) for loose coupling.</li>
+      <li>Use <b>functional interfaces</b> (like Runnable, Comparator) with <b>lambdas</b> for clean code.</li>
+    </ul>
+  
+    <h3>Interview Questions</h3>
+    <ol>
+      <li>What is the difference between <b>interface</b> and <b>abstract class</b>?</li>
+      <li>Can an interface extend another interface?</li>
+      <li>Can an interface have a constructor?</li>
+      <li>What are <b>default</b> and <b>static methods</b> in Java interfaces (Java 8 feature)?</li>
+      <li>Why did Java 9 introduce <b>private methods</b> in interfaces?</li>
+      <li>Can an interface be empty (marker interface)? Give examples (like Serializable, Cloneable).</li>
+    </ol>
+   
+  </section>
+  

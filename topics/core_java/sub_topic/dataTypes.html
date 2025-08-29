@@ -1,0 +1,179 @@
+<section id="datatypes">
+  <h2>Data Types — Primitive & Non-Primitive</h2>
+
+  <p>
+    <strong>Definition:</strong><br>
+    In Java, <strong>data types</strong> tell the compiler what kind of data a variable can hold.
+    They define the size, kind of values, and operations that can be performed on data.
+  </p>
+
+  <!-- ✅ Simple Understanding -->
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of data types as <strong>containers of different shapes</strong>.
+    - A <code>byte</code> is like a small cup that can hold small numbers.
+    - An <code>int</code> is like a bucket that can hold bigger numbers.
+    - A <code>String</code> is like a notebook that stores text.
+  </p>
+
+  <!-- ✅ Categories -->
+  <h3>Categories of Data Types in Java</h3>
+  <ul>
+    <li><strong>Primitive Data Types</strong> → Built-in, simple values (numbers, characters, true/false).</li>
+    <li><strong>Non-Primitive (Reference) Data Types</strong> → Objects and more complex data (Strings, Arrays,
+      Classes).</li>
+  </ul>
+
+  <!-- ✅ Primitive Data Types -->
+  <h3>Primitive Data Types</h3>
+  <table cellpadding="5" cellspacing="0">
+    <tr>
+      <th>Type</th>
+      <th>Size</th>
+      <th>Default Value</th>
+      <th>Range</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td>byte</td>
+      <td>8-bit</td>
+      <td>0</td>
+      <td>-128 to 127</td>
+      <td><code>byte b = 100;</code></td>
+    </tr>
+    <tr>
+      <td>short</td>
+      <td>16-bit</td>
+      <td>0</td>
+      <td>-32,768 to 32,767</td>
+      <td><code>short s = 20000;</code></td>
+    </tr>
+    <tr>
+      <td>int</td>
+      <td>32-bit</td>
+      <td>0</td>
+      <td>-2^31 to 2^31-1</td>
+      <td><code>int n = 500000;</code></td>
+    </tr>
+    <tr>
+      <td>long</td>
+      <td>64-bit</td>
+      <td>0L</td>
+      <td>-2^63 to 2^63-1</td>
+      <td><code>long big = 123456789L;</code></td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td>32-bit</td>
+      <td>0.0f</td>
+      <td>≈ 7 decimal digits</td>
+      <td><code>float pi = 3.14f;</code></td>
+    </tr>
+    <tr>
+      <td>double</td>
+      <td>64-bit</td>
+      <td>0.0d</td>
+      <td>≈ 15 decimal digits</td>
+      <td><code>double d = 2.718281828;</code></td>
+    </tr>
+    <tr>
+      <td>char</td>
+      <td>16-bit</td>
+      <td>'\u0000'</td>
+      <td>Unicode 0 to 65535</td>
+      <td><code>char grade = 'A';</code></td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td>1-bit (JVM dependent)</td>
+      <td>false</td>
+      <td>true / false</td>
+      <td><code>boolean isJavaFun = true;</code></td>
+    </tr>
+  </table>
+
+  <!-- ✅ Non-Primitive -->
+  <h3>Non-Primitive Data Types</h3>
+  <ul>
+    <li><strong>String</strong>: <code>String name = "Yogesh";</code></li>
+    <li><strong>Array</strong>: <code>int[] nums = {1,2,3};</code></li>
+    <li><strong>Class</strong>: <code>class Car { }</code></li>
+    <li><strong>Interface</strong>, <strong>Enum</strong>, <strong>Record</strong>, etc.</li>
+  </ul>
+
+  <!-- ✅ UML-like Text Diagram -->
+  <h3>UML-style Text Diagram</h3>
+  <pre>
+     Data Types
+       ├── Primitive
+       │     ├── Integer (byte, short, int, long)
+       │     ├── Floating-point (float, double)
+       │     ├── Character (char)
+       │     └── Boolean (true/false)
+       └── Non-Primitive
+             ├── String
+             ├── Arrays
+             └── Classes, Interfaces, Records, Enums
+    </pre>
+
+  <!-- ✅ Real-Life Example -->
+  <h3>Real-Life Example</h3>
+  <p>
+    Imagine you are creating a <strong>Bank Application</strong>:
+    - Account Number → <code>long</code>
+    - Balance → <code>double</code>
+    - Customer Name → <code>String</code>
+    - Account Active → <code>boolean</code>
+  </p>
+
+  <!-- ✅ Advantages & Disadvantages -->
+  <h3>Advantages</h3>
+  <ul>
+    <li>Improves performance (primitive types are fast).</li>
+    <li>Strong type checking prevents errors.</li>
+    <li>Memory-efficient (size is fixed per type).</li>
+  </ul>
+
+  <h3>Disadvantages</h3>
+  <ul>
+    <li>Primitive types can’t store complex objects.</li>
+    <li>Wrapper classes needed for OOP features (autoboxing/unboxing).</li>
+  </ul>
+
+  <!-- ✅ Java-Specific Notes -->
+  <h3>Specific Notes</h3>
+  <ul>
+    <li>All data types in Java are <strong>statistically typed</strong> (decided at compile time).</li>
+    <li><strong>Wrapper Classes</strong> exist for all primitives (e.g., <code>Integer</code>, <code>Double</code>).
+    </li>
+    <li><strong>Autoboxing</strong> and <strong>Unboxing</strong> automatically convert between primitives and
+      wrappers.</li>
+    <li>Since Java 10, you can use <code>var</code> for type inference, but actual type is still decided by compiler.
+    </li>
+  </ul>
+
+  <!-- ✅ Enhancement Tips -->
+  <div class="card">
+    <h2>Enhancement Tips</h2>
+    <div class="tip">
+      - Prefer <code>var</code> (Java 10+) for local variables to improve readability.<br>
+      - Use <code>BigDecimal</code> for precise financial calculations (avoids floating-point errors).<br>
+      - Understand memory usage: choose <code>int</code> vs <code>long</code> wisely for scalability.<br>
+      - Be careful when mixing primitive and wrapper types to avoid <strong>NullPointerException.<br>
+    </div>
+  </div>
+
+  <!-- Interview Questions -->
+  <div class="card">
+    <h2>Interview Notes</h2>
+    <div class="interview">
+      - Q: What is the difference between primitive and reference data types in Java?<br>
+      - Q: Why is <code>String</code> not a primitive type?<br>
+      - Q: Explain <strong>autoboxing</strong> and <strong>unboxing</strong> with examples.<br>
+      - Q: What is the default value of <code>boolean</code> and <code>char</code>?<br>
+      - Q: What happens if you assign a <code>double</code> to an <code>int</code>?<br>
+      - Q: Why is <code>float</code> less precise than <code>double</code>?<br>
+    </div>
+  </div>
+
+</section>

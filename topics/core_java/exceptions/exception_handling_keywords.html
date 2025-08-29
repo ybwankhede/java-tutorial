@@ -1,0 +1,202 @@
+<section id="exception_handling_keywords">
+    <h1>Exception Handling Keywords</h1>
+
+    <p>Exception handling in Java is mainly done using <b>try</b>, <b>catch</b>, <b>finally</b>, <b>throw</b>, and
+        <b>throws</b> keywords.
+        These provide a structured way to handle runtime errors, so the application doesn’t crash unexpectedly.
+    </p>
+
+    <h2>1. try-catch Block</h2>
+    <p><b>Definition:</b> The <code>try</code> block is where you place risky code. The <code>catch</code> block is used
+        to handle exceptions if they occur.</p>
+
+    <p><b>Simple Analogy:</b> Imagine you’re crossing the road (try). If an accident happens, an ambulance (catch) comes
+        to handle the situation.</p>
+
+    <pre>
+// Example: try-catch
+public class TryCatchExample {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0; // risky code
+        } catch (ArithmeticException e) {
+            System.out.println("Oops! Division by zero is not allowed.");
+        }
+    }
+}
+</pre>
+
+    <p><b>UML-like Diagram:</b></p>
+    <pre>
+Try Block --> Catch Block
+  [Risky code]   [Handle Exception]
+</pre>
+
+    <div class="note">If no exception occurs, the catch block is skipped.</div>
+
+    <h3>💡 Enhancement Tips</h3>
+    <div class="tip">Use specific catch blocks instead of general <code>Exception</code> for clarity.</div>
+
+    <h3>🎯 Interview Questions</h3>
+    <div class="interview">
+        Q: What happens if an exception occurs and there’s no matching catch block?
+        A: The program will terminate abnormally and the JVM prints stack trace.
+    </div>
+
+    <hr>
+
+    <h2>2. Nested try-catch</h2>
+    <p><b>Definition:</b> A try block inside another try block. Useful when multiple risky operations exist in a single
+        method.</p>
+
+    <p><b>Real-life Example:</b> While cooking (outer try), you’re using both a knife (inner try-1) and stove (inner
+        try-2). Both have different risks and handling methods.</p>
+
+    <pre>
+public class NestedTry {
+    public static void main(String[] args) {
+        try {
+            try {
+                int arr[] = {1,2,3};
+                System.out.println(arr[5]); // inner exception
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("Array index issue handled.");
+            }
+            int result = 10 / 0; // outer exception
+        } catch(ArithmeticException e) {
+            System.out.println("Arithmetic issue handled.");
+        }
+    }
+}
+</pre>
+
+    <div class="note">Nested try helps in localizing error handling.</div>
+
+    <h3>🎯 Interview Questions</h3>
+    <div class="interview">Q: Is nested try recommended in production?
+        A: Rarely. It makes code complex. Instead, use methods and handle exceptions separately.</div>
+
+    <hr>
+
+    <h2>3. Multiple catch Blocks</h2>
+    <p><b>Definition:</b> One try can have multiple catch blocks to handle different exception types separately.</p>
+
+    <pre>
+try {
+   String str = null;
+   System.out.println(str.length()); // NullPointerException
+} catch(ArithmeticException e) {
+   System.out.println("Arithmetic error.");
+} catch(NullPointerException e) {
+   System.out.println("Null pointer error.");
+}
+</pre>
+    <div class="note">While multiple catch block follow exception class hierarchy.</div>
+
+    <h3>💡 Enhancement Tips</h3>
+    <div class="tip">Since Java 7, you can use <b>multi-catch</b>: <code>catch (IOException | SQLException e)</code>
+    </div>
+
+    <h3>🎯 Interview Questions</h3>
+    <div class="interview">Q: What is the order of multiple catch blocks?
+        A: From <b>most specific to most general</b>, otherwise compilation error.</div>
+
+    <hr>
+
+    <h2>4. finally Block</h2>
+    <p><b>Definition:</b> The <code>finally</code> block is always executed, whether an exception occurs or not. Used
+        for resource cleanup.</p>
+
+    <p><b>Analogy:</b> No matter if your train reaches on time or is delayed (try/catch), you will leave the station
+        eventually (finally).</p>
+
+    <pre>
+try {
+    int result = 10/0;
+} catch(Exception e) {
+    System.out.println("Handled: " + e);
+} finally {
+    System.out.println("This will always run (cleanup).");
+}
+</pre>
+
+    <div class="note">finally is mostly used to close files, DB connections, sockets.</div>
+
+    <hr>
+
+    <h2>5. throw Keyword</h2>
+    <p><b>Definition:</b> <code>throw</code> is used to explicitly throw an exception.</p>
+
+    <pre>
+public class ThrowExample {
+    static void checkAge(int age) {
+        if(age < 18) {
+            throw new ArithmeticException("Not eligible for voting");
+        }
+        System.out.println("Eligible for voting");
+    }
+
+    public static void main(String[] args) {
+        checkAge(16);
+    }
+}
+</pre>
+
+    <div class="tip">Used for custom conditions in business logic.</div>
+
+    <hr>
+
+    <h2>6. throws Keyword</h2>
+    <p><b>Definition:</b> Declares exceptions in method signature so caller knows it might throw exception.</p>
+
+    <pre>
+public void readFile() throws IOException {
+    FileReader fr = new FileReader("abc.txt");
+}
+</pre>
+
+    <div class="note">throws tells the caller to handle it or propagate it further.</div>
+
+    <h3>🎯 Interview Questions</h3>
+    <div class="interview">Q: Difference between throw and throws?
+        A: <b>throw</b> is used inside method to create/throw exception.
+        <b>throws</b> is used in method signature to declare exception.
+    </div>
+
+    <hr>
+
+    <h2>7. Best Practices & Modern Notes</h2>
+    <ul>
+        <li>Always catch specific exceptions, not <code>Exception</code>.</li>
+        <li>Use <b>try-with-resources</b> (Java 7+) for auto-closing resources.</li>
+        <li>Don’t swallow exceptions silently (empty catch).</li>
+        <li>Checked exceptions → handle properly. Unchecked exceptions → fix the bug.</li>
+    </ul>
+
+    <div class="tip">In modern Java, use <code>Optional</code> and <code>CompletableFuture</code> for safer and cleaner
+        error handling.</div>
+
+
+    <!-- LATEST UPDATES -->
+    <h2>Latest Java Updates</h2>
+    <ul>
+        <li>Java 7: <b>multi-catch</b> block introduced (catch multiple exceptions in one line).</li>
+        <li>Java 9+: <b>try-with-resources</b> enhancement (resource auto-close).</li>
+    </ul>
+
+    <!-- TIPS -->
+    <h2>Enhancement Tips</h2>
+    <div class="tip">Use specific exceptions, not just generic Exception.</div>
+    <div class="tip">Always close resources using try-with-resources instead of finally.</div>
+    <div class="tip">Create custom exceptions for business logic errors.</div>
+    <div class="tip">Avoid overusing exceptions for control flow.</div>
+
+    <!-- INTERVIEW -->
+    <h2>Interview Questions</h2>
+    <div class="interview">Q1: Difference between throw and throws?</div>
+    <div class="interview">Q2: Can we use try without catch? (Yes, if finally is present)</div>
+    <div class="interview">Q3: What happens if exception occurs in finally block?</div>
+    <div class="interview">Q4: Which block is guaranteed to execute? (finally)</div>
+    <div class="interview">Q5: Can we have multiple catch blocks for one try? (Yes)</div>
+
+</section>

@@ -1,0 +1,174 @@
+<section id="unchecked_exceptions">
+  <h2>Unchecked Exceptions</h2>
+
+  <p>
+    <strong>Definition:</strong><br> 
+    <b>Unchecked Exceptions</b> are exceptions that occur at <b>runtime</b>.  
+    They are not checked by the compiler at compile time.  
+    These usually represent <b>programming errors</b> like dividing by zero, accessing an array out of bounds, or null pointer access.
+  </p>
+
+  <div class="note">
+    All unchecked exceptions are subclasses of <b><code>RuntimeException</code></b> class.
+  </div>
+
+  <h3>Easy Understanding (Real-Life Analogy)</h3>
+  <p>
+    Imagine you are driving a car. You <b>forget to wear your seatbelt</b>.  
+    The car will not stop you from driving (compiler doesn’t check it).  
+    But if an accident happens (runtime issue), you face the consequences.  
+    This is exactly what unchecked exceptions are — they happen <b>only during execution</b>.
+  </p>
+
+  <h3>UML Representation</h3>
+  <pre>
+Throwable
+   └── Exception
+         └── RuntimeException
+                ├── NullPointerException
+                ├── ArithmeticException
+                ├── ArrayIndexOutOfBoundsException
+                ├── IllegalArgumentException
+                └── ClassCastException
+  </pre>
+
+  <h3>Common Types of Unchecked Exceptions</h3>
+  <ul>
+    <li><b>NullPointerException</b> – when you try to use an object reference that is <code>null</code>.</li>
+    <li><b>ArithmeticException</b> – like dividing a number by zero.</li>
+    <li><b>ArrayIndexOutOfBoundsException</b> – when accessing invalid array index.</li>
+    <li><b>ClassCastException</b> – when wrong casting is done between incompatible classes.</li>
+    <li><b>IllegalArgumentException</b> – when passing illegal or inappropriate arguments to a method.</li>
+  </ul>
+
+  <h3>Example</h3>
+  <pre>
+public class UncheckedExample {
+    public static void main(String[] args) {
+        // NullPointerException
+        String text = null;
+        try {
+            System.out.println(text.length()); 
+        } catch (NullPointerException e) {
+            System.out.println("Caught: " + e);
+        }
+
+        // ArithmeticException
+        try {
+            int result = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Caught: " + e);
+        }
+
+        // ArrayIndexOutOfBoundsException
+        try {
+            int[] arr = {1, 2, 3};
+            System.out.println(arr[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Caught: " + e);
+        }
+    }
+}
+  </pre>
+
+  <h3>✅ Advantages</h3>
+  <ul>
+    <li>No need to declare in method signature (<code>throws</code> not mandatory).</li>
+    <li>Cleaner code — compiler does not force you to handle them.</li>
+    <li>Helpful for programmer mistakes (e.g., null checks, wrong index).</li>
+  </ul>
+
+  <h3>⚠️ Disadvantages</h3>
+  <ul>
+    <li>If not handled, program may crash at runtime.</li>
+    <li>Difficult to detect during compile time → more bugs slip through.</li>
+    <li>Overuse may lead to unreliable applications.</li>
+  </ul>
+
+  <h3>Specific Keywords & Concepts</h3>
+  <ul>
+    <li><code>RuntimeException</code> – base class of all unchecked exceptions.</li>
+    <li><code>try-catch-finally</code> – used to handle them.</li>
+    <li><code>throw</code> – to manually throw unchecked exception.</li>
+    <li><code>throws</code> – optional for unchecked exceptions.</li>
+    <li><code>NullPointerException</code> – most famous interview example.</li>
+  </ul>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li>Java 14+ introduced <b><code>NullPointerException</code> with detailed messages</b> to help debugging.</li>
+    <li>Java 17 improved <b>pattern matching</b> for type checks → helps reduce <code>ClassCastException</code>.</li>
+    <li>Optional class is suggested to reduce chances of <code>NullPointerException</code>.</li>
+  </ul>
+
+  <h3>💡 Enhancement Tips</h3>
+  <div class="tip">
+    ✅ Always validate input to avoid <code>IllegalArgumentException</code>.  
+    ✅ Use <code>Optional</code> instead of <code>null</code> for safer coding.  
+    ✅ Add unit tests to check invalid cases.  
+    ✅ Avoid catching <code>RuntimeException</code> broadly; catch specific exceptions.  
+    ✅ Use logging frameworks (like SLF4J/Log4j) instead of <code>System.out.println</code>.
+  </div>
+
+  <h3>🎯 Interview Questions</h3>
+  <div class="interview">
+    <ul>
+      <li>Q1: What is the difference between checked and unchecked exceptions?</li>
+      <li>Q2: Why are <code>RuntimeExceptions</code> not checked at compile time?</li>
+      <li>Q3: Can we create custom unchecked exceptions? How?</li>
+      <li>Q4: What is the most common unchecked exception in Java?</li>
+      <li>Q5: How does Java 14+ improve debugging for <code>NullPointerException</code>?</li>
+      <li>Q6: Which is better to use – null checks or <code>Optional</code>?</li>
+    </ul>
+  </div>
+
+
+  <h3>Comparison: Checked vs Unchecked Exceptions</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Aspect</th>
+        <th>Checked Exceptions</th>
+        <th>Unchecked Exceptions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Definition</b></td>
+        <td>Exceptions checked by compiler at compile-time.</td>
+        <td>Exceptions not checked at compile-time, only occur at runtime.</td>
+      </tr>
+      <tr>
+        <td><b>Examples</b></td>
+        <td>IOException, SQLException, FileNotFoundException</td>
+        <td>NullPointerException, ArithmeticException, ArrayIndexOutOfBoundsException</td>
+      </tr>
+      <tr>
+        <td><b>Handling Requirement</b></td>
+        <td>Must be handled using <code>try-catch</code> or declared using <code>throws</code>.</td>
+        <td>No mandatory handling required.</td>
+      </tr>
+      <tr>
+        <td><b>Occurrence</b></td>
+        <td>Due to <span class="note">external factors</span> like files, databases, or networks.</td>
+        <td>Due to <span class="note">programming mistakes</span> like bad logic or null values.</td>
+      </tr>
+      <tr>
+        <td><b>Checked by Compiler?</b></td>
+        <td>✅ Yes</td>
+        <td>❌ No</td>
+      </tr>
+      <tr>
+        <td><b>Performance Impact</b></td>
+        <td>Slight overhead because handling is mandatory.</td>
+        <td>No compile-time overhead, but failure risk at runtime.</td>
+      </tr>
+      <tr>
+        <td><b>Real-Life Analogy</b></td>
+        <td>Like booking a train ticket: the system checks if the seat is available (compile-time check).</td>
+        <td>Like forgetting your train ticket at home: nobody checks until you board (runtime surprise).</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>

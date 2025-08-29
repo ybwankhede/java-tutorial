@@ -1,0 +1,236 @@
+<section id="array_list_class">
+    <section>
+        <h2>ArrayList</h2>
+
+        <!-- 1. Definition -->
+        <p>
+            <strong>Definition:</strong><br> 
+            <b>ArrayList</b> is a resizable array implementation of the <code>List</code> interface.
+            It maintains <b>insertion order</b> and allows <b>duplicate elements</b>. Elements can be accessed using an
+            index.
+        </p>
+        <div class="note">
+            ⚡ <b>Note:</b> ArrayList is part of Java Collections Framework and is not synchronized by default.
+        </div>
+
+        <!-- 2. Detailed Explanation -->
+        <h3>Detailed Explanation</h3>
+        <p>
+            - Internally backed by a dynamic array.
+            - When capacity is exceeded, ArrayList grows automatically (usually by 50%).
+            - Allows fast random access (O(1)), but insertion/removal in middle is slower (O(n)).
+            - Common methods: <code>add()</code>, <code>remove()</code>, <code>get()</code>, <code>set()</code>.
+        </p>
+
+        <!-- 3. Real-Life Analogy -->
+        <h3>Real-Life Example</h3>
+        <ul>
+            <li>Imagine a resizable bookshelf: if more books come, it automatically expands.</li>
+            <li>Books are stored in order; you can access the 5th book directly without counting others.</li>
+        </ul>
+
+        <!-- 4. UML (Text-based) -->
+        <h3>UML</h3>
+        <pre>
+      List (Interface)
+         |
+         |-- ArrayList (Class)
+               - extends AbstractList
+               - implements List, RandomAccess, Cloneable, Serializable
+        </pre>
+
+        <!-- 5. Java Code Examples (Basic to Advanced) -->
+        <h3>Examples</h3>
+        <pre>
+      // Basic ArrayList
+      import java.util.*;
+      class ArrayListDemo {
+          public static void main(String[] args) {
+              ArrayList<String> fruits = new ArrayList<>();
+              fruits.add("Apple");
+              fruits.add("Banana");
+              fruits.add("Cherry");
+              fruits.add("Apple"); // duplicate allowed
+              System.out.println("Fruits: " + fruits);
+      
+              // Access by index
+              System.out.println("Second Fruit: " + fruits.get(1));
+      
+              // Remove element
+              fruits.remove("Banana");
+              System.out.println("After Removal: " + fruits);
+          }
+      }
+      
+      // Advanced Example: Iteration and Sorting
+      class ArrayListAdvanced {
+          public static void main(String[] args) {
+              ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(5, 2, 9, 1, 7));
+              
+              // Sort elements
+              Collections.sort(numbers);
+              System.out.println("Sorted Numbers: " + numbers);
+      
+              // Iterate using lambda (Java 8+)
+              numbers.forEach(n -> System.out.print(n + " "));
+          }
+      }
+        </pre>
+
+        <!-- 6. Advantages & Disadvantages -->
+        <h3>Advantages & Disadvantages</h3>
+        <ul>
+            <li><b>Advantages:</b> Dynamic resizing, fast random access, maintains insertion order.</li>
+            <li><b>Disadvantages:</b> Slow insertion/removal in the middle, not synchronized, consumes more memory when
+                resizing.</li>
+        </ul>
+
+        <!-- 7. Java-specific Terms -->
+        <h3>Java-specific Terms</h3>
+        <ul>
+            <li>RandomAccess interface – marks fast index-based access</li>
+            <li>Cloneable – allows shallow copy using <code>clone()</code></li>
+            <li>Serializable – allows object serialization</li>
+            <li>Methods: add(), get(), set(), remove(), size(), contains()</li>
+        </ul>
+
+        <!-- 8. Internal Working -->
+        <h3>Internal Working</h3>
+        <ul>
+            <li>ArrayList stores elements in a <b>dynamic array</b>.</li>
+            <li>Default capacity is 10; when exceeded, it grows using
+                <code>newCapacity = oldCapacity + (oldCapacity >> 1)</code>.</li>
+            <li>Random access is O(1) because elements are indexed.</li>
+            <li>Insertion/removal in the middle shifts elements → O(n).</li>
+        </ul>
+
+        <!-- 9. Latest Java Updates -->
+        <h3>Latest Java Updates</h3>
+        <ul>
+            <li>Java 8: Stream API support <code>ArrayList.stream()</code>.</li>
+            <li>Java 9: <code>List.of()</code> for immutable lists.</li>
+            <li>Java 21: Internal resizing optimization for large collections.</li>
+        </ul>
+
+        <!-- 10. Enhancement Tips for Senior Developers -->
+        <h3>Enhancement Tips</h3>
+        <ul>
+            <li>Use initial capacity if size is predictable to avoid frequent resizing.</li>
+            <li>Prefer <b>ArrayList</b> over LinkedList for random access.</li>
+            <li>Use <code>Collections.unmodifiableList()</code> for read-only lists.</li>
+        </ul>
+
+        <!-- 11. Extra Corner Points (Interview Traps) -->
+        <h3>Extra Corner Points / Interview Traps</h3>
+        <ul>
+            <li>ArrayList allows <b>null</b> elements.</li>
+            <li>ArrayList is not synchronized; use <code>Collections.synchronizedList()</code> for thread safety.</li>
+            <li>RandomAccess interface is a marker – no methods, just indicates O(1) access.</li>
+            <li>ArrayList vs LinkedList: insertion/removal cost difference – common interview trap.</li>
+        </ul>
+
+        <!-- 12. Interview Questions -->
+        <div class="interview">
+            <h3>Interview Questions</h3>
+            <ul>
+                <li>Explain the internal working of ArrayList.</li>
+                <li>How does ArrayList grow when capacity exceeds?</li>
+                <li>Difference between ArrayList and LinkedList.</li>
+                <li>Is ArrayList synchronized? How to make it thread-safe?</li>
+                <li>When to prefer ArrayList over LinkedList and vice versa?</li>
+                <li>What is the role of RandomAccess interface?</li>
+            </ul>
+        </div>
+    </section>
+
+</section>
+
+<section id="arraylist_internal_working">
+    <h2>ArrayList – Internal Working & Detailed Example</h2>
+
+    <!-- 1. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        ArrayList in Java is backed by a <b>dynamic array</b>. Here’s how it works internally:
+    </p>
+    <ul>
+        <li><b>Initial Capacity:</b> By default, ArrayList starts with a capacity of 10.</li>
+        <li><b>Element Storage:</b> Elements are stored in a contiguous array <code>Object[] elementData</code>.</li>
+        <li><b>Adding Elements:</b> When you add elements:
+            <ul>
+                <li>If the array has space → element added at next available index.</li>
+                <li>If the array is full → ArrayList grows using:
+                    <code>newCapacity = oldCapacity + (oldCapacity >> 1)</code>.</li>
+            </ul>
+        </li>
+        <li><b>Accessing Elements:</b> Random access is O(1) because elements are indexed.</li>
+        <li><b>Removing Elements:</b> Shifts all subsequent elements left to fill the gap → O(n) operation.</li>
+        <li><b>Memory:</b> Dynamic array may use more memory temporarily during resizing.</li>
+        <li><b>Thread Safety:</b> Not synchronized by default; use <code>Collections.synchronizedList()</code> if
+            needed.</li>
+    </ul>
+
+    <!-- 2. Visual Representation (Text-based) -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Initial ArrayList (capacity=5)
+  Index:   0    1    2    3    4
+  Data:   null null null null null
+  
+  Add "A":
+  Index:   0    1    2    3    4
+  Data:    A   null null null null
+  
+  Add "B", "C", "D", "E" → fills capacity
+  
+  Add "F" → resize triggered:
+  New array capacity = 5 + (5>>1) = 7
+  Index:   0    1    2    3    4    5    6
+  Data:    A    B    C    D    E    F   null
+    </pre>
+
+    <!-- 3. Java Code Example for Internal Working -->
+    <h3>Example</h3>
+    <pre>
+  // Demonstrating ArrayList Internal Working
+  import java.util.ArrayList;
+  
+  class ArrayListInternalDemo {
+      public static void main(String[] args) {
+          ArrayList<String> list = new ArrayList<>(5); // initial capacity = 5
+  
+          // Adding elements
+          list.add("A"); // index 0
+          list.add("B"); // index 1
+          list.add("C"); // index 2
+          list.add("D"); // index 3
+          list.add("E"); // index 4
+  
+          System.out.println("Before exceeding capacity: " + list);
+  
+          // Adding element to exceed capacity triggers resize internally
+          list.add("F"); // capacity increases internally
+  
+          System.out.println("After exceeding capacity (resized): " + list);
+  
+          // Accessing elements
+          System.out.println("Element at index 2: " + list.get(2));
+  
+          // Removing element (shifts subsequent elements)
+          list.remove("C"); // remove by value
+          System.out.println("After removing 'C': " + list);
+      }
+  }
+    </pre>
+
+    <!-- 4. Notes for Internal Working -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>Resizing is costly – better to initialize capacity if you know approximate size.</li>
+            <li>ArrayList provides <code>ensureCapacity()</code> method to manually increase capacity.</li>
+            <li>Random access is very fast due to array indexing.</li>
+            <li>Removal/insertion in the middle shifts elements → costly in performance-sensitive cases.</li>
+        </ul>
+    </div>
+</section>

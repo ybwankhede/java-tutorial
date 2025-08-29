@@ -1,0 +1,198 @@
+<section id="priority_queue_class">
+    <h2>PriorityQueue</h2>
+
+    <!-- 1. Definition -->
+    <p>
+        <strong>Definition:</strong><br> 
+        <b>PriorityQueue</b> is a queue-based data structure in Java where elements are ordered according to their
+        priority, rather than the insertion order.
+        It is part of the Java Collections Framework and implements the <code>Queue</code> interface.
+    </p>
+    <div class="note">
+        ⚡ <b>Note:</b> Null elements are not allowed. Default priority is natural ordering or can be customized using a
+        <code>Comparator</code>.
+    </div>
+
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+        - <b>PriorityQueue</b> uses a <b>min-heap</b> internally by default.
+        - Core operations:
+    <ul>
+        <li><b>add(E e) / offer(E e):</b> Insert element with priority.</li>
+        <li><b>peek():</b> Retrieve head (highest priority) without removal.</li>
+        <li><b>poll():</b> Retrieve and remove head.</li>
+        <li><b>remove(Object o):</b> Remove a specific element.</li>
+        <li><b>comparator():</b> Get the comparator used for ordering.</li>
+    </ul>
+    - Internally uses a dynamically resizable array representing a binary heap.
+    </p>
+
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+        <li>Emergency room patients: patients with more critical conditions are treated first, regardless of arrival
+            order.</li>
+        <li>CPU task scheduling: tasks with higher priority are executed first.</li>
+    </ul>
+
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  Queue (Interface)
+     |
+     |-- PriorityQueue (Class)
+           - Implements Queue, Serializable, Cloneable
+           - Methods: add(), offer(), poll(), peek(), remove(), comparator()
+    </pre>
+
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic PriorityQueue
+  import java.util.*;
+  
+  class PriorityQueueDemo {
+      public static void main(String[] args) {
+          PriorityQueue<Integer> pq = new PriorityQueue<>();
+  
+          // Add elements
+          pq.add(50);
+          pq.add(10);
+          pq.add(30);
+          pq.add(20);
+  
+          System.out.println("PriorityQueue: " + pq); // Internal heap order
+  
+          // Peek element
+          System.out.println("Head Element: " + pq.peek());
+  
+          // Remove elements
+          System.out.println("Removed: " + pq.poll());
+          System.out.println("After Poll: " + pq);
+  
+          // Remove specific element
+          pq.remove(30);
+          System.out.println("After Remove 30: " + pq);
+      }
+  }
+  
+  // Advanced Example: Custom Comparator
+  class CustomPriorityQueue {
+      public static void main(String[] args) {
+          // Max-Heap using custom comparator
+          PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+  
+          maxHeap.add(10);
+          maxHeap.add(40);
+          maxHeap.add(20);
+  
+          System.out.println("Max-Heap: " + maxHeap);
+  
+          while (!maxHeap.isEmpty()) {
+              System.out.println("Processing: " + maxHeap.poll());
+          }
+      }
+  }
+    </pre>
+
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+        <li><b>add(E e) / offer(E e):</b> Add element, throws exception if capacity exceeded.</li>
+        <li><b>peek():</b> Returns head element without removing, null if empty.</li>
+        <li><b>poll():</b> Removes and returns head element, null if empty.</li>
+        <li><b>remove(Object o):</b> Remove specific element.</li>
+        <li><b>comparator():</b> Returns Comparator used for ordering (null if natural order).</li>
+        <li><b>size():</b> Returns number of elements.</li>
+        <li><b>contains(Object o):</b> Checks if element exists.</li>
+    </ul>
+
+    <!-- 7. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b> Automatically orders elements by priority, flexible with Comparator, efficient for
+            priority-based processing (O(log n) for insertion/removal).</li>
+        <li><b>Disadvantages:</b> Not synchronized, does not allow null elements, random access is not supported,
+            iteration order not guaranteed.</li>
+    </ul>
+
+    <!-- 8. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+        <li>Binary Heap (min-heap by default)</li>
+        <li>Comparator for custom ordering</li>
+        <li>Offer vs Add: offer returns false if full, add throws exception</li>
+        <li>Poll vs Remove: poll returns null if empty, remove throws exception</li>
+    </ul>
+
+    <!-- 9. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        - Internally backed by a resizable array forming a binary heap.
+    <ul>
+        <li>Element added → placed at end → heapifyUp to maintain heap property.</li>
+        <li>Element removed (poll) → replace head with last element → heapifyDown.</li>
+        <li>Peek → return first element (root of heap).</li>
+        <li>Comparator determines ordering; natural ordering if null.</li>
+    </ul>
+    </p>
+
+    <!-- 10. Visual Representation -->
+    <h3>Visual Representation (Min-Heap)</h3>
+    <pre>
+  Heap Array: [10, 20, 30, 50]
+  
+         10
+        /  \
+      20    30
+     /
+   50
+    </pre>
+
+    <!-- 11. Notes -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>Use PriorityQueue for task scheduling, event handling, or simulation systems.</li>
+            <li>Iteration order is not guaranteed; only head element is predictable.</li>
+            <li>Java 8+: Stream API can be used to process elements.</li>
+        </ul>
+    </div>
+
+    <!-- 12. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8+: Stream API support (<code>pq.stream()</code>).</li>
+        <li>Java 21+: Internal optimizations for heap resizing and comparator performance.</li>
+    </ul>
+
+    <!-- 13. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Use Comparator for custom priority logic.</li>
+        <li>Predefine initial capacity if the expected number of elements is known.</li>
+        <li>For thread-safe priority queues, use <code>PriorityBlockingQueue</code>.</li>
+    </ul>
+
+    <!-- 14. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+        <li>Null elements not allowed – common trick question.</li>
+        <li>Iteration order may not reflect priority order.</li>
+        <li>Difference between poll() and remove() for empty queue.</li>
+        <li>PriorityQueue vs ArrayDeque vs LinkedList – know differences for interviews.</li>
+    </ul>
+
+    <!-- 15. Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>Explain how PriorityQueue works internally.</li>
+            <li>Difference between PriorityQueue and ArrayDeque?</li>
+            <li>How to implement custom priority order?</li>
+            <li>Can PriorityQueue store null elements? Why/Why not?</li>
+            <li>Difference between add() vs offer(), remove() vs poll() in PriorityQueue.</li>
+        </ul>
+    </div>
+</section>

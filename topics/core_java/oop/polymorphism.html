@@ -1,0 +1,154 @@
+<section id="polymorphism">
+    <h2>Polymorphism</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        Polymorphism means "many forms". In Java, it allows one object to behave in different ways
+        depending on the context. It’s like a single word that can have multiple meanings.
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <b>remote control</b>. The same "power button" can switch ON/OFF a TV, AC, or Music System —
+        depending on which device it is controlling.<br>
+        👉 In Java, polymorphism means the same method name can do different things depending on the object.
+    </p>
+
+    <h3>Real-Life Example</h3>
+    <p>
+        Imagine an <b>Online Payment System</b>:
+    </p>
+    <ul>
+        <li><b>Payment</b> (parent class) → method: <code>pay()</code></li>
+        <li><b>CreditCardPayment</b> (child class) → pay() using card details</li>
+        <li><b>UPIPayment</b> (child class) → pay() using UPI ID</li>
+        <li><b>PayPalPayment</b> (child class) → pay() using PayPal account</li>
+    </ul>
+
+    <p>
+        A shopping site can call <code>payment.pay()</code> without worrying about the type of payment method chosen.<br>
+        👉 This is runtime polymorphism in real life.
+    </p>
+
+    <h3>Examples</h3>
+    <h4>Compile-Time Polymorphism (Method Overloading)</h4>
+    <pre>
+      // Example: Method Overloading
+      class Calculator {
+          int add(int a, int b) {
+              return a + b;
+          }
+          double add(double a, double b) {
+              return a + b;
+          }
+          int add(int a, int b, int c) {
+              return a + b + c;
+          }
+      }
+  
+      public class Main {
+          public static void main(String[] args) {
+              Calculator calc = new Calculator();
+              System.out.println(calc.add(5, 10));        // int version
+              System.out.println(calc.add(5.5, 2.2));     // double version
+              System.out.println(calc.add(1, 2, 3));      // 3-arg version
+          }
+      }
+    </pre>
+
+    <h4>Runtime Polymorphism (Method Overriding)</h4>
+    <pre>
+      // Example: Method Overriding
+      class Animal {
+          void sound() {
+              System.out.println("Some generic sound");
+          }
+      }
+  
+      class Dog extends Animal {
+          @Override
+          void sound() {
+              System.out.println("Bark");
+          }
+      }
+  
+      class Cat extends Animal {
+          @Override
+          void sound() {
+              System.out.println("Meow");
+          }
+      }
+  
+      public class Main {
+          public static void main(String[] args) {
+              Animal a;   // Reference of parent
+              a = new Dog();
+              a.sound();  // Bark
+  
+              a = new Cat();
+              a.sound();  // Meow
+          }
+      }
+    </pre>
+
+    <h3>UML Representation</h3>
+    <pre>
+    Animal
+      + sound()
+        |
+        |-- Dog : sound()
+        |-- Cat : sound()
+    </pre>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li>Improves code reusability.</li>
+        <li>Makes programs flexible and extensible.</li>
+        <li>Supports dynamic method binding at runtime.</li>
+        <li>Encourages cleaner and modular code.</li>
+        <li>Promotes loose coupling between components</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>Increased complexity when overused.</li>
+        <li>Debugging runtime polymorphism can be tricky.</li>
+        <li>Slight performance overhead due to dynamic dispatch (method lookup at runtime).</li>
+    </ul>
+
+    <h3>Focused Keywords</h3>
+    <ul>
+        <li><code>@Override</code> → Used to specify method overriding.</li>
+        <li><code>super</code> → Can call the parent class method inside overridden methods.</li>
+        <li>Compile-time polymorphism → Method Overloading.</li>
+        <li>Runtime polymorphism → Method Overriding.</li>
+    </ul>
+
+    <h3>Updated Java Features</h3>
+    <ul>
+        <li>Java 8+ → Polymorphism works with <b>default methods</b> in interfaces.</li>
+        <li>Java 14+ → Pattern Matching (instanceof) makes runtime type handling easier.</li>
+    </ul>
+
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Prefer <b>interfaces</b> to achieve polymorphism instead of deep inheritance trees.</li>
+        <li>Use <b>design patterns</b> like Strategy, Command, and Factory — they rely heavily on polymorphism.</li>
+        <li>Avoid unnecessary method overloading (it may confuse readers if not documented).</li>
+        <li>In microservices, polymorphism can be achieved with <b>common interfaces</b> and strategy injection.</li>
+        <li>Use Java’s <b>sealed classes (Java 17+)</b> to control polymorphic hierarchies better.</li>
+    </ul>
+
+    <h3>Interview Questions</h3>
+    <ol>
+        <li>What is polymorphism in Java? Explain with examples.</li>
+        <li>Difference between method overloading and method overriding?</li>
+        <li>Can we override <code>private</code> or <code>static</code> methods?</li>
+        <li>What is the role of <code>final</code> keyword in polymorphism?</li>
+        <li>How does JVM decide which overridden method to call?</li>
+        <li>Can constructors be overloaded? Can they be overridden?</li>
+        <li>Explain polymorphism in Java 8 interfaces with default methods.</li>
+        <li>What changes in polymorphism were introduced in Java 14+ (Pattern Matching)?</li>
+    </ol>
+
+</section>

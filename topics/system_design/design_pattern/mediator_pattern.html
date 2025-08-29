@@ -1,0 +1,161 @@
+<section id="Mediator_pattern">
+    <h1>Mediator Pattern</h1>
+
+    <h2>📖 Introduction & History</h2>
+    <p>
+        The <b>Mediator Pattern</b> is a <b>behavioral design pattern</b> that helps reduce chaotic dependencies between
+        objects. Instead of objects referring to each other directly,
+        they communicate through a <b>mediator</b> object. This promotes <b>loose coupling</b>.
+    </p>
+    <p>
+        First introduced in the famous <b>GoF (Gang of Four) Design Patterns book, 1994</b>, it has been widely used in
+        GUI applications, messaging systems, and event-driven architectures.
+    </p>
+
+    <h2>🪄 Real-Life Example</h2>
+    <ul>
+        <li><b>Air Traffic Control System:</b> Pilots don’t talk directly to each other; they communicate via an Air
+            Traffic Controller (Mediator). This avoids chaos in communication.</li>
+        <li><b>Chat Room:</b> Users don’t send messages directly to each other; they send to the chat room (Mediator),
+            which distributes messages properly.</li>
+    </ul>
+
+    <h2>📊 Structure Diagram</h2>
+    <pre>
+      Colleague1 ----\
+                      \
+      Colleague2 ------>   Mediator   ---> Coordinates communication
+                      /
+      Colleague3 ----/
+    </pre>
+
+    <h2>💻 Example (Chat Room Mediator)</h2>
+    <pre>
+  // Mediator interface
+  interface ChatMediator {
+      void sendMessage(String msg, User user);
+      void addUser(User user);
+  }
+  
+  // Concrete Mediator
+  class ChatMediatorImpl implements ChatMediator {
+      private List<User> users = new ArrayList<>();
+  
+      public void addUser(User user) {
+          users.add(user);
+      }
+  
+      public void sendMessage(String msg, User sender) {
+          for (User u : users) {
+              // Do not send message to the sender itself
+              if (u != sender) {
+                  u.receive(msg);
+              }
+          }
+      }
+  }
+  
+  // Colleague (User)
+  abstract class User {
+      protected ChatMediator mediator;
+      protected String name;
+  
+      public User(ChatMediator mediator, String name) {
+          this.mediator = mediator;
+          this.name = name;
+      }
+  
+      public abstract void send(String msg);
+      public abstract void receive(String msg);
+  }
+  
+  // Concrete Colleague
+  class ConcreteUser extends User {
+      public ConcreteUser(ChatMediator mediator, String name) {
+          super(mediator, name);
+      }
+  
+      public void send(String msg) {
+          System.out.println(this.name + " sends: " + msg);
+          mediator.sendMessage(msg, this);
+      }
+  
+      public void receive(String msg) {
+          System.out.println(this.name + " receives: " + msg);
+      }
+  }
+  
+  // Demo
+  public class MediatorPatternDemo {
+      public static void main(String[] args) {
+          ChatMediator mediator = new ChatMediatorImpl();
+  
+          User user1 = new ConcreteUser(mediator, "Alice");
+          User user2 = new ConcreteUser(mediator, "Bob");
+          User user3 = new ConcreteUser(mediator, "Charlie");
+  
+          mediator.addUser(user1);
+          mediator.addUser(user2);
+          mediator.addUser(user3);
+  
+          user1.send("Hello everyone!");
+      }
+  }
+    </pre>
+
+    <h2>✅ Advantages</h2>
+    <ul>
+        <li>Reduces direct dependencies between objects.</li>
+        <li>Makes communication more structured and maintainable.</li>
+        <li>Centralized control over interactions.</li>
+    </ul>
+
+    <h2>❌ Disadvantages</h2>
+    <ul>
+        <li>Mediator itself can become too complex if not managed properly.</li>
+        <li>Single point of failure if mediator logic fails.</li>
+    </ul>
+
+    <h2>📌 Real-World Uses</h2>
+    <ul>
+        <li>Chat systems (Slack, WhatsApp, etc.).</li>
+        <li>GUI frameworks (Swing, JavaFX Event Handlers).</li>
+        <li>Event bus implementations (e.g., Google Guava EventBus).</li>
+    </ul>
+
+    <h2>🔀 Variants & Alternatives</h2>
+    <ul>
+        <li><b>Event-Driven Mediator:</b> Uses an event bus or message broker instead of direct method calls.</li>
+        <li><b>Observer Pattern:</b> Can be used as an alternative, but Mediator centralizes logic whereas Observer
+            decentralizes.</li>
+        <li><b>Command Pattern:</b> If communication involves action requests rather than state sharing.</li>
+    </ul>
+
+    <h2>📝 Notes</h2>
+    <ul>
+        <li><b>Interface:</b> Defines the contract for communication methods between colleagues and the mediator.</li>
+        <li><b>Abstract class:</b> Base user class defines common fields (name, mediator).</li>
+        <li><b>Concrete Mediator:</b> Implements communication logic (ChatMediatorImpl).</li>
+        <li><b>Concrete Colleague:</b> Users who interact via the mediator.</li>
+    </ul>
+
+    <h2>👨‍💻 Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Use Mediator when your system has a complex web of interactions.</li>
+            <li>Keep mediator logic simple to avoid turning it into a "God object".</li>
+            <li>Combine with Observer or Command pattern for large-scale systems.</li>
+            <li>Great for decoupling UI components in desktop and mobile apps.</li>
+        </ul>
+    </div>
+
+    <h2>💡 Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Mediator Pattern solve?</li>
+            <li>How does Mediator differ from Observer?</li>
+            <li>Can you give a real-life example where Mediator is better than direct communication?</li>
+            <li>What are the downsides of using a Mediator?</li>
+        </ul>
+    </div>
+</section>

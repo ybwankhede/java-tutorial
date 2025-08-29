@@ -1,0 +1,151 @@
+<section id="exception">
+
+  <h2>Exceptions</h2>
+
+  <p>
+    <strong>Definition:</strong><br> 
+    An <b>Exception</b> in Java is an <b>unexpected event</b> that disrupts the normal flow of a program.
+    It usually happens when something goes wrong at runtime (like dividing by zero, file not found, or invalid input).
+  </p>
+
+  <div class="note">
+    👉 Think of an Exception like a traffic signal: if you break the rule, the system (Java) stops you and raises a
+    warning.
+  </div>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Imagine you are <b>withdrawing money from an ATM</b>:
+  <ul>
+    <li>If you enter the correct PIN → transaction succeeds.</li>
+    <li>If you enter a wrong PIN → machine throws an error message (Exception).</li>
+  </ul>
+  Similarly, Java throws an Exception when the program faces an invalid situation.
+  </p>
+
+  <h3>Exception Hierarchy (UML View)</h3>
+  <pre>
+  
+    Throwable  
+    ├── Error (Serious issues, usually unrecoverable)  
+    │   ├── OutOfMemoryError  
+    │   ├── StackOverflowError  
+    │   ├── VirtualMachineError  
+    │   └── LinkageError  
+    │  
+    └── Exception (Problems the program might want to catch)  
+        ├── Checked Exceptions (Must be handled or declared)  
+        │   ├── IOException  
+        │   ├── SQLException  
+        │   └── ClassNotFoundException  
+        │  
+        └── Unchecked Exceptions (Runtime exceptions)  
+            ├── NullPointerException  
+            ├── ArithmeticException  
+            ├── ArrayIndexOutOfBoundsException  
+            └── IllegalArgumentException  
+   
+  </pre>
+
+  <h3>Types of Exceptions</h3>
+  <ul>
+    <li><b>Checked Exceptions</b> → Checked at compile time (e.g., FileNotFoundException).</li>
+    <li><b>Unchecked Exceptions</b> → Occur at runtime (e.g., NullPointerException, ArrayIndexOutOfBoundsException).
+    </li>
+    <li><b>Errors</b> → Serious issues, not recoverable (e.g., OutOfMemoryError).</li>
+  </ul>
+
+  <div class="note">
+    📝 Checked = Compile-time, must handle. <br>
+    Unchecked = Runtime, may/may not handle.
+  </div>
+
+  <h3>Java Exception Handling Keywords</h3>
+  <ul>
+    <li><code>try</code> → Block of code that may throw exception.</li>
+    <li><code>catch</code> → Handles the exception.</li>
+    <li><code>finally</code> → Always executes (closing resources).</li>
+    <li><code>throw</code> → Used to explicitly throw an exception.</li>
+    <li><code>throws</code> → Declares exceptions in method signature.</li>
+  </ul>
+
+  <h3>Example Code</h3>
+  <pre>
+public class ExceptionDemo {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0; // risky code
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero: " + e.getMessage());
+        } finally {
+            System.out.println("Finally block always runs (e.g., closing ATM card).");
+        }
+    }
+}
+  </pre>
+
+  <h3>Realistic Example</h3>
+  <p>
+    Suppose you are reading a file that does not exist:
+  </p>
+  <pre>
+import java.io.*;
+
+public class FileReadDemo {
+    public static void main(String[] args) {
+        try {
+            FileReader fr = new FileReader("myfile.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found! Please check the path.");
+        }
+    }
+}
+  </pre>
+
+  <h3>✅ Advantages</h3>
+  <ul>
+    <li>Helps to handle runtime errors smoothly.</li>
+    <li>Keeps program running instead of crashing.</li>
+    <li>Makes debugging easier.</li>
+  </ul>
+
+  <h3>❌ Disadvantages</h3>
+  <ul>
+    <li>Overusing try-catch can make code messy.</li>
+    <li>Poorly handled exceptions may hide real issues.</li>
+  </ul>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li><b>Java 7</b>: Multi-catch block (<code>catch(IOException | SQLException e)</code>).</li>
+    <li><b>Java 7</b>: Try-with-resources for auto closing files, DB connections.</li>
+    <li><b>Java 14+</b>: Helpful NullPointerException messages (shows variable name).</li>
+  </ul>
+
+  <h3>Enhancement Tips</h3>
+  <div class="tip">
+    ✅ Always use <b>custom exceptions</b> for business rules.<br>
+    ✅ Use <b>logging frameworks</b> (SLF4J, Log4j) instead of <code>System.out.println</code>.<br>
+    ✅ Keep catch blocks specific instead of using generic <code>Exception</code>.<br>
+    ✅ Use <b>try-with-resources</b> for database and file handling.
+  </div>
+
+  <h3>Interview Questions</h3>
+  <div class="interview">
+    <ul>
+      <li>What is the difference between checked and unchecked exceptions?</li>
+      <li>What is the difference between throw and throws?</li>
+      <li>Can we have multiple catch blocks? Which order do they execute?</li>
+      <li>What is the difference between final, finally, and finalize()?</li>
+      <li>How does try-with-resources work in Java 7+?</li>
+      <li>Can constructors throw exceptions?</li>
+    </ul>
+  </div>
+
+  <h3>Summary</h3>
+  <p>
+    Exceptions in Java help us to build <b>robust and safe programs</b>.
+    As a developer, your goal is not to avoid exceptions but to handle them wisely with
+    <b>clear error messages, logging, and graceful recovery</b>.
+  </p>
+</section>

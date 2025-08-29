@@ -1,0 +1,184 @@
+<section id = "singleton_pattern">
+  <h1>Singleton Pattern</h1>
+
+  <h2>1. Introduction & History</h2>
+  <p>The <strong>Singleton Pattern</strong> is one of the most common design patterns in software engineering. It ensures that a class has <strong>only one instance</strong> and provides a <strong>global point of access</strong> to that instance.</p>
+  <p><strong>History:</strong></p>
+  <ul>
+    <li>First formally introduced in the famous <em>Gang of Four (GoF)</em> book: <em>"Design Patterns: Elements of Reusable Object-Oriented Software" (1994)</em>.</li>
+    <li>Before that, developers informally used global variables, but they were not controlled, testable, or safe. Singleton solved this problem in an <strong>object-oriented</strong> way.</li>
+  </ul>
+
+  <h2>2. Real-Life Example</h2>
+  <ul>
+    <li>Imagine the <strong>Prime Minister of a Country</strong>: There should only be one prime minister at a time. If someone asks, "Who is the Prime Minister?", everyone should get the same person.</li>
+    <li>In software:
+      <ul>
+        <li><strong>Logger</strong>: Only one logging instance is needed across the system.</li>
+        <li><strong>Configuration Manager</strong>: One source of truth for settings.</li>
+        <li><strong>Database Connection Pool</strong>: A centralized object managing connections.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>3. Structure Diagram</h2>
+  <pre>
++-------------------+
+|   Singleton       |
++-------------------+
+| - instance        |
++-------------------+
+| + getInstance()   |
++-------------------+
+  </pre>
+
+  <h2>4. Example</h2>
+  <pre>
+    public class Singleton {
+        // static variable to hold single instance
+        private static Singleton instance;
+
+        // private constructor so no one can create object from outside
+        private Singleton() {}
+
+        // public method to provide global access
+        public static Singleton getInstance() {
+            if (instance == null) {
+                instance = new Singleton();
+            }
+            return instance;
+        }
+    }
+  </pre>
+
+  <div class="note">
+    <strong>Note:</strong> The <code>private constructor</code> ensures no external class can create a new instance. The <code>static getInstance()</code> ensures a single global access point.
+  </div>
+
+  <h2>5. Variants of Singleton</h2>
+
+  <h3>a) Eager Initialization</h3>
+  <p>Instance is created at class loading. Simple but may waste resources.</p>
+  <pre>public class EagerSingleton {
+    private static final EagerSingleton instance = new EagerSingleton();
+    private EagerSingleton() {}
+    public static EagerSingleton getInstance() {
+        return instance;
+    }
+}
+  </pre>
+
+  <h3>b) Lazy Initialization</h3>
+  <p>Instance created only when needed. Saves resources but not thread-safe.</p>
+  <pre>
+    public class LazySingleton {
+        private static LazySingleton instance;
+        private LazySingleton() {}
+        public static LazySingleton getInstance() {
+            if (instance == null) {
+                instance = new LazySingleton();
+            }
+            return instance;
+        }
+    }
+  </pre>
+
+  <h3>c) Thread-Safe Singleton</h3>
+  <p>Uses <code>synchronized</code> keyword to make it safe in multi-threaded apps.</p>
+  <pre>
+    public class ThreadSafeSingleton {
+        private static ThreadSafeSingleton instance;
+        private ThreadSafeSingleton() {}
+        public static synchronized ThreadSafeSingleton getInstance() {
+            if (instance == null) {
+                instance = new ThreadSafeSingleton();
+            }
+            return instance;
+        }
+    }
+  </pre>
+  <div class="note">
+    <strong>Note:</strong> <code>synchronized</code> makes the method thread-safe but may slow performance.
+  </div>
+
+  <h3>d) Bill Pugh Singleton</h3>
+  <p>Uses static inner class, best practice for Java.</p>
+  <pre>
+    public class BillPughSingleton {
+        private BillPughSingleton() {}
+        private static class Helper {
+            private static final BillPughSingleton instance = new BillPughSingleton();
+        }
+        public static BillPughSingleton getInstance() {
+            return Helper.instance;
+        }
+    }
+  </pre>
+
+  <h3>e) Enum Singleton</h3>
+  <p>Simplest and best approach in Java to avoid reflection & serialization issues.</p>
+  <pre>
+    public enum EnumSingleton {
+        INSTANCE;
+        public void doSomething() {
+            System.out.println("Singleton using Enum");
+        }
+    }
+  </pre>
+
+  <div class="note">
+    <strong>Note:</strong> Enums are thread-safe and handle serialization automatically.
+  </div>
+
+  <h2>6. Advantages</h2>
+  <ul>
+    <li>Controlled access to single instance.</li>
+    <li>Reduced memory usage.</li>
+    <li>Global access point.</li>
+    <li>Helps in logging, configuration, etc.</li>
+  </ul>
+
+  <h2>7. Disadvantages</h2>
+  <ul>
+    <li>Can be overused → becomes a <strong>God Object</strong>.</li>
+    <li>Difficult to test (hard to mock).</li>
+    <li>Hidden dependencies.</li>
+  </ul>
+
+  <h2>8. Alternatives</h2>
+  <ul>
+    <li>Dependency Injection (Spring, Guice) instead of manually creating Singletons.</li>
+    <li>Use static methods if object state is not required.</li>
+  </ul>
+
+  <h2>9. Uses</h2>
+  <ul>
+    <li>Logger objects.</li>
+    <li>Configuration settings.</li>
+    <li>Thread pools.</li>
+    <li>Cache.</li>
+    <li>Database connection pool manager.</li>
+  </ul>
+
+  <h2>10. Interview Questions</h2>
+  <div class="card">
+    <ul>
+      <li>What is Singleton Pattern? Why do we use it?</li>
+      <li>How do you create a thread-safe Singleton?</li>
+      <li>Difference between Eager vs Lazy initialization?</li>
+      <li>Why Enum Singleton is best in Java?</li>
+      <li>How do you prevent Singleton from breaking via Reflection/Serialization?</li>
+    </ul>
+  </div>
+
+  <h2>11. Experienced Developer Tips & Notes</h2>
+  <div class="tip">
+    <ul>
+      <li>Prefer <strong>Enum Singleton</strong> in modern Java.</li>
+      <li>If working in frameworks like Spring, don’t reinvent Singleton; use Spring beans (default scope = Singleton).</li>
+      <li>Avoid making everything Singleton (anti-pattern).</li>
+      <li>When using Singleton for DB connections, remember connection pooling is usually better.</li>
+    </ul>
+  </div>
+
+</section>

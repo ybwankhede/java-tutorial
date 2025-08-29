@@ -1,0 +1,176 @@
+<section id="linked_list_class">
+    <h2>LinkedList</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>LinkedList</b> is a <b>doubly-linked list implementation</b> of the <code>List</code> and <code>Deque</code> interfaces.  
+      It maintains <b>insertion order</b>, allows <b>duplicate elements</b>, and supports <b>fast insertion and deletion</b> at both ends.
+    </p>
+    <div class="note">
+      ⚡ <b>Note:</b> LinkedList is suitable for scenarios where frequent addition/removal from the list occurs.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+      - Internally, LinkedList uses <b>doubly-linked nodes</b>. Each node stores:
+        <ul>
+          <li>Data element</li>
+          <li>Pointer to the next node</li>
+          <li>Pointer to the previous node</li>
+        </ul>
+      - Random access is <b>slower</b> (O(n)) compared to ArrayList (O(1)).  
+      - Insertion and deletion at head/tail are fast (O(1)).
+      - Implements both <code>List</code> and <code>Deque</code> → can behave like a queue, stack, or list.
+    </p>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a train: each carriage (node) knows the previous and next carriage.</li>
+      <li>You can insert a new carriage between two carriages without moving the others.</li>
+      <li>Removing a carriage also doesn’t affect others; only pointers are updated.</li>
+    </ul>
+  
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  Collection (Interface)
+     |
+     |-- List (Interface)
+         |
+         |-- LinkedList (Class)
+             - extends AbstractSequentialList
+             - implements List, Deque, Cloneable, Serializable
+    </pre>
+  
+    <!-- 5. Java Code Examples (Basic to Advanced) -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic LinkedList
+  import java.util.*;
+  
+  class LinkedListDemo {
+      public static void main(String[] args) {
+          LinkedList<String> tasks = new LinkedList<>();
+          tasks.add("Email");
+          tasks.add("Coding");
+          tasks.add("Meeting");
+          System.out.println("Tasks: " + tasks);
+  
+          // Adding at first and last
+          tasks.addFirst("Wake Up");
+          tasks.addLast("Sleep");
+          System.out.println("After addFirst & addLast: " + tasks);
+  
+          // Removing elements
+          tasks.removeFirst();
+          tasks.removeLast();
+          System.out.println("After removal: " + tasks);
+      }
+  }
+  
+  // Advanced Example: Using as Queue & Stack
+  class LinkedListQueueStack {
+      public static void main(String[] args) {
+          LinkedList<Integer> deque = new LinkedList<>();
+  
+          // Queue behavior (FIFO)
+          deque.add(1);
+          deque.add(2);
+          deque.add(3);
+          System.out.println("Queue Front: " + deque.peek());
+          System.out.println("Queue Remove: " + deque.poll());
+  
+          // Stack behavior (LIFO)
+          deque.push(10); // push at head
+          deque.push(20);
+          System.out.println("Stack Pop: " + deque.pop());
+      }
+  }
+    </pre>
+  
+    <!-- 6. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Fast insertion/deletion at head/tail, supports FIFO/LIFO, flexible structure.</li>
+      <li><b>Disadvantages:</b> Slow random access, higher memory usage (stores prev/next pointers).</li>
+    </ul>
+  
+    <!-- 7. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+      <li>addFirst(), addLast(), removeFirst(), removeLast(), getFirst(), getLast()</li>
+      <li>Deque interface methods – LinkedList can act as Queue or Stack</li>
+      <li>Implements Serializable, Cloneable for object cloning and serialization</li>
+    </ul>
+  
+    <!-- 8. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      LinkedList uses <b>doubly-linked nodes</b>. Here’s how it works internally:
+    </p>
+    <ul>
+      <li>Each Node stores: <code>data</code>, <code>next</code> pointer, <code>prev</code> pointer.</li>
+      <li>Head points to first node, tail points to last node.</li>
+      <li>Insertion at head/tail: O(1) → only pointer updates.</li>
+      <li>Insertion/removal at middle: requires traversal → O(n).</li>
+    </ul>
+  
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Head --> [Data: Wake Up | Prev: null | Next: Email] 
+          --> [Data: Email | Prev: Wake Up | Next: Coding] 
+          --> [Data: Coding | Prev: Email | Next: Meeting] 
+  Tail --> [Data: Meeting | Prev: Coding | Next: null]
+    </pre>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b> 
+      <ul>
+        <li>Use LinkedList when frequent insertions/deletions occur.</li>
+        <li>Random access using index is slower → avoid for large lists if indexed access is frequent.</li>
+        <li>Supports Stack and Queue operations directly using Deque methods.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8: Stream API support for LinkedList (<code>list.stream()</code>).</li>
+      <li>Java 21: Performance improvements for linked list traversal in modern JVMs.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use LinkedList when frequent insertions/removals are needed.</li>
+      <li>Prefer ArrayList when random access is frequent.</li>
+      <li>Use <code>Deque</code> methods to implement stack/queue efficiently.</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>LinkedList implements both List & Deque → can behave as List, Queue, or Stack.</li>
+      <li>Memory overhead is higher than ArrayList due to prev/next pointers.</li>
+      <li>Random access is O(n) → common trick question vs ArrayList O(1).</li>
+      <li>Use <code>getFirst()</code>/<code>getLast()</code> for faster head/tail access.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>Explain the internal working of LinkedList.</li>
+        <li>What is the difference between LinkedList and ArrayList?</li>
+        <li>How does LinkedList implement Queue and Stack?</li>
+        <li>Which operation is faster in LinkedList: add/remove at head or random access?</li>
+        <li>Memory overhead of LinkedList vs ArrayList?</li>
+      </ul>
+    </div>
+  </section>
+  

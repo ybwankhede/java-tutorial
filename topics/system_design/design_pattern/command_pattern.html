@@ -1,0 +1,181 @@
+<section id="command_pattern">
+    <h1>Command Design Pattern in Java</h1>
+
+    <h2>1. Introduction</h2>
+    <p>
+        The <b>Command Pattern</b> is a <b>behavioral design pattern</b> that turns a request into a stand-alone object
+        containing all the information about the request. This lets you parameterize methods with requests,
+        delay execution, or queue them for later.
+    </p>
+    <p>
+        In simple terms: It decouples <b>what needs to be done (request)</b> from <b>who performs it (receiver)</b>.
+    </p>
+
+    <h2>2. History</h2>
+    <p>
+        The pattern originated from the need to implement <b>transactional systems</b> and <b>undo/redo features</b>.
+        First documented in the <i>Gang of Four (GoF)</i> book, it became essential in GUI applications, job scheduling,
+        and remote method invocation.
+    </p>
+
+    <h2>3. Real-Life Analogy</h2>
+    <p>
+        Imagine you are at a <b>restaurant</b>:
+    <ul>
+        <li>You (the client) order food by writing it on a slip (Command object).</li>
+        <li>The waiter (Invoker) takes the slip and delivers it to the chef.</li>
+        <li>The chef (Receiver) prepares the food.</li>
+    </ul>
+    The benefit: The waiter doesn’t need to know how the food is prepared; they only need the order slip.
+    </p>
+
+    <h2>4. Structure Diagram (ASCII)</h2>
+    <div class="diagram">
+        Client
+        |
+        v
+        [Command] ----> [Receiver]
+        ^
+        |
+        [ConcreteCommand]
+        ^
+        |
+        [Invoker]
+    </div>
+
+    <h2>5. Java Example</h2>
+    <pre>
+// Step 1: Command interface
+interface Command {
+    void execute();
+}
+
+// Step 2: Receiver - knows actual business logic
+class Light {
+    public void turnOn() {
+        System.out.println("Light is ON");
+    }
+    public void turnOff() {
+        System.out.println("Light is OFF");
+    }
+}
+
+// Step 3: Concrete Commands
+class LightOnCommand implements Command {
+    private Light light;
+    public LightOnCommand(Light light) { this.light = light; }
+    public void execute() { light.turnOn(); }
+}
+
+class LightOffCommand implements Command {
+    private Light light;
+    public LightOffCommand(Light light) { this.light = light; }
+    public void execute() { light.turnOff(); }
+}
+
+// Step 4: Invoker - executes command
+class RemoteControl {
+    private Command command;
+    public void setCommand(Command command) { this.command = command; }
+    public void pressButton() { command.execute(); }
+}
+
+// Step 5: Client code
+public class CommandPatternDemo {
+    public static void main(String[] args) {
+        Light livingRoomLight = new Light();
+        
+        Command lightOn = new LightOnCommand(livingRoomLight);
+        Command lightOff = new LightOffCommand(livingRoomLight);
+
+        RemoteControl remote = new RemoteControl();
+        
+        remote.setCommand(lightOn);
+        remote.pressButton(); // Light is ON
+        
+        remote.setCommand(lightOff);
+        remote.pressButton(); // Light is OFF
+    }
+}
+  </pre>
+
+    <h2>6. Advantages</h2>
+    <ul>
+        <li>Decouples sender and receiver.</li>
+        <li>Supports <b>undo/redo</b> operations.</li>
+        <li>Can queue, log, and schedule requests.</li>
+        <li>Extensible – easy to add new commands.</li>
+    </ul>
+
+    <h2>7. Disadvantages</h2>
+    <ul>
+        <li>Increases number of classes (each command needs its own class).</li>
+        <li>May introduce complexity for simple operations.</li>
+    </ul>
+
+    <h2>8. Real-World Uses</h2>
+    <ul>
+        <li><b>GUI Frameworks</b>: Menu items and buttons use commands internally.</li>
+        <li><b>Job Queues</b>: Command objects represent jobs.</li>
+        <li><b>Transactional Systems</b>: Undo/redo functionality.</li>
+    </ul>
+
+    <h2>9. Variants with Examples</h2>
+    <ul>
+        <li><b>Macro Command</b>: A command that executes multiple commands in sequence.</li>
+        <li><b>Undoable Command</b>: Supports undo() method for rollback.</li>
+        <li><b>Queued Commands</b>: Store commands in a queue to execute later (job scheduling).</li>
+    </ul>
+    <pre>
+// Macro Command Example
+class MacroCommand implements Command {
+    private List<Command> commands = new ArrayList<>();
+    public void addCommand(Command cmd) { commands.add(cmd); }
+    public void execute() {
+        for (Command c : commands) { c.execute(); }
+    }
+}
+  </pre>
+
+    <h2>10. Alternatives</h2>
+    <ul>
+        <li><b>Strategy Pattern</b>: Defines algorithms but doesn’t encapsulate the request itself.</li>
+        <li><b>Observer Pattern</b>: Good when you need event-driven execution instead of encapsulated commands.</li>
+        <li><b>Chain of Responsibility</b>: Useful when the request should be passed through multiple handlers instead
+            of a single receiver.</li>
+    </ul>
+
+    <h2>11. Interview Questions</h2>
+    <div class="interview">
+        <b>Q1:</b> How is Command different from Strategy?<br>
+        <b>A:</b> Strategy encapsulates an algorithm; Command encapsulates a request with a receiver.
+
+        <br><br>
+        <b>Q2:</b> Where would you use Command in real life?<br>
+        <b>A:</b> Undo functionality, GUI button actions, transactional job queues.
+
+        <br><br>
+        <b>Q3:</b> Can Command Pattern be combined with other patterns?<br>
+        <b>A:</b> Yes, often combined with Composite (MacroCommands), Memento (undo), and Chain of Responsibility.
+    </div>
+
+    <h2>12. Notes for Keywords</h2>
+    <div class="note">
+        <ul>
+            <li><b>Invoker</b>: The object that calls the command (e.g., RemoteControl).</li>
+            <li><b>Receiver</b>: The actual worker that does the job (e.g., Light).</li>
+            <li><b>ConcreteCommand</b>: Implements the Command interface and binds Receiver.</li>
+        </ul>
+    </div>
+
+    <h2>13. Developer Tips</h2>
+    <div class="tips">
+        <ul>
+            <li>Use Command when you need <b>decoupling</b> between invoker and receiver.</li>
+            <li>For undo/redo, maintain a <b>stack of executed commands</b>.</li>
+            <li>Combine with <b>Macro Commands</b> for batch operations.</li>
+            <li>Don’t overuse Command; it may cause <b>class explosion</b> for simple apps.</li>
+        </ul>
+    </div>
+
+</section>

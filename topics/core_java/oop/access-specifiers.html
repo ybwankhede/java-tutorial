@@ -1,0 +1,175 @@
+<section id="access-specifiers">
+    <h2>Access Specifiers</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        Access Specifiers (also called <b>Access Modifiers</b>) in Java define the <b>visibility</b>
+        or <b>scope</b> of classes, methods, variables, and constructors.
+        In simple words, they control <b>"who can use what"</b> in your program.
+    </p>
+
+    <!-- ✅ Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        Imagine you own a house:
+    <ul>
+        <li><b>public</b> → Anyone can enter (friends, delivery, guests).</li>
+        <li><b>protected</b> → Only your family members can access.</li>
+        <li><b>default (no keyword)</b> → Only neighbors inside your society can come.</li>
+        <li><b>private</b> → Only you can enter (restricted to yourself).</li>
+    </ul>
+    Similarly, Java uses access specifiers to protect and organize code.
+    </p>
+
+    <!-- ✅ Realistic Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+        In a <b>Bank Application</b>:
+    <ul>
+        <li><b>private</b> → Account PIN (only user knows).</li>
+        <li><b>default</b> → Branch address (shared within the system).</li>
+        <li><b>protected</b> → Employee salary (visible in HR module & subclasses).</li>
+        <li><b>public</b> → Bank Name & IFSC code (anyone can see).</li>
+    </ul>
+    </p>
+
+    <!-- ✅ Types with Table -->
+    <h3>Types of Access Specifiers</h3>
+    <table cellpadding="8" cellspacing="0">
+        <tr>
+            <th>Specifier</th>
+            <th>Within Class</th>
+            <th>Within Package</th>
+            <th>Subclass (Different Package)</th>
+            <th>Other Packages</th>
+        </tr>
+        <tr>
+            <td><b>public</b></td>
+            <td>✔️</td>
+            <td>✔️</td>
+            <td>✔️</td>
+            <td>✔️</td>
+        </tr>
+        <tr>
+            <td><b>protected</b></td>
+            <td>✔️</td>
+            <td>✔️</td>
+            <td>✔️</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td><b>default</b> (no keyword)</td>
+            <td>✔️</td>
+            <td>✔️</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+        <tr>
+            <td><b>private</b></td>
+            <td>✔️</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+        </tr>
+    </table>
+
+    <!-- ✅ Example -->
+    <h3>Example</h3>
+    <pre>
+    class Person {
+        private String name = "John";     // Only inside class
+        String city = "Mumbai";           // Default - same package
+        protected int age = 30;           // Package + Subclass
+        public String country = "India";  // Everywhere
+    
+        private void showName() {
+            System.out.println("Name: " + name);
+        }
+    
+        public void showCountry() {
+            System.out.println("Country: " + country);
+        }
+    }
+    
+    public class AccessDemo {
+        public static void main(String[] args) {
+            Person p = new Person();
+            // System.out.println(p.name);   // ❌ Error: private
+            System.out.println(p.city);      // ✔️ Default - same package
+            System.out.println(p.age);       // ✔️ Protected - same package
+            System.out.println(p.country);   // ✔️ Public - everywhere
+        }
+    }
+    </pre>
+
+    <!-- ✅ UML -->
+    <h3>UML View</h3>
+    <pre>
+    + publicMember
+    # protectedMember
+    ~ defaultMember
+    - privateMember
+    </pre>
+    <p><b>Legend:</b> (+ public, # protected, ~ default, - private)</p>
+
+    <!-- ✅ Advantages & Disadvantages -->
+    <h3>Advantages</h3>
+    <ul>
+        <li>Provides <b>data security</b> and controlled access.</li>
+        <li>Supports <b>Encapsulation</b> principle in OOP.</li>
+        <li>Makes code more <b>organized and reusable</b>.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>Too much restriction can make code <b>difficult to test or extend</b>.</li>
+        <li>Confusion for beginners about which modifier to use.</li>
+    </ul>
+
+    <!-- ✅ Java-Specific Keywords -->
+    <h3>Specific Keywords</h3>
+    <ul>
+        <li><code>public</code></li>
+        <li><code>private</code></li>
+        <li><code>protected</code></li>
+        <li><i>default</i> (when no keyword is used)</li>
+    </ul>
+
+    <!-- ✅ Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <p>
+        Access modifiers remain the same in latest Java versions (Java 8 → 21).
+        However, they are widely used with <b>new features</b> like:
+    <ul>
+        <li><b>Records</b> → Members are implicitly <code>private final</code>.</li>
+        <li><b>Sealed Classes</b> → Work with <code>protected</code> and <code>public</code> to control inheritance.
+        </li>
+        <li><b>Modules (Java 9+)</b> → Provide <i>strong encapsulation</i> beyond traditional specifiers.</li>
+    </ul>
+    </p>
+
+    <!-- ✅ Enhancement Tips -->
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Use <code>private</code> with <b>getter/setter</b> methods to follow Encapsulation.<br>
+            - Restrict visibility as much as possible → "least privilege principle".<br>
+            - In large projects, combine <b>modules + access specifiers</b> for better security.<br>
+            - Don’t make everything <code>public</code>, it breaks modular design.<br>
+        </div>
+    </div>
+
+    <!-- ✅ Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: What are the different access specifiers in Java?<br>
+            - Q: What is the difference between <code>protected</code> and <code>default</code>?<br>
+            - Q: Can we use <code>private</code> constructor in Java? Why?<br>
+            - Q: Can a top-level class be <code>private</code> or <code>protected</code>?<br>
+            - Q: How do access modifiers support Encapsulation?<br>
+            - Q: What happens if no access modifier is specified?<br>
+        </div>
+    </div>
+
+</section>

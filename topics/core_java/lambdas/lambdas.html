@@ -1,0 +1,331 @@
+<section id="java-lambdas">
+    <h2>Lambdas</h2>
+
+    <!-- 1. Definition -->
+    <div class="section">
+        <p>
+            <strong>Definition:</strong><br> 
+            A <strong>Lambda Expression</strong> in Java is essentially a block of code (function)
+            that you can pass around and execute later. It provides a clear and concise way to
+            represent a single abstract method (SAM) of a functional interface.
+        </p>
+        <p>
+            Introduced in <strong>Java 8</strong>, lambdas brought <em>functional programming</em> to Java.
+        </p>
+    </div>
+
+    <!-- 2. Explanation -->
+    <div class="section">
+        <h3>Explanation</h3>
+        <p>
+            Before lambdas, we had to create anonymous inner classes to pass behavior as an argument.
+            Lambdas simplify this by directly writing the behavior inline.
+        </p>
+        <pre>
+  // Anonymous class
+  Runnable r1 = new Runnable() {
+      public void run() {
+          System.out.println("Running...");
+      }
+  };
+  
+  // Lambda
+  Runnable r2 = () -> System.out.println("Running...");
+      </pre>
+    </div>
+
+    <!-- 3. Real-life Analogy -->
+    <div class="section">
+        <h3>Real-Life Example</h3>
+        <p>
+            Imagine hiring a cook:
+        </p>
+        <ul>
+            <li>Old way: Hire a full-time cook (anonymous inner class).</li>
+            <li>Lambda way: Write a small recipe on a sticky note and give it to anyone (lambda function).</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>Simple Understanding</h3>
+
+        <p>
+            A <strong>lambda expression</strong> is like a <em>shortcut for writing a method</em>
+            that you can pass around. Instead of creating a whole class or method, you write it inline.
+        </p>
+
+        <h4>1. How to Create a Lambda</h4>
+        <p>Basic syntax:</p>
+        <pre>
+      (parameters) -> expression
+      (parameters) -> { multiple statements }
+        </pre>
+
+        <h4>2. Example with Runnable</h4>
+        <pre>
+      // Old way: Anonymous class
+      Runnable r1 = new Runnable() {
+          public void run() {
+              System.out.println("Running task...");
+          }
+      };
+      
+      // Lambda way (simpler!)
+      Runnable r2 = () -> System.out.println("Running task...");
+      r2.run(); // Executes the task
+        </pre>
+
+        <h4>3. Example with Functional Interface</h4>
+        <pre>
+      // Step 1: Create Functional Interface
+      @FunctionalInterface
+      interface Calculator {
+          int operation(int a, int b);
+      }
+      
+      // Step 2: Use lambda to implement
+      Calculator add = (a, b) -> a + b;
+      Calculator multiply = (a, b) -> a * b;
+      
+      // Step 3: Call
+      System.out.println("Sum: " + add.operation(5, 3));
+      System.out.println("Product: " + multiply.operation(5, 3));
+        </pre>
+
+        <h4>4. Example with Collections</h4>
+        <pre>
+      List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+      
+      // Print each name using lambda
+      names.forEach(name -> System.out.println(name));
+      
+      // Using method reference (even shorter!)
+      names.forEach(System.out::println);
+        </pre>
+
+        <h4>Key Points</h4>
+        <ul>
+            <li>Works with <strong>Functional Interfaces</strong> (interfaces with 1 abstract method).</li>
+            <li>Lambdas can access only <strong>final or effectively final</strong> variables from outer scope.</li>
+            <li>They make code <strong>shorter, cleaner, and more readable</strong>.</li>
+        </ul>
+    </div>
+
+
+    <!-- 4. UML -->
+    <div class="section">
+        <h3>UML Diagram</h3>
+        <pre>
+  +-------------------+
+  | FunctionalInterface| &lt;&lt;interface&gt;&gt;
+  +-------------------+
+  | + doWork()        |
+  +-------------------+
+          ^
+          |
+      ( ) -> { System.out.println("Working"); }
+      </pre>
+    </div>
+
+    <!-- 5. Code Examples -->
+    <div class="section">
+        <h3>Examples</h3>
+        <pre>
+  import java.util.*;
+  import java.util.stream.*;
+  
+  public class LambdaExamples {
+      public static void main(String[] args) {
+          
+          // Example 1: Runnable
+          Runnable task = () -> System.out.println("Task executed!");
+          task.run();
+  
+          // Example 2: Comparator
+          List&lt;String&gt; list = Arrays.asList("Banana", "Apple", "Cherry");
+          list.sort((a, b) -> a.compareTo(b));
+          System.out.println(list);
+  
+          // Example 3: Functional Interface
+          Calculator add = (x, y) -> x + y;
+          Calculator multiply = (x, y) -> x * y;
+          System.out.println("Sum: " + add.operation(5, 3));
+          System.out.println("Product: " + multiply.operation(5, 3));
+  
+          // Example 4: Streams
+          List&lt;Integer&gt; numbers = Arrays.asList(1,2,3,4,5,6);
+          List&lt;Integer&gt; evens = numbers.stream()
+                                        .filter(n -> n % 2 == 0)
+                                        .collect(Collectors.toList());
+          System.out.println(evens);
+      }
+  
+      @FunctionalInterface
+      interface Calculator {
+          int operation(int a, int b);
+      }
+  }
+      </pre>
+    </div>
+
+    <!-- 6. Methods Explanation -->
+    <div class="section">
+        <h3>Common Lambda-related Methods</h3>
+        <ul>
+            <li>
+                <strong>forEach()</strong> — Iterates through each element.
+                <pre>
+  List&lt;String&gt; names = Arrays.asList("A", "B", "C");
+  names.forEach(n -> System.out.println(n));
+          </pre>
+            </li>
+            <li>
+                <strong>map()</strong> — Transforms data.
+                <pre>
+  List&lt;String&gt; names = Arrays.asList("a", "b");
+  List&lt;String&gt; upper = names.stream()
+                             .map(s -> s.toUpperCase())
+                             .collect(Collectors.toList());
+          </pre>
+            </li>
+            <li>
+                <strong>filter()</strong> — Filters elements by condition.
+                <pre>
+  List&lt;Integer&gt; nums = Arrays.asList(1,2,3,4,5);
+  nums.stream().filter(n -> n % 2 == 0).forEach(System.out::println);
+          </pre>
+            </li>
+            <li>
+                <strong>reduce()</strong> — Combines elements into one.
+                <pre>
+  int sum = Arrays.asList(1,2,3).stream()
+                                .reduce(0, (a,b) -> a+b);
+          </pre>
+            </li>
+            <li>
+                <strong>sorted()</strong> — Sorts stream elements.
+                <pre>
+  Arrays.asList(5,2,9,1).stream()
+                        .sorted()
+                        .forEach(System.out::println);
+          </pre>
+            </li>
+            <li>
+                <strong>collect()</strong> — Converts stream back to collection.
+                <pre>
+  Set&lt;Integer&gt; set = Arrays.asList(1,2,2,3).stream()
+                                         .collect(Collectors.toSet());
+          </pre>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 7. Internal Working -->
+    <div class="section">
+        <h3>Internal Working</h3>
+        <p>
+            - Lambdas use <strong>invokedynamic</strong> bytecode instruction.<br>
+            - JVM creates a synthetic method for lambda body.<br>
+            - Unlike anonymous classes, lambdas are <em>lighter and faster</em>.<br>
+            - They do not generate extra .class files.
+        </p>
+    </div>
+
+    <!-- 8. Advantages / Disadvantages -->
+    <div class="section">
+        <h3>Advantages</h3>
+        <ul>
+            <li>Less boilerplate, more readability.</li>
+            <li>Encourages functional programming.</li>
+            <li>Great with Streams and Collections.</li>
+            <li>Improves performance compared to anonymous classes.</li>
+        </ul>
+        <h3>Disadvantages</h3>
+        <ul>
+            <li>Harder debugging — stack traces are less clear.</li>
+            <li>Overuse may reduce readability.</li>
+            <li>Not suitable when multiple methods are needed.</li>
+        </ul>
+    </div>
+
+    <!-- 9. Notes & Tips -->
+    <div class="section">
+        <h3>Notes</h3>
+        <div class="note">
+            <ul>
+                <li>Works only with <strong>functional interfaces</strong>.</li>
+                <li>Lambdas can capture <strong>effectively final variables</strong> from outer scope.</li>
+                <li>Prefer <strong>method references (::)</strong> if logic is simple.</li>
+                <li>Avoid overly complex lambdas — keep them short.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 10. Corner Points -->
+    <div class="section">
+        <h3>Corner Points</h3>
+        <ul>
+            <li>Lambdas <strong>cannot</strong> define constructors.</li>
+            <li>They <strong>cannot</strong> access non-final local variables (unless effectively final).</li>
+            <li>You cannot explicitly declare type in return — inferred automatically.</li>
+            <li>They are not tied to a class name (no <code>this</code> context like inner classes).</li>
+            <li>Serialization can behave differently than anonymous classes.</li>
+        </ul>
+    </div>
+
+    <!-- 12. Quick Cheat Sheet -->
+    <div class="section">
+        <h3>Quick Comparison Cheat Sheet</h3>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Anonymous Class</th>
+                <th>Lambda</th>
+                <th>Method Reference</th>
+            </tr>
+            <tr>
+                <td>Code Length</td>
+                <td>Verbose</td>
+                <td>Concise</td>
+                <td>Most concise</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Slower</td>
+                <td>Faster</td>
+                <td>Fastest</td>
+            </tr>
+            <tr>
+                <td>Use Case</td>
+                <td>Multiple methods</td>
+                <td>SAM interfaces</td>
+                <td>Reuse existing method</td>
+            </tr>
+            <tr>
+                <td>Introduced</td>
+                <td>Java 1.1</td>
+                <td>Java 8</td>
+                <td>Java 8</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 11. Interview Questions -->
+    <div class="section">
+        <h3>Interview Questions</h3>
+        <div class="note">
+            <ul>
+                <li>What is a Lambda Expression? How is it different from anonymous class?</li>
+                <li>What is a Functional Interface? Examples from Java API?</li>
+                <li>Explain internal working of lambdas in JVM.</li>
+                <li>What are effectively final variables? Why important in lambdas?</li>
+                <li>Can a lambda throw checked exceptions? How do you handle?</li>
+                <li>What is the difference between lambda and method reference?</li>
+                <li>Explain use of lambdas in Streams API with examples.</li>
+                <li>When would you avoid lambdas in code?</li>
+            </ul>
+        </div>
+    </div>
+
+
+</section>

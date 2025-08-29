@@ -1,0 +1,155 @@
+<section id="queue_interface">
+    <h2>Queue Interface</h2>
+
+    <p>
+        <strong>Definition:</strong><br> 
+        <b>Queue</b> is a <b>linear data structure</b> in Java that follows the <b>First-In-First-Out (FIFO)</b> principle.  
+        Elements are added at the rear and removed from the front.  
+        <b>Queue</b> is an interface in Java Collections Framework, and common implementations include <code>LinkedList</code>, <code>PriorityQueue</code>, and <code>ArrayDeque</code>.
+    </p>
+
+    <div class="note">
+    ⚡ <b>Note:</b> Queue is widely used in task scheduling, message handling, and producer-consumer problems.
+    </div>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Imagine people waiting in line at a ticket counter.
+        The person who comes first gets the ticket first → FIFO principle.
+    </p>
+
+    <h3>Detailed Explanation</h3>
+    <p>
+        - Queue supports these core operations:
+        <ul>
+            <li><b>add()/offer():</b> Add element at the rear.</li>
+            <li><b>remove()/poll():</b> Remove element from the front.</li>
+            <li><b>element()/peek():</b> View the front element without removing.</li>
+        </ul>
+        - FIFO principle ensures that the first element added is the first one to be removed.  
+        - Queue implementations differ: <code>LinkedList</code> allows nulls, <code>PriorityQueue</code> does not allow nulls and orders elements based on priority.
+    </p>
+
+    <h3>Real-life Example</h3>
+    <p>
+        - <b>FIFO Example:</b> A queue at a supermarket checkout counter.
+        - <b>LIFO Example:</b> A stack of plates in a cafeteria (last plate placed is picked first).
+    </p>
+
+    <h3>Example</h3>
+    <pre>
+  import java.util.*;
+  
+  public class QueueExample {
+      public static void main(String[] args) {
+          Queue<String> queue = new LinkedList<>();
+  
+          // Adding elements
+          queue.offer("Alice");
+          queue.offer("Bob");
+          queue.offer("Charlie");
+  
+          // Removing elements
+          System.out.println("Head: " + queue.peek());   // Check first element
+          System.out.println("Removed: " + queue.poll()); // Remove first element
+          System.out.println("Queue after removal: " + queue);
+      }
+  }
+    </pre>
+
+    <h3>UML (Text-based Diagram)</h3>
+    <pre>
+        Queue (Interface)
+           |
+           |-- LinkedList (Class) implements Queue
+           |-- PriorityQueue (Class) implements Queue
+           |-- ArrayDeque (Class) implements Deque → Queue
+    </pre>
+
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b>
+            <ul>
+                <li>Natural way to manage ordered tasks.</li>
+                <li>Supports FIFO/LIFO/priority behavior.</li>
+                <li>Suitable for scheduling and buffering.</li>
+                <li>Flexible implementations (LinkedList, PriorityQueue, ArrayDeque)</li>
+            </ul>
+        </li>
+        <li><b>Disadvantages:</b>
+            <ul>
+                <li>Limited random access (you can’t directly get element by index like List).</li>
+                <li>Removal from middle is slow.</li>
+                <li>Some implementations (PriorityQueue) do not allow null elements.</li>
+            </ul>
+        </li>
+    </ul>  
+
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+        <li><b>offer()</b>: Add element (returns false if full).</li>
+        <li><b>poll()</b>: Retrieves and removes the head (returns null if empty).</li>
+        <li><b>peek()</b>: Retrieves head without removing.</li>
+        <li><b>PriorityQueue:</b> Orders elements based on natural order or comparator.</li>
+        <li><b>Deque:</b> Double-ended queue (supports FIFO & LIFO).</li>
+    </ul>
+
+  <h3>Visual Representation</h3>
+  <pre>
+Queue (FIFO)
+Front --> [Task1] [Task2] [Task3] <-- Rear
+
+PriorityQueue (min-heap)
+          [10]
+         /    \
+       [50]   [30]
+  </pre>
+
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8: Added <code>forEach()</code>, streams support for queues.</li>
+        <li>Java 9: <code>Queue.of()</code> not provided, but <code>List.of()</code> can be used with wrappers.</li>
+        <li>Java 21: Performance improvements in concurrent queues.</li>
+    </ul>
+
+    <h3>Notes</h3>
+    <div class="note">
+        - Queue is commonly used for <b>task scheduling, buffering, and order processing</b>. <br>
+        - <code>ArrayDeque</code> is faster than <code>Stack</code> for LIFO operations.
+    </div>
+
+    <h3>Tips</h3>
+    <div class="tip">
+        - Use <b>PriorityQueue</b> when tasks must be processed by importance. <br>
+        - Use <b>ArrayDeque</b> instead of <b>Stack</b> for stack behavior. <br>
+        - For thread-safe queues, use <b>ConcurrentLinkedQueue</b> or <b>BlockingQueue</b>.
+    </div>
+
+    <h3>Realistic Example for Beginners</h3>
+    <pre>
+    // Example: Task scheduling using Queue
+    Queue<String> tasks = new LinkedList<>();
+    tasks.offer("Email Client");
+    tasks.offer("Generate Report");
+    tasks.offer("Backup Database");
+    
+    while (!tasks.isEmpty()) {
+        System.out.println("Processing: " + tasks.poll());
+    }
+    </pre>
+
+    <h3>Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li>What is the difference between Queue and Stack?</li>
+            <li>How does PriorityQueue work internally?</li>
+            <li>Difference between <code>offer()</code> and <code>add()</code> in Queue?</li>
+            <li>Why is ArrayDeque preferred over Stack?</li>
+            <li>How to implement a Producer-Consumer problem in Java using Queue?</li>
+        </ul>
+    </div>
+
+    
+
+</section>

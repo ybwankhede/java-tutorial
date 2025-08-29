@@ -1,0 +1,159 @@
+<section id="proxy_pattern">
+      <h1>Proxy Pattern</h1>
+    
+      <h2>1. Introduction & History</h2>
+      <p>
+        The <b>Proxy Pattern</b> is a <b>structural design pattern</b> that provides a surrogate or placeholder object that controls access to another object. 
+        It acts as an intermediary between the client and the real object. The term "proxy" itself means <i>substitute</i>.
+      </p>
+      <p>
+        Historically, proxies emerged from distributed computing and remote method invocation, where representing an object in another memory space or machine was needed.
+      </p>
+    
+      <h2>2. Real-life Analogies</h2>
+      <ul>
+        <li><b>Credit Card:</b> Acts as a proxy for carrying cash. You don’t always carry the real money.</li>
+        <li><b>Lawyer:</b> Represents (proxies) a client in court.</li>
+        <li><b>Remote Control:</b> Acts as a proxy to the TV (real object).</li>
+      </ul>
+    
+      <h2>3. Structure Diagram</h2>
+      <pre>
+      Client → Proxy → RealSubject
+    
+      interface Subject
+          |-- RealSubject (actual heavy object)
+          |-- Proxy (controls access, adds functionality)
+      </pre>
+    
+      <h2>4. Example</h2>
+      <pre>
+    // Step 1: Subject interface
+    interface Image {
+        void display();
+    }
+    
+    // Step 2: RealSubject - the actual heavy object
+    class RealImage implements Image {
+        private String filename;
+    
+        public RealImage(String filename) {
+            this.filename = filename;
+            loadFromDisk(); // Expensive operation
+        }
+    
+        private void loadFromDisk() {
+            System.out.println("Loading " + filename);
+        }
+    
+        public void display() {
+            System.out.println("Displaying " + filename);
+        }
+    }
+    
+    // Step 3: Proxy - controls access to RealImage
+    class ProxyImage implements Image {
+        private RealImage realImage;
+        private String filename;
+    
+        public ProxyImage(String filename) {
+            this.filename = filename;
+        }
+    
+        public void display() {
+            // Lazy loading: create object only when needed
+            if (realImage == null) {
+                realImage = new RealImage(filename);
+            }
+            realImage.display();
+        }
+    }
+    
+    // Step 4: Client code
+    public class ProxyPatternDemo {
+        public static void main(String[] args) {
+            Image image1 = new ProxyImage("photo1.jpg");
+            Image image2 = new ProxyImage("photo2.jpg");
+    
+            // Image loaded only when displayed
+            image1.display();
+            image1.display(); // Uses cached real object
+    
+            image2.display();
+        }
+    }
+      </pre>
+    
+      <h2>5. Advantages</h2>
+      <ul>
+        <li>Lazy initialization (on-demand object creation).</li>
+        <li>Access control (security, logging, caching).</li>
+        <li>Reduces memory usage and startup time.</li>
+        <li>Supports remote method invocation and distributed objects.</li>
+      </ul>
+    
+      <h2>6. Disadvantages</h2>
+      <ul>
+        <li>Increased complexity due to extra layers.</li>
+        <li>Slight performance overhead due to indirection.</li>
+        <li>Harder debugging because of proxy delegation.</li>
+      </ul>
+    
+      <h2>7. Real-world Uses</h2>
+      <ul>
+        <li><b>Hibernate:</b> Uses proxy for lazy loading entities.</li>
+        <li><b>Spring AOP:</b> Creates dynamic proxies for cross-cutting concerns like logging, transactions.</li>
+        <li><b>Java RMI:</b> Remote Proxy for accessing objects across JVMs.</li>
+        <li><b>Security:</b> Protection Proxy to restrict access to sensitive resources.</li>
+      </ul>
+    
+      <h2>8. Variants of Proxy Pattern</h2>
+      <ul>
+        <li><b>Virtual Proxy:</b> For expensive objects (e.g., large images, database connections).</li>
+        <li><b>Remote Proxy:</b> Represents object in another address space (RMI, Web Services).</li>
+        <li><b>Protection Proxy:</b> Controls access rights (user authentication/authorization).</li>
+        <li><b>Smart Proxy:</b> Adds extra functionality (logging, caching, reference counting).</li>
+      </ul>
+    
+      <h2>9. Alternatives</h2>
+      <ul>
+        <li><b>Decorator:</b> When you need to add new responsibilities, not just control access.</li>
+        <li><b>Adapter:</b> When you need to match interfaces, not restrict access.</li>
+        <li><b>Facade:</b> When you need to simplify access to subsystems, not restrict/monitor it.</li>
+      </ul>
+    
+      <h2>10. Interview Questions</h2>
+      <div class="interview">
+        <p><b>Q1:</b> What problem does the Proxy pattern solve?</p>
+        <p><b>A:</b> It controls access to an object, either for lazy initialization, access control, logging, or representing remote objects.</p>
+    
+        <p><b>Q2:</b> Difference between Proxy and Decorator?</p>
+        <p><b>A:</b> Proxy controls access, Decorator adds new behavior.</p>
+    
+        <p><b>Q3:</b> Give a real-world use of Proxy in Java frameworks.</p>
+        <p><b>A:</b> Hibernate lazy loading of entities uses proxies to defer loading data until needed.</p>
+    
+        <p><b>Q4:</b> Can Proxy and Singleton be combined?</p>
+        <p><b>A:</b> Yes, a Proxy object can be a Singleton to manage access to the real object globally.</p>
+      </div>
+    
+      <h2>11. Notes</h2>
+      <div class="note">
+        <ul>
+          <li><b>interface:</b> Defines a contract that both RealSubject and Proxy implement.</li>
+          <li><b>delegation:</b> Proxy forwards requests to RealSubject.</li>
+          <li><b>access control:</b> Proxy decides whether or not to forward request.</li>
+          <li><b>lazy loading:</b> Creating an object only when it is actually needed.</li>
+        </ul>
+      </div>
+    
+      <h2>12. Developer Tips</h2>
+      <div class="tips">
+        <ul>
+          <li>Use Proxy when object creation is costly or sensitive.</li>
+          <li>Always keep Proxy and RealSubject interfaces identical to ensure transparency.</li>
+          <li>For security proxies, integrate with authentication/authorization logic.</li>
+          <li>For performance-sensitive apps, balance between Proxy benefits and indirection overhead.</li>
+        </ul>
+      </div>
+</section>

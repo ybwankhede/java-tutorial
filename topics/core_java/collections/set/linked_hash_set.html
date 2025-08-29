@@ -1,0 +1,210 @@
+<section>
+    <h2>LinkedHashSet</h2>
+
+    <!-- 1. Definition -->
+    <p>
+        <strong>Definition:</strong><br> 
+        <b>LinkedHashSet</b> is a subclass of <code>HashSet</code> that maintains a <b>linked list of the elements in
+            insertion order</b>.
+        It ensures that iteration order is predictable while still disallowing duplicate elements.
+    </p>
+    <div class="note">
+        ⚡ <b>Note:</b> Useful when you need a unique collection of elements but also need predictable iteration order.
+    </div>
+
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+        - Characteristics:
+    <ul>
+        <li>No duplicate elements.</li>
+        <li>Maintains insertion order using a doubly-linked list internally.</li>
+        <li>Allows one null element.</li>
+        <li>Operations like add, remove, contains have O(1) average complexity.</li>
+        <li>Not synchronized; for thread-safe operations, use <code>Collections.synchronizedSet()</code>.</li>
+    </ul>
+    </p>
+
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+        <li>Think of a guest list where each name appears only once, and you remember the order in which guests arrived.
+        </li>
+        <li>Useful in situations like storing unique usernames in the order they signed up.</li>
+    </ul>
+
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  HashSet (Class)
+     |
+     |-- LinkedHashSet (Class)
+           - Maintains insertion order
+           - Implements Set, Serializable, Cloneable
+           - Core Methods: add(), remove(), contains(), iterator(), clear()
+    </pre>
+
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic LinkedHashSet Example
+  import java.util.*;
+  
+  class LinkedHashSetDemo {
+      public static void main(String[] args) {
+          LinkedHashSet<String> linkedSet = new LinkedHashSet<>();
+  
+          // Add elements
+          linkedSet.add("Apple");
+          linkedSet.add("Banana");
+          linkedSet.add("Cherry");
+          linkedSet.add("Apple"); // duplicate ignored
+          System.out.println("LinkedHashSet: " + linkedSet); // maintains insertion order
+  
+          // Check element
+          System.out.println("Contains Banana? " + linkedSet.contains("Banana"));
+  
+          // Remove element
+          linkedSet.remove("Cherry");
+          System.out.println("After Removal: " + linkedSet);
+  
+          // Iterate elements
+          for (String fruit : linkedSet) {
+              System.out.println(fruit);
+          }
+      }
+  }
+  
+  // Advanced Example: LinkedHashSet with custom objects
+  class Person {
+      String name;
+      int id;
+      Person(String name, int id) { this.name = name; this.id = id; }
+  
+      @Override
+      public boolean equals(Object o) {
+          if (this == o) return true;
+          if (!(o instanceof Person)) return false;
+          Person p = (Person) o;
+          return id == p.id;
+      }
+  
+      @Override
+      public int hashCode() { return id; }
+  }
+  
+  class LinkedHashSetCustom {
+      public static void main(String[] args) {
+          LinkedHashSet<Person> people = new LinkedHashSet<>();
+          people.add(new Person("Alice", 1));
+          people.add(new Person("Bob", 2));
+          people.add(new Person("Alice", 1)); // duplicate ignored
+  
+          System.out.println("People size: " + people.size()); // 2
+          for (Person p : people) {
+              System.out.println(p.name + " - " + p.id);
+          }
+      }
+  }
+    </pre>
+
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+        <li><b>add(E e):</b> Adds element if not already present.</li>
+        <li><b>remove(Object o):</b> Removes element if exists.</li>
+        <li><b>contains(Object o):</b> Checks if element exists.</li>
+        <li><b>size():</b> Returns number of elements.</li>
+        <li><b>clear():</b> Removes all elements.</li>
+        <li><b>isEmpty():</b> Checks if set is empty.</li>
+        <li><b>iterator():</b> Returns iterator to traverse elements in insertion order.</li>
+    </ul>
+
+    <!-- 7. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b> Maintains insertion order, unique elements, fast lookups, predictable iteration.</li>
+        <li><b>Disadvantages:</b> Slightly more memory overhead than HashSet due to linked list, not synchronized,
+            slower than HashSet for some operations.</li>
+    </ul>
+
+    <!-- 8. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+        <li>Underlying data structure: HashMap + doubly-linked list</li>
+        <li>hashCode() and equals() determine uniqueness</li>
+        <li>Insertion order maintained</li>
+        <li>Allows one null element</li>
+    </ul>
+
+    <!-- 9. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        - LinkedHashSet extends HashSet and maintains a <b>doubly-linked list</b> running through all entries:
+    <ul>
+        <li>Each node contains element, hash, and pointers to previous and next nodes.</li>
+        <li>add(): inserts into HashMap bucket + links node to end of list.</li>
+        <li>remove(): removes node from bucket + updates linked list pointers.</li>
+        <li>Iteration follows the linked list, preserving insertion order.</li>
+    </ul>
+    </p>
+
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Insertion Order Maintained:
+  
+  LinkedHashSet: Apple → Banana → Cherry
+  Hash Buckets: 
+  [Bucket0] → "Apple"
+  [Bucket1] → "Banana"
+  [Bucket2] → "Cherry"
+    </pre>
+
+    <!-- 11. Notes -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>Use LinkedHashSet when uniqueness and predictable order are required.</li>
+            <li>Iteration order is guaranteed unlike HashSet.</li>
+            <li>Still not synchronized for multi-threaded use.</li>
+        </ul>
+    </div>
+
+    <!-- 12. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8+: Stream API support (<code>linkedSet.stream()</code>).</li>
+        <li>Java 21+: Minor performance improvements on HashMap backbone.</li>
+    </ul>
+
+    <!-- 13. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Predefine initial capacity for large datasets to reduce rehashing.</li>
+        <li>For thread safety, use <code>Collections.synchronizedSet()</code>.</li>
+        <li>Use LinkedHashSet instead of HashSet when iteration order matters.</li>
+    </ul>
+
+    <!-- 14. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+        <li>Maintains insertion order unlike HashSet.</li>
+        <li>Allows only one null element.</li>
+        <li>Memory overhead higher than HashSet due to linked list.</li>
+        <li>Difference between HashSet, LinkedHashSet, and TreeSet should be clear for interviews.</li>
+    </ul>
+
+    <!-- 15. Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>How does LinkedHashSet maintain insertion order?</li>
+            <li>Difference between HashSet and LinkedHashSet?</li>
+            <li>Why use LinkedHashSet over HashSet?</li>
+            <li>Explain internal working using HashMap and linked list.</li>
+            <li>Can LinkedHashSet store null elements?</li>
+            <li>Time complexity of add(), remove(), contains()?</li>
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,202 @@
+<section>
+    <h2>HashSet</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>HashSet</b> is a class in Java that implements the <code>Set</code> interface.  
+      It stores unique elements only (no duplicates) and does not guarantee any order of elements.  
+      Internally, it uses a <b>HashMap</b> to store elements.
+    </p>
+    <div class="note">
+      ⚡ <b>Note:</b> Ideal for storing unique items such as user IDs, unique words, or unique task IDs.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+      - Core characteristics:
+        <ul>
+          <li>No duplicate elements.</li>
+          <li>Null element allowed (only one).</li>
+          <li>Insertion order is not maintained.</li>
+          <li>High-performance: O(1) average time for add, remove, contains operations.</li>
+        </ul>
+      - HashSet is not synchronized. For thread-safe operations, use <code>Collections.synchronizedSet()</code> or <code>ConcurrentHashMap.newKeySet()</code>.
+    </p>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Imagine a bag where you can drop items, but duplicates are automatically ignored.</li>
+      <li>Example: storing unique email addresses in a mailing system.</li>
+    </ul>
+  
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  Set (Interface)
+     |
+     |-- HashSet (Class)
+           - Implements Set, Serializable, Cloneable, Iterable
+           - Core Methods: add(), remove(), contains(), size(), iterator(), clear()
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic HashSet Example
+  import java.util.*;
+  
+  class HashSetDemo {
+      public static void main(String[] args) {
+          HashSet<String> set = new HashSet<>();
+  
+          // Add elements
+          set.add("Apple");
+          set.add("Banana");
+          set.add("Cherry");
+          set.add("Apple"); // duplicate ignored
+          System.out.println("HashSet: " + set);
+  
+          // Check for element
+          System.out.println("Contains Banana? " + set.contains("Banana"));
+  
+          // Remove element
+          set.remove("Cherry");
+          System.out.println("After Removal: " + set);
+  
+          // Iterate elements
+          for (String fruit : set) {
+              System.out.println(fruit);
+          }
+      }
+  }
+  
+  // Advanced Example: HashSet with custom objects
+  class Person {
+      String name;
+      int id;
+      Person(String name, int id) { this.name = name; this.id = id; }
+  
+      // Override equals and hashCode for uniqueness
+      public boolean equals(Object o) {
+          if (this == o) return true;
+          if (!(o instanceof Person)) return false;
+          Person p = (Person) o;
+          return id == p.id;
+      }
+      public int hashCode() { return id; }
+  }
+  
+  class HashSetCustomObject {
+      public static void main(String[] args) {
+          HashSet<Person> people = new HashSet<>();
+          people.add(new Person("Alice", 1));
+          people.add(new Person("Bob", 2));
+          people.add(new Person("Alice", 1)); // duplicate, ignored
+  
+          System.out.println("People size: " + people.size()); // 2
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>add(E e):</b> Adds element if not already present.</li>
+      <li><b>remove(Object o):</b> Removes element if exists.</li>
+      <li><b>contains(Object o):</b> Checks if element exists.</li>
+      <li><b>size():</b> Returns number of elements.</li>
+      <li><b>clear():</b> Removes all elements.</li>
+      <li><b>isEmpty():</b> Checks if set is empty.</li>
+      <li><b>iterator():</b> Returns iterator to traverse elements.</li>
+    </ul>
+  
+    <!-- 7. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Fast lookups, ensures uniqueness, allows null element, flexible with custom objects using hashCode/equals.</li>
+      <li><b>Disadvantages:</b> No insertion order, not synchronized, iteration order unpredictable.</li>
+    </ul>
+  
+    <!-- 8. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+      <li>Underlying data structure: HashMap</li>
+      <li>hashCode() and equals() methods for uniqueness</li>
+      <li>Not thread-safe</li>
+      <li>Allows one null element</li>
+    </ul>
+  
+    <!-- 9. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - HashSet stores elements as keys in an internal <b>HashMap</b> with a constant dummy value.  
+      - Operations:
+        <ul>
+          <li>add(): calculates hashCode → bucket → check equals() → insert if not exists</li>
+          <li>remove(): hashCode → bucket → equals() → remove</li>
+          <li>contains(): hashCode → bucket → equals() → return true/false</li>
+        </ul>
+      - Load factor and resizing ensure O(1) average complexity.
+    </p>
+  
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  HashSet Internal:
+  [Bucket0] → null
+  [Bucket1] → "Apple"
+  [Bucket2] → "Banana" -> "Cherry"
+  [Bucket3] → null
+    </pre>
+  
+    <!-- 11. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Always override hashCode and equals for custom objects to ensure uniqueness.</li>
+        <li>HashSet is ideal for removing duplicates from collections.</li>
+        <li>Iteration order is unpredictable – use LinkedHashSet if order matters.</li>
+      </ul>
+    </div>
+  
+    <!-- 12. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API support (<code>set.stream()</code>)</li>
+      <li>Java 21+: HashMap internal optimizations affect HashSet performance</li>
+    </ul>
+  
+    <!-- 13. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Predefine initial capacity to improve performance for large datasets.</li>
+      <li>For thread-safe sets, use <code>Collections.synchronizedSet()</code> or <code>ConcurrentHashMap.newKeySet()</code>.</li>
+      <li>Use LinkedHashSet if insertion order is important.</li>
+    </ul>
+  
+    <!-- 14. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>HashSet allows one null element.</li>
+      <li>Order is not maintained.</li>
+      <li>Difference between HashSet, LinkedHashSet, and TreeSet.</li>
+      <li>Importance of hashCode() and equals() for custom objects.</li>
+    </ul>
+  
+    <!-- 15. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>How does HashSet ensure uniqueness?</li>
+        <li>What is the underlying data structure of HashSet?</li>
+        <li>Why is hashCode() important for HashSet?</li>
+        <li>Difference between HashSet, LinkedHashSet, and TreeSet?</li>
+        <li>Can HashSet store null elements?</li>
+        <li>Time complexity of add(), remove(), contains() operations?</li>
+      </ul>
+    </div>
+  </section>
+  

@@ -1,0 +1,150 @@
+<section id="bridge_pattern">
+    <h1>Bridge Pattern</h1>
+
+    <h2>1. Introduction</h2>
+    <p>
+        The <b>Bridge Pattern</b> is a structural design pattern that decouples abstraction from its implementation
+        so that both can evolve independently. Instead of binding an abstraction tightly to an implementation,
+        the bridge introduces a layer of indirection.
+    </p>
+
+    <h2>2. History</h2>
+    <p>
+        The Bridge Pattern was introduced in the <b>Gang of Four (GoF)</b> design patterns book (1994). It was designed
+        to address problems with class explosion when you have multiple dimensions of variation.
+    </p>
+
+    <h2>3. Real-Life Analogy</h2>
+    <ul>
+        <li><b>TV Remote:</b> A remote (abstraction) can work with multiple brands of TVs (implementations). Changing
+            the remote doesn’t require changing the TV internals.</li>
+        <li><b>Bridge:</b> A physical bridge connects two independent areas (like a city and a town). The city and town
+            can evolve independently of the bridge.</li>
+    </ul>
+
+    <h2>4. Structure Diagram</h2>
+    <pre>
+     Abstraction ------------------------> Implementor (Interface)
+          |                                        ^
+          |                                        |
+      RefinedAbstraction                    ConcreteImplementorA
+                                            ConcreteImplementorB
+    </pre>
+
+    <h2>5. Example</h2>
+    <pre>
+  // Implementor Interface
+  interface Device {
+      void turnOn();
+      void turnOff();
+  }
+  
+  // Concrete Implementors
+  class TV implements Device {
+      public void turnOn() { System.out.println("TV is ON"); }
+      public void turnOff() { System.out.println("TV is OFF"); }
+  }
+  
+  class Radio implements Device {
+      public void turnOn() { System.out.println("Radio is ON"); }
+      public void turnOff() { System.out.println("Radio is OFF"); }
+  }
+  
+  // Abstraction
+  abstract class RemoteControl {
+      protected Device device;
+  
+      public RemoteControl(Device device) {
+          this.device = device;
+      }
+  
+      public abstract void pressOn();
+      public abstract void pressOff();
+  }
+  
+  // Refined Abstraction
+  class BasicRemote extends RemoteControl {
+      public BasicRemote(Device device) { super(device); }
+      public void pressOn() { device.turnOn(); }
+      public void pressOff() { device.turnOff(); }
+  }
+  
+  // Usage
+  public class BridgePatternDemo {
+      public static void main(String[] args) {
+          Device tv = new TV();
+          RemoteControl remote = new BasicRemote(tv);
+          remote.pressOn();
+          remote.pressOff();
+  
+          Device radio = new Radio();
+          RemoteControl radioRemote = new BasicRemote(radio);
+          radioRemote.pressOn();
+          radioRemote.pressOff();
+      }
+  }
+    </pre>
+
+    <h2>6. Advantages</h2>
+    <ul>
+        <li>Separates abstraction from implementation (loose coupling).</li>
+        <li>Both can vary independently without breaking each other.</li>
+        <li>Reduces class explosion in case of multiple variations.</li>
+        <li>Increases flexibility and maintainability.</li>
+    </ul>
+
+    <h2>7. Disadvantages</h2>
+    <ul>
+        <li>Increases complexity due to extra layers of abstraction.</li>
+        <li>Sometimes over-engineering if variations are limited.</li>
+    </ul>
+
+    <h2>8. Use Cases</h2>
+    <ul>
+        <li><b>JDBC API:</b> Abstraction (JDBC interfaces) and implementations (MySQL, PostgreSQL drivers).</li>
+        <li><b>GUI Toolkits:</b> Abstraction (UI widgets) and implementations (OS-specific rendering).</li>
+        <li><b>Logging frameworks:</b> SLF4J (abstraction) with Log4j/Logback (implementations).</li>
+    </ul>
+
+    <h2>9. Variants</h2>
+    <ul>
+        <li><b>Hierarchical Bridge:</b> Useful when abstraction and implementation both have hierarchies.</li>
+        <li><b>Bridge with Dependency Injection:</b> The implementor is injected at runtime (like Spring beans).</li>
+    </ul>
+
+    <h2>10. Alternatives</h2>
+    <ul>
+        <li><b>Adapter Pattern:</b> Converts interface of an existing class into another (used for compatibility).</li>
+        <li><b>Strategy Pattern:</b> Provides interchangeable behaviors but doesn’t separate abstraction &
+            implementation completely.</li>
+        <li><b>Abstract Factory:</b> Creates families of related objects, but tighter coupling than Bridge.</li>
+    </ul>
+
+    <h2>11. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Bridge Pattern solve?</li>
+            <li>Difference between Bridge and Adapter patterns?</li>
+            <li>Give a real-world Java example of the Bridge Pattern.</li>
+            <li>When should you avoid using the Bridge Pattern?</li>
+            <li>How is Bridge different from Strategy or Abstract Factory?</li>
+        </ul>
+    </div>
+
+    <h2>12. Notes</h2>
+    <div class="note">
+        <p><b>Abstraction:</b> The high-level interface exposed to clients (RemoteControl).</p>
+        <p><b>Implementor:</b> The interface for implementation classes (Device).</p>
+        <p><b>Composition:</b> Abstraction has a reference to Implementor instead of inheritance.</p>
+    </div>
+
+    <h2>13. Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Use the Bridge Pattern when you foresee multiple dimensions of variation (e.g., devices + remotes).</li>
+            <li>Keep the abstraction and implementation hierarchies focused and small.</li>
+            <li>Combine with Dependency Injection frameworks (like Spring) for maximum flexibility.</li>
+        </ul>
+    </div>
+
+</section>

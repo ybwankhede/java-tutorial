@@ -1,0 +1,187 @@
+<section id="tree_set_class">
+    <h2>TreeSet</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>TreeSet</b> is a <code>Set</code> implementation that stores elements in a <b>sorted order</b> according to their natural ordering or a specified <code>Comparator</code>.  
+      Internally, it uses a <b>Red-Black Tree</b> (self-balancing binary search tree) for storage.
+    </p>
+    <div class="note">
+      ⚡ <b>Note:</b> Use TreeSet when you need a set of unique elements in <b>sorted order</b>.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>Elements are stored in ascending order by default.</li>
+      <li>Duplicates are not allowed; adding a duplicate has no effect.</li>
+      <li>Allows null only if the TreeSet is empty and comparator supports it (Java 8+ generally forbids null).</li>
+      <li>Operations like add, remove, and contains have O(log n) time complexity.</li>
+      <li>Not synchronized; for thread safety, use <code>Collections.synchronizedSortedSet()</code>.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a library shelf arranged in alphabetical order.</li>
+      <li>When you add a new book, it automatically goes to the correct sorted position.</li>
+      <li>Duplicates (same book title) are ignored.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+          Collection
+              |
+              Set
+              |
+          SortedSet (interface)
+              |
+           TreeSet (Class)
+             - Implements NavigableSet, SortedSet, Cloneable, Serializable
+             - Core Methods: add(), remove(), contains(), first(), last(), headSet(), tailSet()
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic TreeSet Example
+  import java.util.*;
+  
+  class TreeSetDemo {
+      public static void main(String[] args) {
+          TreeSet<Integer> numbers = new TreeSet<>();
+  
+          // Add elements
+          numbers.add(50);
+          numbers.add(20);
+          numbers.add(40);
+          numbers.add(10);
+          numbers.add(30);
+          System.out.println("TreeSet: " + numbers); 
+          // Output: TreeSet: [10, 20, 30, 40, 50]
+  
+          // Check element
+          System.out.println("Contains 30? " + numbers.contains(30));
+  
+          // Remove element
+          numbers.remove(40);
+          System.out.println("After Removal: " + numbers);
+  
+          // Iteration (ascending)
+          for (Integer n : numbers) {
+              System.out.println(n);
+          }
+  
+          // First and Last
+          System.out.println("First: " + numbers.first());
+          System.out.println("Last: " + numbers.last());
+  
+          // Subsets
+          System.out.println("HeadSet (<=30): " + numbers.headSet(31));
+          System.out.println("TailSet (>=20): " + numbers.tailSet(20));
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>add(E e):</b> Adds element maintaining sorted order.</li>
+      <li><b>remove(Object o):</b> Removes the element if it exists.</li>
+      <li><b>contains(Object o):</b> Checks if element exists.</li>
+      <li><b>first():</b> Returns first (smallest) element.</li>
+      <li><b>last():</b> Returns last (largest) element.</li>
+      <li><b>headSet(E toElement):</b> Returns subset strictly less than toElement.</li>
+      <li><b>tailSet(E fromElement):</b> Returns subset greater than or equal to fromElement.</li>
+      <li><b>ceiling(E e):</b> Least element >= e</li>
+      <li><b>floor(E e):</b> Greatest element <= e</li>
+      <li><b>iterator():</b> Traverse elements in ascending order.</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - TreeSet is backed by a <b>Red-Black Tree</b>.  
+      - Every element is a node with left/right child and parent pointers, along with a color (red/black).  
+      - Red-Black tree ensures the tree remains <b>balanced</b> → O(log n) for add, remove, contains.  
+      - Adding an element:
+        <ul>
+          <li>Tree is searched for correct position (binary search).</li>
+          <li>Element inserted as a leaf node.</li>
+          <li>Tree rebalanced if Red-Black properties are violated.</li>
+        </ul>
+      - Iteration follows in-order traversal → sorted order.
+    </p>
+  
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Insertion Order: 50, 20, 40, 10, 30
+  Red-Black Tree:
+           30(B)
+         /      \
+      20(R)     50(B)
+     /          /
+   10(B)      40(R)
+  
+  Iteration Order: 10, 20, 30, 40, 50
+    </pre>
+  
+    <!-- 9. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Maintains sorted order, no duplicates, fast O(log n) for add/remove/contains, useful for range queries.</li>
+      <li><b>Disadvantages:</b> Slower than HashSet for add/remove due to tree rebalancing, memory overhead higher, not synchronized.</li>
+    </ul>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>TreeSet implements <b>NavigableSet</b>, allowing range views.</li>
+        <li>Comparator can be provided for custom sorting.</li>
+        <li>Use TreeSet when sorted output or range queries are required.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API support (<code>treeSet.stream()</code>).</li>
+      <li>Java 17–21: Minor performance improvements, internal Red-Black Tree optimized.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Provide a Comparator for custom sorting (ascending, descending, or custom criteria).</li>
+      <li>Use <code>subSet(), headSet(), tailSet()</code> for efficient range queries.</li>
+      <li>Pre-size TreeSet for large data sets to reduce internal overhead.</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>TreeSet does not allow duplicates; adding duplicate is ignored.</li>
+      <li>Null not allowed in Java 8+ if natural ordering is used.</li>
+      <li>Internally uses Red-Black Tree → balanced binary search tree.</li>
+      <li>Difference between HashSet, LinkedHashSet, TreeSet should be clear.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>What is TreeSet in Java? How does it differ from HashSet?</li>
+        <li>What internal data structure does TreeSet use?</li>
+        <li>Time complexity of add(), remove(), contains()?</li>
+        <li>Can TreeSet store null values?</li>
+        <li>Difference between natural ordering and Comparator ordering in TreeSet?</li>
+        <li>Explain first(), last(), headSet(), tailSet() methods.</li>
+        <li>When would you prefer TreeSet over HashSet?</li>
+      </ul>
+    </div>
+  </section>
+  

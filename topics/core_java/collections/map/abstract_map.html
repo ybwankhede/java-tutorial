@@ -1,0 +1,156 @@
+<section id="abstract_map_class">
+    <h2>AbstractMap</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>AbstractMap</b> is a skeletal implementation of the <code>Map</code> interface.  
+      It provides basic functionality for Map implementations and reduces the effort required to create custom map classes.
+    </p>
+    <div class="note">
+      ⚡ AbstractMap is <b>not directly instantiated</b>; it is meant to be extended by concrete map classes like HashMap, TreeMap, LinkedHashMap, and EnumMap.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>AbstractMap implements most of the optional Map methods.</li>
+      <li>Subclasses need to provide <code>entrySet()</code> implementation.</li>
+      <li>Provides default implementations for <code>putAll()</code>, <code>containsKey()</code>, <code>containsValue()</code>, <code>isEmpty()</code>, <code>size()</code>, and <code>toString()</code>.</li>
+      <li>Helps in creating custom Map implementations quickly without re-implementing common methods.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of AbstractMap as a blueprint for building different types of maps.</li>
+      <li>It provides the basic structure (methods like size, isEmpty, containsKey) and allows you to fill in the implementation of entries.</li>
+      <li>Like a framework: you provide the storage mechanism, AbstractMap handles repetitive tasks.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+            Map<K,V>
+             ^
+             |
+       AbstractMap<K,V>
+             |
+     -------------------------
+     |                       |
+    HashMap<K,V>        TreeMap<K,V>
+    LinkedHashMap<K,V>  EnumMap<K,V>
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  import java.util.*;
+  
+  class CustomMap<K,V> extends AbstractMap<K,V> {
+      private List<Entry<K,V>> entries = new ArrayList<>();
+  
+      @Override
+      public Set<Entry<K,V>> entrySet() {
+          return new HashSet<>(entries);
+      }
+  
+      @Override
+      public V put(K key, V value) {
+          for (Entry<K,V> entry : entries) {
+              if (Objects.equals(entry.getKey(), key)) {
+                  V old = entry.getValue();
+                  entry.setValue(value);
+                  return old;
+              }
+          }
+          entries.add(new SimpleEntry<>(key, value));
+          return null;
+      }
+  
+      public static void main(String[] args) {
+          CustomMap<String, Integer> map = new CustomMap<>();
+          map.put("Alice", 30);
+          map.put("Bob", 25);
+          map.put("Charlie", 35);
+          System.out.println("CustomMap entries: " + map);
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>entrySet():</b> Abstract method that must be implemented by subclasses to return a set of key-value mappings.</li>
+      <li><b>put(K key, V value):</b> Adds a key-value pair (default behavior can be overridden).</li>
+      <li><b>putAll(Map<? extends K, ? extends V> m):</b> Adds all entries from another map.</li>
+      <li><b>containsKey(Object key), containsValue(Object value):</b> Checks if key or value exists.</li>
+      <li><b>isEmpty(), size():</b> Checks if map is empty or returns number of entries.</li>
+      <li><b>remove(Object key):</b> Removes entry by key (default implementation iterates through entrySet).</li>
+      <li><b>toString():</b> Returns string representation of map.</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - AbstractMap stores a <b>skeletal structure</b> and delegates storage mechanism to subclasses.<br>
+      - Subclasses must implement <code>entrySet()</code> to provide actual key-value storage.<br>
+      - Default methods iterate over entrySet for containsKey(), containsValue(), remove(), etc.<br>
+      - Reduces repetitive code in Map implementations.
+    </p>
+  
+    <!-- 8. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Simplifies creating custom Map implementations, reduces boilerplate code, provides common functionality for all maps.</li>
+      <li><b>Disadvantages:</b> Cannot be instantiated directly, some default methods may be inefficient if entrySet is large.</li>
+    </ul>
+  
+    <!-- 9. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Always override <code>entrySet()</code> when extending AbstractMap.</li>
+        <li>Provides default implementations for many methods, reducing coding effort.</li>
+        <li>Useful in designing specialized maps like identity maps or fixed-size maps.</li>
+      </ul>
+    </div>
+  
+    <!-- 10. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API can operate on <code>entrySet()</code>.</li>
+      <li>Default methods in interfaces allow AbstractMap to remain compatible with Map enhancements.</li>
+    </ul>
+  
+    <!-- 11. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use AbstractMap as base class when creating custom Map implementations.</li>
+      <li>Combine with SimpleEntry or SimpleImmutableEntry for custom key-value storage.</li>
+      <li>Override only methods that need optimized performance; default methods handle generic cases.</li>
+    </ul>
+  
+    <!-- 12. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>Cannot be instantiated directly; must be extended.</li>
+      <li>Default methods like containsValue() iterate over all entries → O(n) complexity.</li>
+      <li>Reduces boilerplate code when creating new Map implementations.</li>
+      <li>SimpleEntry and SimpleImmutableEntry classes help with entry storage.</li>
+    </ul>
+  
+    <!-- 13. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>What is AbstractMap and why is it used?</li>
+        <li>Which methods must be implemented when extending AbstractMap?</li>
+        <li>How does AbstractMap reduce coding effort for custom maps?</li>
+        <li>Can AbstractMap be instantiated?</li>
+        <li>Explain internal working of containsKey() and remove() methods in AbstractMap.</li>
+        <li>Difference between AbstractMap and Map interface?</li>
+      </ul>
+    </div>
+  </section>
+  

@@ -1,0 +1,163 @@
+<section id="enum_set_class">
+    <h2>EnumSet</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>EnumSet</b> is a specialized <code>Set</code> implementation designed to work <b>only with enum types</b>.  
+      It is highly efficient in memory and performance because it internally uses a <b>bit vector</b> representation.
+    </p>
+    <div class="note">
+      ⚡ <b>Note:</b> Ideal for storing a fixed set of enum constants like days of the week, status codes, or flags.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>Stores only enum constants and guarantees type safety.</li>
+      <li>Does <b>not allow null</b> values.</li>
+      <li>Extremely fast operations (add, remove, contains) because of internal bit manipulation.</li>
+      <li>Maintains the natural order of enum constants (declaration order).</li>
+      <li>Not synchronized; wrap with <code>Collections.synchronizedSet()</code> if thread safety is needed.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a switchboard where each switch represents an enum constant.</li>
+      <li>ON → present in EnumSet, OFF → absent.</li>
+      <li>This makes checking, adding, or removing constants extremely fast, just like flipping a switch.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+         Collection
+             |
+             Set
+             |
+          EnumSet
+     /-----------------\
+  RegularEnumSet   JumboEnumSet
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  // Enum declaration
+  enum Day { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
+  
+  import java.util.*;
+  
+  class EnumSetDemo {
+      public static void main(String[] args) {
+          // Basic EnumSet
+          EnumSet<Day> weekend = EnumSet.of(Day.SATURDAY, Day.SUNDAY);
+          System.out.println("Weekend: " + weekend);
+  
+          // All enum constants
+          EnumSet<Day> allDays = EnumSet.allOf(Day.class);
+          System.out.println("All Days: " + allDays);
+  
+          // Empty set and add
+          EnumSet<Day> workDays = EnumSet.noneOf(Day.class);
+          workDays.add(Day.MONDAY);
+          workDays.add(Day.FRIDAY);
+          System.out.println("Work Days: " + workDays);
+  
+          // Range example
+          EnumSet<Day> midWeek = EnumSet.range(Day.TUESDAY, Day.THURSDAY);
+          System.out.println("Mid Week: " + midWeek);
+  
+          // Complement example
+          EnumSet<Day> nonWeekend = EnumSet.complementOf(weekend);
+          System.out.println("Non-weekend: " + nonWeekend);
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>allOf(Class<E> elementType)</b> – Returns an EnumSet with <b>all enum constants</b>.</li>
+      <li><b>noneOf(Class<E> elementType)</b> – Returns an <b>empty EnumSet</b>.</li>
+      <li><b>of(E e)</b> – Creates a set with <b>one enum constant</b>.</li>
+      <li><b>of(E first, E... rest)</b> – Creates a set with <b>multiple constants</b>.</li>
+      <li><b>range(E from, E to)</b> – Creates a set with <b>constants within a range</b>.</li>
+      <li><b>complementOf(EnumSet s)</b> – Returns a set with <b>all constants not in s</b>.</li>
+      <li><b>add(E e)</b> – Adds element if not already present.</li>
+      <li><b>remove(Object o)</b> – Removes the element if exists.</li>
+      <li><b>contains(Object o)</b> – Checks if the element exists.</li>
+      <li><b>iterator()</b> – Returns iterator over enum constants in natural order.</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - EnumSet uses a <b>bit vector</b> for internal storage. Each enum constant maps to a unique bit position.  
+      - Example:
+        <ul>
+          <li>Day { MONDAY, TUESDAY, WEDNESDAY }</li>
+          <li>MONDAY → 001, TUESDAY → 010, WEDNESDAY → 100</li>
+          <li>EnumSet.of(MONDAY, WEDNESDAY) → 101 in binary</li>
+        </ul>
+      - Operations like add, remove, and contains use bitwise operations → extremely fast (O(1) average time).  
+      - Small memory footprint because a single long value or long[] array is used.
+    </p>
+  
+    <!-- 8. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Very fast, memory-efficient, maintains natural enum order, type-safe.</li>
+      <li><b>Disadvantages:</b> Works only with enums, does not allow null, not synchronized.</li>
+    </ul>
+  
+    <!-- 9. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Perfect for representing flags or finite enum sets.</li>
+        <li>Use complementOf() to quickly get inverse sets.</li>
+        <li>Iteration order = enum declaration order.</li>
+      </ul>
+    </div>
+  
+    <!-- 10. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API support (<code>enumSet.stream()</code>).</li>
+      <li>Java 21+: Minor internal optimizations, still the most efficient enum collection.</li>
+    </ul>
+  
+    <!-- 11. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Prefer EnumSet over HashSet<Enum> for performance-sensitive tasks.</li>
+      <li>Use with EnumMap for key-value mapping of enums.</li>
+      <li>Use complementOf() to avoid manual filtering operations.</li>
+    </ul>
+  
+    <!-- 12. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>Null not allowed → throws NullPointerException.</li>
+      <li>Only enum types allowed → throws IllegalArgumentException otherwise.</li>
+      <li>Maintains natural order, not insertion order.</li>
+      <li>EnumSet is highly optimized; HashSet<Enum> is slower.</li>
+    </ul>
+  
+    <!-- 13. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>What is EnumSet and how is it different from HashSet?</li>
+        <li>Can EnumSet store null values?</li>
+        <li>How does EnumSet store enum constants internally?</li>
+        <li>Difference between RegularEnumSet and JumboEnumSet?</li>
+        <li>What is complementOf() method?</li>
+        <li>Is EnumSet synchronized? How to make it thread-safe?</li>
+        <li>Time complexity of add(), remove(), contains()?</li>
+      </ul>
+    </div>
+  </section>
+  

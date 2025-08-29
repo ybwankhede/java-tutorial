@@ -1,0 +1,204 @@
+<section id="encapsulation">
+    <h2>Encapsulation</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        Encapsulation means wrapping <em>data (fields/variables)</em> and <em>behavior (methods)</em> together into a
+        single unit (a class).
+        It also means <strong>hiding internal details</strong> and only exposing necessary features through
+        <strong>getters and setters</strong>.
+    </p>
+
+    <div class="tip">
+        <strong>Simple Memory Trick:</strong>
+        Think of <strong>capsule medicine</strong> – many ingredients are hidden inside a small capsule.
+        You don’t need to know the formula, you just use it safely. Same with classes!
+    </div>
+
+    <h3>Real-Life Examples</h3>
+    <ul>
+        <li><strong>ATM Machine:</strong> You only press buttons, but internal banking logic is hidden.</li>
+        <li><strong>Car:</strong> You press the accelerator, but engine working is hidden.</li>
+        <li><strong>Mobile Phone:</strong> You click icons, but internal code is hidden.</li>
+    </ul>
+
+    <h3>Example</h3>
+    <pre>
+   // Encapsulation Example
+	class BankAccount {
+		// private fields (hidden from outside)
+		private String accountNumber;
+		private double balance;
+
+		// constructor
+		public BankAccount(String accountNumber, double balance) {
+			this.accountNumber = accountNumber;
+			this.balance = balance;
+		}
+
+		// public getter and setter methods
+		public String getAccountNumber() {
+			return accountNumber;  // controlled access
+		}
+
+		public double getBalance() {
+			return balance;        // read-only access
+		}
+
+		public void deposit(double amount) {
+			if (amount > 0) balance += amount;
+		}
+
+		public void withdraw(double amount) {
+			if (amount > 0 && balance >= amount) balance -= amount;
+		}
+	}
+
+	public class TestEncapsulation {
+		public static void main(String[] args) {
+			BankAccount acc = new BankAccount("ABC123", 1000);
+
+			// accessing data through methods, not directly
+			acc.deposit(500);
+			acc.withdraw(200);
+			System.out.println("Balance: " + acc.getBalance()); // 1300.0
+		}
+	}
+	</pre>
+
+    <h3>UML Representation</h3>
+    <pre>
+    ------------------------
+    |     BankAccount      |
+    ------------------------
+    - accountNumber : String
+    - balance       : double
+    ------------------------
+    + getAccountNumber() : String
+    + getBalance() : double
+    + deposit(amount: double) : void
+    + withdraw(amount: double) : void
+    ------------------------
+  </pre>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li><strong>Data hiding:</strong> internal details are safe from direct access.</li>
+        <li><strong>Controlled access:</strong> via getters and setters.</li>
+        <li><strong>Easy maintenance:</strong> changes inside the class don’t affect outside code.</li>
+        <li><strong>Improves security:</strong> prevents misuse of data.</li>
+        <li><strong>Reusability:</strong> encapsulated classes can be reused easily.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li><strong>More code:</strong> need getters and setters for fields.</li>
+        <li><strong>Overuse risk:</strong> too much hiding can make debugging harder.</li>
+    </ul>
+
+    <h3>Specific Keywords</h3>
+    <ul>
+        <li><code>private</code> → used to hide data members.</li>
+        <li><code>public</code> → used for methods that provide access.</li>
+        <li><code>getter/setter</code> → common Java convention.</li>
+        <li><code>POJO</code> (Plain Old Java Object) → encapsulated class with fields + getters/setters.</li>
+        <li><code>JavaBeans</code> → standard encapsulation style (private fields, public getters/setters).</li>
+    </ul>
+
+    <h3>Focused Keywords</h3>
+    <ul>
+        <li><strong>Encapsulation = Data hiding + Access control</strong></li>
+        <li>Implemented using <strong>access modifiers</strong> (<code>private</code>, <code>public</code>).</li>
+        <li>POJOs, DTOs, and JavaBeans are examples.</li>
+        <li>Helps in <strong>security, modularity, and maintainability</strong>.</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>
+            <strong>Java Records (Java 16+):</strong>
+            Introduced as a concise way to declare immutable data classes.
+            Records automatically provide <code>private final</code> fields and public getters,
+            reducing boilerplate while keeping encapsulation intact.
+            <pre>
+    public record EmployeeRecord(String name, double salary) {}
+    // Immutable by default, encapsulated with private final fields.
+    </pre>
+        </li>
+        <li>
+            <strong>Sealed Classes (Java 17+):</strong>
+            Restrict which classes can extend or implement a type.
+            Useful for encapsulating a type hierarchy and controlling API exposure.
+            <pre>
+    public sealed class Employee permits Manager, Developer {}
+    </pre>
+        </li>
+        <li>
+            <strong>Pattern Matching for instanceof (Java 16+):</strong>
+            Reduces boilerplate when working with encapsulated objects.
+            <pre>
+    if (obj instanceof Employee e) {
+        System.out.println(e.getName());
+    }
+    </pre>
+        </li>
+        <li>
+            <strong>Encapsulation in Modules (Java 9+):</strong>
+            The Java Platform Module System allows hiding packages from external access
+            unless explicitly exported, strengthening encapsulation at the package/module level.
+            <pre>
+    // module-info.java
+    module com.company.hr {
+        exports com.company.hr.api; // Internal packages remain hidden
+    }
+    </pre>
+        </li>
+        <li>
+            <strong>Records with Validation (Java 16+):</strong>
+            You can add compact constructors in records to enforce rules while keeping data immutable.
+            <pre>
+    public record EmployeeRecord(String name, double salary) {
+        public EmployeeRecord {
+            if (salary &lt;= 0) throw new IllegalArgumentException("Salary must be positive");
+        }
+    }
+    </pre>
+        </li>
+    </ul>
+
+    <div class="card">
+        <h3>Enhancement Tips</h3>
+        <div class="tip">
+            - <strong>Encapsulation = Binding data + methods, while hiding implementation using access modifiers.</strong>
+            - Avoid generating getters/setters blindly — expose only what’s necessary.<br>
+            - Consider making classes immutable where possible to reduce state-related bugs.<br>
+            - Use <code>records</code> (Java 16+) for data carriers when immutability is desired.<br>
+            - In Spring Boot, use DTOs to avoid exposing entity objects directly.<br>            
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Notes</h3>
+        <div class="note">
+            - Encapsulation is not just about private fields — it’s about designing APIs that expose only the necessary
+            functionality. Modern Java features like records,
+            sealed classes, and modules extend encapsulation from class level to application architecture level.<br>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Interview Questions</h3>
+        <div class="interview">
+            - Q: What is Encapsulation in Java? Explain in your own words.<br>
+            - Q: How is Encapsulation different from Abstraction?<br>
+            - Q: Why do we make fields <code>private</code> in Java?<br>
+            - Q: Can we achieve Encapsulation without getters and setters?<br>
+            - Q: Give a real-life example of Encapsulation.<br>
+            - Q: How does Encapsulation improve code security?<br>
+            - Q: What happens if we make all fields <code>public</code> in a class?<br>
+            - Q: What is the difference between a POJO and a JavaBean?<br>
+            - Q: Is Encapsulation related to access modifiers? How?<br>
+            - Q: Write a simple Java program to demonstrate Encapsulation.<br>
+        </div>
+    </div>
+</section>

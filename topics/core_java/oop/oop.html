@@ -1,0 +1,74 @@
+<section id="oop">
+  <h2>Object-Oriented Programming (OOP)</h2>
+  <p><b>Definition:</b> Object-Oriented Programming (OOP) is a programming paradigm based on the concept of "objects",
+    which can contain data (fields) and code (methods). In Java, everything revolves around classes and objects.</p>
+
+  <div class="note">Note: Java is a pure object-oriented language except for primitive data types.</div>
+
+  <h2>Four Main OOP Principles</h2>
+  <h3>Encapsulation</h3>
+  <p>Wrapping data and methods together (Hide internal state and expose behavior via methods). Achieved via
+    <code>private</code> fields and public getters/setters.</p>
+  <pre>
+    class Employee {
+      private String name;
+      public String getName() { return name; }
+      public void setName(String n) { name = n; }
+    }
+  </pre>
+
+  <h3>Inheritance</h3>
+  <p>Acquiring properties and behavior from another class using <code>extends</code>.</p>
+  <pre>
+    class Animal { void eat() { System.out.println("Eating..."); } }
+    class Dog extends Animal { void bark() { System.out.println("Barking..."); } }
+  </pre>
+
+  <h3>Polymorphism</h3>
+  <p>Same method name, different implementations (Overloading & Overriding).</p>
+  <pre>
+    class Shape { void draw() { System.out.println("Drawing shape"); } }
+    class Circle extends Shape { void draw() { System.out.println("Drawing circle"); } }
+  </pre>
+
+  <h3>Abstraction</h3>
+  <p>Hiding implementation details via <code>abstract classes</code> or <code>interfaces</code>.</p>
+  <pre>
+    interface Vehicle { void move(); }
+    class Car implements Vehicle { public void move() { System.out.println("Car moves"); } }
+  </pre>
+
+  <h3>Pros & Cons of OOP</h3>
+  <h3>Pros:</h3>
+  <ul>
+    <li>Code reusability</li>
+    <li>Scalability</li>
+    <li>Maintainability</li>
+  </ul>
+  <h3>Cons:</h3>
+  <ul>
+    <li>Higher memory usage</li>
+    <li>More complex design</li>
+  </ul>
+
+  <div class="card">
+    <h3>Enhancement Tips</h3>
+    <div class="tip">
+      - Always prefer composition over inheritance.<br>
+      - Design for interfaces, not implementations.<br>
+      - Favor interfaces for API design and small, focused abstractions. Use abstract classes when
+      multiple implementations share state or common logic.<br>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Interview Notes</h3>
+    <div class="interview">
+      - Q: Explain the difference between abstract class and interface.<br>
+      - Q: How does Java achieve multiple inheritance?<br>
+      - Q: When to use method overloading vs overriding?<br>
+    </div>
+  </div>
+</section>
+
+</div>

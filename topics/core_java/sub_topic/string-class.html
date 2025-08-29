@@ -1,0 +1,403 @@
+<section id="string-class">
+    <h2>String Class</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        In Java, <code>String</code> is a <strong>class</strong> that represents a sequence of characters.
+        It is part of <code>java.lang</code> package.
+        Unlike primitive data types, <code>String</code> is a <strong>reference type</strong>.
+        Strings in Java are <strong>immutable</strong>, meaning once created, their value cannot be changed.
+    </p>
+
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <strong>String</strong> as a <em>sentence written on paper</em>.
+        Once written in pen (immutable), you cannot erase it.
+        If you want a change, you create a <em>new paper (new String object)</em>.
+    </p>
+    <p>
+        For example, your name written as "Nisha" is a String.
+        If you want to change it to "Nisha Wankhede", Java will create a <strong>new String object</strong>.
+    </p>
+
+    <!-- Examples -->
+    <h3>Examples</h3>
+    <pre>
+    // String creation
+    String s1 = "Hello";             // String literal
+    String s2 = new String("Hello"); // Using new keyword
+    
+    // String concatenation
+    String name = "Nisha";
+    String fullName = name + " Wankhede";
+    
+    // Checking immutability
+    String str = "Java";
+    str.concat(" Programming"); 
+    System.out.println(str); // Output: Java (unchanged)
+    
+    // Correct way
+    str = str.concat(" Programming");
+    System.out.println(str); // Output: Java Programming
+    </pre>
+
+    <!-- UML -->
+    <h3>UML Simplified</h3>
+    <pre>
+    +-------------------+
+    |     String        |
+    +-------------------+
+    | - value[]: char   |
+    | - hash: int       |
+    +-------------------+
+    | + length()        |
+    | + charAt(int)     |
+    | + substring()     |
+    | + concat()        |
+    | + equals()        |
+    | + compareTo()     |
+    +-------------------+
+    </pre>
+
+    <!-- Advantages & Disadvantages -->
+    <h3>Advantages</h3>
+    <ul>
+        <li>Immutable → thread-safe (no accidental changes).</li>
+        <li>Stored in <strong>String Pool</strong> for memory efficiency.</li>
+        <li>Rich set of built-in methods.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>Immutability can cause memory overhead if used in loops.</li>
+        <li>For frequent modifications, <code>StringBuilder</code> or <code>StringBuffer</code> is better.</li>
+    </ul>
+
+    <!-- Java Keywords -->
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+        <li><strong>Immutable</strong>: Strings cannot be changed after creation.</li>
+        <li><strong>String Constant Pool (SCP)</strong>: Optimizes memory by reusing literals.</li>
+        <li><strong>StringBuilder</strong>: Mutable, not thread-safe, faster.</li>
+        <li><strong>StringBuffer</strong>: Mutable, thread-safe, slower than StringBuilder.</li>
+    </ul>
+
+    <!-- Realistic Example -->
+    <h3>Real-Life Example</h3>
+    <pre>
+    // Login validation example
+    String username = "admin";
+    String input = "Admin";
+    
+    // equalsIgnoreCase for case-insensitive match
+    if(username.equalsIgnoreCase(input)) {
+        System.out.println("Login Successful!");
+    } else {
+        System.out.println("Invalid Credentials!");
+    }
+    </pre>
+
+    <!-- Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li><strong>Java 9+</strong>: <code>String</code> internally uses <code>byte[]</code> instead of
+            <code>char[]</code> for memory optimization.
+        </li>
+        <li><strong>Java 11+</strong>: New methods → <code>isBlank()</code>, <code>lines()</code>, <code>strip()</code>,
+            <code>repeat()</code>.
+        </li>
+        <li><strong>Java 15+</strong>: Text Blocks (<code>"""</code>) allow multi-line Strings.</li>
+    </ul>
+    <pre>
+    // Java 15 Text Block Example
+    String json = """
+    {
+        "name": "Yogesh",
+        "role": "Developer"
+    }
+    """;
+    </pre>
+
+    <!-- Enhancement Tips -->
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Use <code>StringBuilder</code> for loops or frequent changes.<br>
+            - Use <code>equals()</code> or <code>equalsIgnoreCase()</code> instead of <code>==</code>.<br>
+            - Use <code>String.intern()</code> carefully for memory optimization.<br>
+            - Text Blocks (<code>"""</code>) are great for JSON, SQL, and XML readability.<br>
+            - Remember that <code>String</code> objects are <strong>final</strong> and cannot be extended.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: What is the difference between <code>String</code>, <code>StringBuilder</code>, and
+            <code>StringBuffer</code>?<br>
+            - Q: Why are Strings immutable in Java?<br>
+            - Q: What is the String Constant Pool?<br>
+            - Q: How does <code>equals()</code> differ from <code>==</code> when comparing Strings?<br>
+            - Q: Which one is faster: concatenation using <code>+</code> or <code>StringBuilder</code>?<br>
+            - Q: What happens if we use <code>new String("Hello")</code> vs <code>"Hello"</code>?<br>
+            - Q: How does <code>intern()</code> method work?<br>
+        </div>
+    </div>
+
+</section>
+
+<section id="string-builder">
+    <h2>StringBuilder</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        <b>StringBuilder</b> in Java is a class used to create <b>mutable (changeable)</b> strings. Unlike the
+        <code>String</code> class, where every modification creates a new object, <code>StringBuilder</code> allows us
+        to modify the same object without creating new ones.
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <b>String</b> as a <b>sealed envelope</b> – if you want to change the text inside, you need to create
+        a new envelope.
+        But <b>StringBuilder</b> is like a <b>whiteboard</b> – you can keep erasing and writing without replacing the
+        board itself.
+    </p>
+
+    <h3>Example</h3>
+    <p>Suppose we are building a sentence word by word:</p>
+    <pre>
+    // Using String (creates new object every time)
+    String sentence = "Hello";
+    sentence = sentence + " World";
+    sentence = sentence + " Java";
+
+    // Using StringBuilder (same object, faster)
+    StringBuilder sb = new StringBuilder("Hello");
+    sb.append(" World");
+    sb.append(" Java");
+    System.out.println(sb.toString());
+  </pre>
+
+    <h3>UML Representation</h3>
+    <div class="uml">
+        + StringBuilder<br>
+        ----------------------<br>
+        + append(String): StringBuilder<br>
+        + insert(int, String): StringBuilder<br>
+        + delete(int, int): StringBuilder<br>
+        + reverse(): StringBuilder<br>
+        + capacity(): int<br>
+        + length(): int<br>
+    </div>
+
+    <h3>Key Methods</h3>
+    <ul>
+        <li><b>append()</b> → adds text at the end</li>
+        <li><b>insert()</b> → inserts text at a given index</li>
+        <li><b>delete()</b> → removes a part of text</li>
+        <li><b>replace()</b> → replaces characters between indexes</li>
+        <li><b>reverse()</b> → reverses the string</li>
+        <li><b>capacity()</b> → shows current buffer capacity</li>
+        <li><b>ensureCapacity()</b> → increases buffer if required</li>
+    </ul>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li>Faster than <code>String</code> when modifying repeatedly.</li>
+        <li>Uses less memory as it reuses the same object.</li>
+        <li>Provides useful methods like <code>reverse()</code>, <code>delete()</code>.</li>
+        <li>More flexible in handling large text dynamically.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li><b>Not thread-safe</b> (unlike <code>StringBuffer</code>).</li>
+        <li>Overhead if used in single short string operations.</li>
+        <li>Must call <code>toString()</code> to convert back to <code>String</code>.</li>
+    </ul>
+
+    <h3>Specific Keywords & Notes</h3>
+    <ul>
+        <li><b>Mutable</b> → Can be changed after creation.</li>
+        <li><b>Heap memory buffer</b> → StringBuilder maintains an internal buffer that expands when needed.</li>
+        <li><b>Capacity vs Length</b> →
+            <ul>
+                <li><b>length()</b> → actual number of characters stored.</li>
+                <li><b>capacity()</b> → total available storage without resizing.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Real-Life Example</h3>
+    <pre>
+    StringBuilder log = new StringBuilder();
+    log.append("User Login: ").append("Yogesh").append("\n");
+    log.append("Time: ").append(System.currentTimeMillis()).append("\n");
+    log.append("Status: Success");
+
+    System.out.println(log.toString());
+    </pre>
+    <p class="note">👉 Instead of creating multiple strings for logs, we build everything in one mutable buffer.</p>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Still relevant and widely used in Java 8 → 21.</li>
+        <li>Often combined with <b>Streams</b> or <b>Collectors.joining()</b> for string building.</li>
+        <li><b>Java 11+</b> introduced <code>String::repeat</code> which sometimes reduces the need for
+            <code>StringBuilder</code> in loops.
+        </li>
+        <li><b>Java 21</b> (preview features) → pattern matching & string templates reduce boilerplate, but
+            StringBuilder is still needed for performance-critical operations.</li>
+    </ul>
+
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Use <b>StringBuilder</b> for <i>single-threaded</i> apps.<br>
+            - Use <b>StringBuffer</b> for <i>multi-threaded</i> scenarios.<br>
+            - Initialize with expected capacity to avoid resizing overhead: <br>
+            <pre>StringBuilder sb = new StringBuilder(1000);</pre> <br>
+            - For Java 8+ projects, sometimes <code>Collectors.joining()</code> can be more readable.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: Difference between String, StringBuilder, and StringBuffer?<br>
+            - Q: Why is String immutable but StringBuilder mutable?<br>
+            - Q: When would you prefer StringBuilder over String?<br>
+            - Q: What is the initial capacity of StringBuilder?<br>
+            - Q: Is StringBuilder thread-safe? If not, what’s the alternative?<br>
+            - Q: Can StringBuilder be used in Java 8 Streams or newer APIs?<br>
+        </div>
+    </div>
+
+</section>
+
+<section id="string-buffer">
+    <h1>Java StringBuffer</h1>
+
+    <p>
+        <strong>Definition:</strong><br>
+        <b>StringBuffer</b> in Java is a <b>mutable</b> (changeable) sequence of characters.
+        Unlike <code>String</code> (which is immutable), <code>StringBuffer</code> lets you
+        <b>modify the content</b> (append, insert, delete, replace) without creating new objects.
+    </p>
+
+    <h2>Simple Understanding</h2>
+    <p>
+        Imagine you are writing notes on a <b>whiteboard</b>. You can erase, rewrite, or add text anytime.
+        That’s how <code>StringBuffer</code> works → you don’t need to buy a new whiteboard every time, you just edit
+        the existing one.
+    </p>
+
+    <h2>Examples</h2>
+    <pre>
+    // Example: StringBuffer operations
+    public class StringBufferDemo {
+        public static void main(String[] args) {
+            StringBuffer sb = new StringBuffer("Hello");
+
+            sb.append(" World");       // Add text
+            sb.insert(5, ",");         // Insert comma
+            sb.replace(0, 5, "Hi");    // Replace part
+            sb.delete(2, 3);           // Delete character
+            sb.reverse();              // Reverse content
+
+            System.out.println(sb);    // Output: dlroW iH
+        }
+    }
+    </pre>
+
+    <h2>UML Diagram (Text-based)</h2>
+    <pre>
+    java.lang.Object
+            │
+    java.lang.AbstractStringBuilder
+            │
+    java.lang.StringBuffer
+    </pre>
+
+    <h2>Advantages</h2>
+    <div>
+        <ul>
+            <li><b>Mutable:</b> Changes happen on the same object, saves memory.</li>
+            <li><b>Thread-safe:</b> All methods are synchronized → safe in multithreading.</li>
+            <li>Good for <b>string operations in concurrent programs</b>.</li>
+            <li>Provides many useful methods (append, insert, reverse, etc.).</li>
+        </ul>
+    </div>
+
+    <h2>Disadvantages</h2>
+    <div>
+        <ul>
+            <li><b>Slower</b> than StringBuilder because of synchronization overhead.</li>
+            <li>For single-threaded applications, using <code>StringBuilder</code> is faster.</li>
+        </ul>
+    </div>
+
+    <h2>Specific Keywords & Concepts</h2>
+    <ul>
+        <li>Class belongs to <code>java.lang</code> package.</li>
+        <li>Extends <code>AbstractStringBuilder</code>.</li>
+        <li>Implements <code>Serializable</code>, <code>CharSequence</code>.</li>
+        <li>Methods are <b>synchronized</b> for thread-safety.</li>
+    </ul>
+
+    <h2>Real-Life Example</h2>
+    <pre>
+    // Simulating a chat message editing feature
+    class ChatMessage {
+        public static void main(String[] args) {
+            StringBuffer message = new StringBuffer("Hi friend");
+
+            System.out.println("Original: " + message);
+
+            // User edits the message
+            message.append(", how are you?");
+            System.out.println("Edited: " + message);
+
+            // User deletes a word
+            message.delete(3, 10);
+            System.out.println("After Delete: " + message);
+        }
+    }
+    </pre>
+
+    <h2>Latest Java Updates</h2>
+    <ul>
+        <li>From Java 9 onwards, <code>String</code>, <code>StringBuilder</code>, and <code>StringBuffer</code> use a
+            <b>compact strings mechanism</b> (byte[] instead of char[]) for memory efficiency.
+        </li>
+        <li>Still relevant in multithreaded apps where multiple threads update a string safely.</li>
+    </ul>
+
+    <!-- ✅ Enhancement Tips -->
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Prefer <code>StringBuilder</code> in single-threaded performance-critical apps.<br>
+            - Use <code>StringBuffer</code> only when <b>multiple threads</b> modify the same string.<br>
+            - Check <b>initial capacity</b> in constructors to avoid resizing overhead.<br>
+            - Use <code>toString()</code> to convert into immutable String for safe usage.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: Difference between String, StringBuffer, and StringBuilder?<br>
+            - Q: Why is StringBuffer thread-safe? How is it achieved?<br>
+            - Q: Which one is better in a single-threaded environment?<br>
+            - Q: Can StringBuffer store <code>null</code> values?<br>
+            - Q: How does StringBuffer manage capacity internally?<br>
+        </div>
+    </div>
+
+</section>

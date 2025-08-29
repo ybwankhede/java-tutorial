@@ -1,0 +1,187 @@
+<section id="hash_map_class">
+    <h2>HashMap</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>HashMap</b> is an implementation of the <code>Map</code> interface that stores <b>key-value pairs</b>.  
+      It allows <b>null key</b> once and <b>null values</b> multiple times.  
+      Internally, it uses a <b>hash table</b> for fast lookup.
+    </p>
+    <div class="note">
+      ⚡ HashMap does not maintain any order of keys. For ordered map, consider <b>LinkedHashMap</b>.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>Each key is unique; values can be duplicated.</li>
+      <li>HashMap uses <b>hashCode()</b> of the key to find the bucket.</li>
+      <li>Operations like <code>get()</code>, <code>put()</code>, and <code>remove()</code> are O(1) on average.</li>
+      <li>When multiple keys have same hash → forms a linked list or balanced tree (Java 8+).</li>
+      <li>Not synchronized; use <code>Collections.synchronizedMap()</code> or <code>ConcurrentHashMap</code> for thread safety.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a dictionary where each word (key) maps to its meaning (value).</li>
+      <li>Looking up a word → <code>get(key)</code>, adding a new word → <code>put(key, value)</code>.</li>
+      <li>Hashing ensures we quickly jump to the right page (bucket) instead of scanning the whole dictionary.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+            Map
+             |
+        HashMap<K,V>
+             |
+    ----------------------
+    | Key (hashCode) -> Bucket |
+    | Value                    |
+    | Next/Tree Node           |
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  import java.util.*;
+  
+  class HashMapDemo {
+      public static void main(String[] args) {
+          // Create a HashMap
+          HashMap<String, Integer> map = new HashMap<>();
+  
+          // Add key-value pairs
+          map.put("Alice", 30);
+          map.put("Bob", 25);
+          map.put("Charlie", 35);
+          map.put(null, 50); // null key allowed
+          map.put("David", null); // null value allowed
+  
+          System.out.println("HashMap: " + map);
+  
+          // Get value by key
+          System.out.println("Alice's age: " + map.get("Alice"));
+  
+          // Remove a key
+          map.remove("Bob");
+          System.out.println("After removal: " + map);
+  
+          // Iteration over key-value pairs
+          for(Map.Entry<String, Integer> entry : map.entrySet()) {
+              System.out.println(entry.getKey() + " => " + entry.getValue());
+          }
+  
+          // Check existence
+          System.out.println("Contains key Charlie? " + map.containsKey("Charlie"));
+          System.out.println("Contains value 35? " + map.containsValue(35));
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>put(K key, V value):</b> Adds key-value pair or updates value if key exists.</li>
+      <li><b>get(Object key):</b> Returns value associated with the key.</li>
+      <li><b>remove(Object key):</b> Removes key-value pair by key.</li>
+      <li><b>containsKey(Object key):</b> Checks if key exists.</li>
+      <li><b>containsValue(Object value):</b> Checks if value exists.</li>
+      <li><b>keySet():</b> Returns a set of keys.</li>
+      <li><b>values():</b> Returns a collection of values.</li>
+      <li><b>entrySet():</b> Returns set of key-value mappings.</li>
+      <li><b>putIfAbsent(K key, V value):</b> Adds key-value if key is absent (Java 8+).</li>
+      <li><b>compute(), computeIfAbsent(), computeIfPresent():</b> For advanced functional updates (Java 8+).</li>
+      <li><b>merge():</b> Combine values if key exists (Java 8+).</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - HashMap stores data in <b>buckets</b> determined by the hashCode of the key.  
+      - Each bucket can have:
+        <ul>
+          <li>Linked list of nodes (Java 7+)</li>
+          <li>Balanced tree if collision list > 8 nodes (Java 8+)</li>
+        </ul>
+      - Adding an element:
+        <ol>
+          <li>Compute hash → determine bucket.</li>
+          <li>If bucket empty → create new node.</li>
+          <li>If bucket exists → check for key equality and replace value or append.</li>
+          <li>If collisions > 8 → convert to tree for faster lookup.</li>
+        </ol>
+      - Resizing happens when load factor exceeds 0.75 (default).
+    </p>
+  
+    <!-- 8. Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Bucket Index: 0   1   2   3
+  Nodes:        null  Alice->30  Charlie->35  Bob->25
+  Linked nodes for collisions:
+    Alice->Charlie->David
+  After resizing and tree conversion (Java 8+):
+    Bucket 1: Balanced Red-Black Tree
+    </pre>
+  
+    <!-- 9. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Fast lookup, allows null key/value, flexible for key-value mapping, widely used.</li>
+      <li><b>Disadvantages:</b> Unordered, not thread-safe, may have collisions affecting performance, memory overhead for nodes.</li>
+    </ul>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Use HashMap when insertion order does not matter.</li>
+        <li>Use LinkedHashMap if order is important.</li>
+        <li>ConcurrentHashMap for multithreaded environment.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Functional methods (compute, merge, putIfAbsent).</li>
+      <li>Java 8+: Bucket conversion to balanced tree if collisions > 8.</li>
+      <li>Java 17–21: Minor performance optimizations internally.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Pre-size HashMap to reduce rehashing.</li>
+      <li>Use proper hashCode() and equals() implementations for custom objects as keys.</li>
+      <li>Use functional methods for cleaner updates and atomic operations (Java 8+).</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>HashMap allows one null key and multiple null values.</li>
+      <li>Order is unpredictable → do not rely on iteration order.</li>
+      <li>Collision handling uses linked list or balanced tree depending on Java version.</li>
+      <li>Time complexity: O(1) average, O(n) worst case.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>What is HashMap and how does it work internally?</li>
+        <li>Difference between HashMap and Hashtable?</li>
+        <li>Time complexity of put(), get(), remove()?</li>
+        <li>How does HashMap handle collisions?</li>
+        <li>Can HashMap store null key and null value?</li>
+        <li>Difference between HashMap, LinkedHashMap, TreeMap?</li>
+        <li>Explain Java 8 improvements in HashMap internal working.</li>
+        <li>Why do we override hashCode() and equals() for keys?</li>
+      </ul>
+    </div>
+  </section>
+  

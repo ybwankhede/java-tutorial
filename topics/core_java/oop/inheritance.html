@@ -1,0 +1,125 @@
+<section id="inheritance" class="topic-section">
+    <h2>Inheritance</h2>
+  
+    <p>
+      <strong>Definition:</strong><br>
+      Inheritance is one of the four main principles of Object-Oriented Programming (OOP).
+      It allows a new class (child/subclass) to reuse the fields and methods of an existing class (parent/superclass).
+      In Java, inheritance is achieved using the <strong>extends</strong> keyword.
+    </p>
+  
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of inheritance like a family tree:
+      a child inherits qualities (like eye color, height) from their parents.
+      Similarly, in Java, a subclass inherits variables and methods from its parent class.
+    </p>
+    <p>
+      Example: A <strong>Car</strong> is a type of <strong>Vehicle</strong>. 
+      A <strong>Dog</strong> is a type of <strong>Animal</strong>. This is called an <strong>“is-a” relationship</strong>.
+    </p>
+  
+    <h3>Real-Life Example</h3>
+    <p>
+      Let’s say we have a <strong>BankAccount</strong> class. 
+      A <strong>SavingsAccount</strong> and <strong>CurrentAccount</strong> both share common features like <code>accountNumber</code> and <code>balance</code>.
+      Instead of writing the same code twice, we put shared code in <strong>BankAccount</strong> and let <strong>SavingsAccount</strong> and <strong>CurrentAccount</strong> inherit it.
+    </p>
+  
+    <h3>Example</h3>
+    <pre>
+      // Parent class
+      class Vehicle {
+          String brand = "Generic Vehicle";
+          void drive() {
+              System.out.println("This vehicle is moving...");
+          }
+      }
+  
+      // Child class
+      class Car extends Vehicle {
+          String model = "Sedan";
+          void honk() {
+              System.out.println("Beep! Beep!");
+          }
+      }
+  
+      public class InheritanceExample {
+          public static void main(String[] args) {
+              Car myCar = new Car();
+              System.out.println("Brand: " + myCar.brand);   // Inherited from Vehicle
+              myCar.drive();   // Inherited method
+              myCar.honk();    // Child's own method
+          }
+      }
+    </pre>
+  
+    <h3>UML Representation</h3>
+    <pre>
+    Vehicle
+       |
+       --> Car
+    </pre>
+  
+    <h3>Advantages</h3>
+    <ul>
+      <li>Code reusability – write once, reuse in child classes.</li>
+      <li>Logical hierarchy – organizes real-world relationships.</li>
+      <li>Extensibility – add new features easily by extending classes.</li>
+      <li>Polymorphism – subclass objects can be treated as parent type.</li>
+    </ul>
+  
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>Tight coupling between parent and child classes.</li>
+      <li>If parent class changes, child classes may break (fragile design).</li>
+      <li>Can be misused leading to deep inheritance trees → hard to maintain.</li>
+      <li>Multiple inheritance not supported with classes (only via interfaces).</li>
+    </ul>
+  
+    <h3>Focused Keywords</h3>
+    <ul>
+      <li><strong>extends</strong> → used for class inheritance</li>
+      <li><strong>super</strong> → refers to parent class methods/constructors</li>
+      <li><strong>this</strong> → refers to the current object</li>
+      <li><strong>final</strong> → prevents inheritance</li>
+      <li><strong>abstract</strong> → base class with unimplemented methods</li>	
+      <li><strong>Superclass (Parent Class):</strong> The class whose features are inherited.</li>
+      <li><strong>Subclass (Child Class):</strong> The class that inherits features from the superclass.</li>
+      <li><strong>Keyword:</strong> <code>extends</code> is used for class inheritance.</li>
+      <li><strong>Single Inheritance:</strong> A class inherits from one superclass.</li>
+      <li><strong>Multilevel Inheritance:</strong> A class inherits from another class, which itself inherits from another.</li>
+      <li><strong>Hierarchical Inheritance:</strong> Multiple classes inherit from one superclass.</li>
+      <li><strong>Java Limitation:</strong> Java does not support multiple inheritance with classes (only via interfaces) to avoid ambiguity (Diamond Problem).</li>
+    </ul>
+  
+    <h3>Updated Java Features</h3>
+    <ul>
+      <li><strong>Records (Java 16+):</strong> final classes that inherit from <code>java.lang.Record</code>, used for data carrier objects.</li>
+      <li><strong>Sealed Classes (Java 17+):</strong> restrict which classes can extend a parent class using <code>permits</code>.</li>
+      <li><strong>Java 17+</strong> - Pattern matching in <code>instanceof</code> improves type checks in inherited structures.</li>
+      <li><strong>Multiple Inheritance with Interfaces:</strong> Java allows multiple interfaces to be implemented, solving the "diamond problem".</li>
+    </ul>
+    
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li><strong>Prefer Composition over Inheritance:</strong> Use inheritance only when there is a clear “is-a” relationship. For flexible design, composition is often better.</li>
+      <li><strong>Keep Inheritance Shallow:</strong> Avoid deep inheritance hierarchies (more than 2–3 levels), as they make debugging and maintenance difficult.</li>
+      <li><strong>Use Abstract Classes for Templates:</strong> If you want partial implementation with some abstract methods, choose <code>abstract</code> classes.</li>
+      <li><strong>Use Interfaces for Multiple Behaviors:</strong> Instead of forcing everything into a parent class, use interfaces to add extra capabilities.</li>
+      <li><strong>Sealed Classes (Java 17+):</strong> If you want controlled inheritance, sealed classes are a good modern choice.</li>
+      <li><strong>Avoid Inheriting Just for Reuse:</strong> Don’t extend a class only to reuse methods/fields; extract common code into utility/helper classes instead.</li>
+      <li><strong>Follow Liskov Substitution Principle (SOLID):</strong> Subclasses should be usable wherever the parent is expected without breaking functionality.</li>
+    </ul>
+  
+    <h3>Interview Questions</h3>
+    <ol>
+      <li>What is inheritance in Java? Give an example.</li>
+      <li>Can Java support multiple inheritance? Why not? How does it solve the problem?</li>
+      <li>What is the difference between <code>super</code> and <code>this</code>?</li>
+      <li>What are sealed classes in Java 17? How do they impact inheritance?</li>
+      <li>What’s the difference between composition and inheritance?</li>
+      <li>How does method overriding relate to inheritance?</li>
+    </ol>
+  </section>
+  

@@ -1,0 +1,143 @@
+<section id="custom_exception">
+    <h2>Custom Exception</h2>
+  
+    <!-- ✅ Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      A <b>Custom Exception</b> is a user-defined exception class in Java that extends either 
+      <code>Exception</code> (checked) or <code>RuntimeException</code> (unchecked).  
+      It is used when the built-in Java exceptions do not properly describe the problem 
+      in your application.
+    </p>
+  
+    <!-- ✅ Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of exceptions like traffic signals 🚦. Java provides standard signals like 
+      <code>NullPointerException</code>, <code>IOException</code>, etc.  
+      But in your city (your project), you might need a special signal → e.g., 
+      <i>“Vehicle Overloaded Error”</i>.  
+      That’s when you create your <b>own custom exception</b>.
+    </p>
+  
+    <!-- ✅ Example with Java Code -->
+    <h3>Example</h3>
+    <pre>
+  // Step 1: Define Custom Exception
+  class InsufficientBalanceException extends Exception {
+      public InsufficientBalanceException(String message) {
+          super(message);
+      }
+  }
+  
+  // Step 2: Use it in Business Logic
+  class BankAccount {
+      private double balance = 5000;
+  
+      public void withdraw(double amount) throws InsufficientBalanceException {
+          if (amount > balance) {
+              throw new InsufficientBalanceException(
+                  "Withdrawal failed! Available balance: " + balance
+              );
+          }
+          balance -= amount;
+          System.out.println("Withdrawal successful. Remaining balance: " + balance);
+      }
+  }
+  
+  // Step 3: Handle it
+  public class Main {
+      public static void main(String[] args) {
+          BankAccount account = new BankAccount();
+          try {
+              account.withdraw(7000); // Over-withdrawal
+          } catch (InsufficientBalanceException e) {
+              System.out.println("Error: " + e.getMessage());
+          }
+      }
+  }
+    </pre>
+  
+    <!-- ✅ UML -->
+    <h3>UML Representation</h3>
+    <pre>
+  Throwable
+     └── Exception
+           └── InsufficientBalanceException (Custom Checked Exception)
+    </pre>
+  
+    <!-- ✅ Pros & Cons -->
+    <h3>⚖️ Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b>
+        <ul>
+          <li>Gives <b>clear meaning</b> to business errors (domain-driven).</li>
+          <li>Makes code more <b>readable</b> and <b>maintainable</b>.</li>
+          <li>Can enforce strict error handling (checked exceptions).</li>
+        </ul>
+      </li>
+      <li><b>Disadvantages:</b>
+        <ul>
+          <li>Too many custom exceptions can <b>overcomplicate</b> code.</li>
+          <li>Checked exceptions require <code>throws</code> everywhere → can lead to boilerplate.</li>
+        </ul>
+      </li>
+    </ul>
+  
+    <!-- ✅ Java Keywords -->
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+      <li><code>throw</code> → to throw exception object.</li>
+      <li><code>throws</code> → declare method may throw exception.</li>
+      <li><code>extends Exception</code> → custom checked exception.</li>
+      <li><code>extends RuntimeException</code> → custom unchecked exception.</li>
+    </ul>
+  
+    <!-- ✅ Real-life Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+      In a banking system, you can design:
+    </p>
+    <ul>
+      <li><code>InsufficientBalanceException</code></li>
+      <li><code>InvalidAccountException</code></li>
+      <li><code>TransactionLimitExceededException</code></li>
+    </ul>
+    <p>These explain business rules much better than a generic <code>Exception</code>.</p>
+    
+    <!-- ✅ Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 14+ allows helpful <b>stack trace messages</b> by default.</li>
+      <li>With <b>Records</b> (Java 16+), you can create concise custom exceptions:</li>
+    </ul>
+    <pre>
+  record MyCustomException(String message) implements Supplier&lt;RuntimeException&gt; {
+      @Override
+      public RuntimeException get() {
+          return new RuntimeException(message);
+      }
+  }
+    </code></pre>
+  
+    <!-- ✅ Tips -->
+    <h3>💡 Enhancement Tips (For Senior Devs)</h3>
+    <ul class="tip">
+      <li>Group related exceptions into a <b>hierarchy</b> (e.g., <code>BankingException → AccountException → InsufficientBalanceException</code>).</li>
+      <li>Always provide <b>meaningful messages</b> and avoid generic "Something went wrong".</li>
+      <li>Log exception details with stack trace for debugging.</li>
+      <li>Use <b>sealed classes</b> (Java 17) to restrict valid exception subtypes.</li>
+      <li>For APIs, design custom exceptions that map to <b>HTTP status codes</b> (e.g., <code>ResourceNotFoundException → 404</code>).</li>
+    </ul>
+
+    <!-- ✅ Interview Questions -->
+    <h3>🎯 Interview Questions</h3>
+    <ul class="interview">
+      <li>Why do we need custom exceptions if Java already has many built-in ones?</li>
+      <li>When should you extend <code>Exception</code> vs <code>RuntimeException</code>?</li>
+      <li>Can a custom exception be both checked and unchecked?</li>
+      <li>What is the best practice for designing exception messages?</li>
+      <li>How do custom exceptions fit into Domain-Driven Design (DDD)?</li>
+    </ul>
+  </section>
+  

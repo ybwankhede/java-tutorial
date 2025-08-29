@@ -1,0 +1,172 @@
+<section>
+    <h2>EnumMap</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>EnumMap</b> is a specialized <code>Map</code> implementation designed for use with <b>enum keys</b>.  
+      It is <b>highly efficient</b> and maintains keys in the natural order of the enum constants.
+    </p>
+    <div class="note">
+      ⚡ EnumMap cannot use null keys, but values can be null.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>Keys must be of a single <b>enum type</b>.</li>
+      <li>Maintains natural order of enum constants.</li>
+      <li>Internally uses an <b>array</b> for fast access (O(1)).</li>
+      <li>More efficient than HashMap for enum keys in terms of memory and speed.</li>
+      <li>Not synchronized; use external synchronization for multithreaded environments.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a schedule where days of the week (enum) map to planned tasks.</li>
+      <li>Accessing a task for a specific day is very fast because days are fixed and indexed.</li>
+      <li>Efficient because the total number of keys is known and constant.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+            Map
+             |
+         EnumMap<K extends Enum<K>, V>
+             - Keys: Enum constants
+             - Maintains natural order
+             - Uses array internally for storage
+             - Implements Serializable, Cloneable
+             - Core Methods: put(), get(), remove(), keySet(), values(), entrySet()
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  import java.util.*;
+  
+  enum Day {
+      MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY
+  }
+  
+  class EnumMapDemo {
+      public static void main(String[] args) {
+          // Create EnumMap
+          EnumMap<Day, String> schedule = new EnumMap<>(Day.class);
+  
+          // Add key-value pairs
+          schedule.put(Day.MONDAY, "Team Meeting");
+          schedule.put(Day.TUESDAY, "Development");
+          schedule.put(Day.WEDNESDAY, "Code Review");
+          schedule.put(Day.THURSDAY, "Testing");
+          schedule.put(Day.FRIDAY, "Deployment");
+  
+          System.out.println("EnumMap: " + schedule);
+  
+          // Get value by key
+          System.out.println("Task on Wednesday: " + schedule.get(Day.WEDNESDAY));
+  
+          // Remove a task
+          schedule.remove(Day.TUESDAY);
+          System.out.println("After removal: " + schedule);
+  
+          // Iteration
+          for(Map.Entry<Day, String> entry : schedule.entrySet()) {
+              System.out.println(entry.getKey() + " => " + entry.getValue());
+          }
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>put(K key, V value):</b> Adds key-value pair.</li>
+      <li><b>get(Object key):</b> Returns value associated with the key.</li>
+      <li><b>remove(Object key):</b> Removes key-value pair.</li>
+      <li><b>containsKey(Object key):</b> Checks if key exists.</li>
+      <li><b>containsValue(Object value):</b> Checks if value exists.</li>
+      <li><b>keySet(), values(), entrySet():</b> Returns keys, values, entries.</li>
+      <li><b>clone():</b> Returns a shallow copy of the EnumMap.</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - EnumMap uses an <b>array</b> internally to store values indexed by the ordinal of enum constants.  
+      - Adding an element:
+        <ol>
+          <li>Compute ordinal of enum key → array index.</li>
+          <li>Store value at that index.</li>
+          <li>Access by key → fetch from array using ordinal (O(1)).</li>
+        </ol>
+      - Extremely memory-efficient because array size = number of enum constants.
+    </p>
+  
+    <!-- 8. Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Enum constants: MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4)
+  Array indices: 0        1         2          3        4
+  Values:       Meeting  Development CodeReview Testing Deployment
+  Iteration order: MONDAY -> TUESDAY -> WEDNESDAY -> THURSDAY -> FRIDAY
+    </pre>
+  
+    <!-- 9. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Very fast (O(1)), memory-efficient, predictable iteration order, ideal for enum keys.</li>
+      <li><b>Disadvantages:</b> Keys must be enum; no null keys; not synchronized.</li>
+    </ul>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Use EnumMap whenever all keys are from a single enum type.</li>
+        <li>Iteration always follows natural order of enum constants.</li>
+        <li>Combine with EnumSet for highly efficient enum-based collections.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API support (entrySet().stream(), values().stream()).</li>
+      <li>Java 17–21: Internal array optimizations and better iteration performance.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Predefine enum type to make EnumMap highly memory-efficient.</li>
+      <li>Use with EnumSet for complementary operations.</li>
+      <li>Override default values for enum keys if needed for initialization.</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>13. Extra Corner Points / Interview Traps</h3>
+    <ul>
+      <li>Null keys are not allowed; null values are allowed.</li>
+      <li>Iteration order is fixed by enum declaration.</li>
+      <li>Faster and more memory-efficient than HashMap for enum keys.</li>
+      <li>Cannot mix different enum types.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>What is EnumMap and when would you use it?</li>
+        <li>How is EnumMap different from HashMap and TreeMap?</li>
+        <li>Can EnumMap store null keys or values?</li>
+        <li>Explain internal working of EnumMap.</li>
+        <li>Time complexity for get(), put(), remove()?</li>
+        <li>Why EnumMap is more memory-efficient than HashMap for enum keys?</li>
+        <li>What is the iteration order of EnumMap?</li>
+      </ul>
+    </div>
+  </section>
+  

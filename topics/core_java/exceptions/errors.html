@@ -1,0 +1,211 @@
+<section id="errors">
+
+    <h2>Errors</h2>
+    <p class="small">This page explains what Errors are in Java (distinct from Exceptions), gives code examples, UML,
+        pros/cons, Java keywords, recent JVM-related updates, real-life examples, interview questions and senior tips.
+    </p>
+
+    <!-- Simple analogy -->
+    <h3>Simple analogy</h3>
+    <p>
+        An <strong>Error</strong> is like a <em>bridge collapse</em> in a city — a severe infrastructure failure.
+        You don't "handle" a collapsed bridge inside a car — you respond at a system/administration level (evacuate,
+        rebuild, investigate).
+        In Java, <code>Error</code>s signal serious problems (JVM-level or resource exhaustion) that normal application
+        code usually shouldn't try to catch.
+    </p>
+
+    <div class="note">
+        <strong>Note:</strong> Errors are not regular bugs. They usually show either environmental problems (out of
+        memory, hardware) or JVM-level failures.
+    </div>
+
+    <!-- Java code -->
+    <h3>Examples</h3>
+
+    <h3>1. StackOverflowError (recursive call) — demonstration</h3>
+    <pre>
+    public class StackOverflowDemo {
+        // Warning: running this will crash the thread with StackOverflowError
+        static void recurse() {
+            recurse(); // infinite recursion -> StackOverflowError
+        }
+        public static void main(String[] args) {
+            try {
+                recurse();
+            } catch (StackOverflowError e) {
+                // NOT recommended to rely on catching Errors — shown here for demonstration
+                System.out.println("Caught StackOverflowError: " + e.getMessage());
+            }
+        }
+    }
+      </pre>
+
+    <h3>2. OutOfMemoryError (allocating too much) — demonstration</h3>
+    <pre>
+    public class OOMDemo {
+        public static void main(String[] args) {
+            try {
+                // Force OOM by allocating many large arrays (do not run in production)
+                List<int[]> list = new ArrayList<>();
+                while (true) list.add(new int[1_000_000]); // eventually throws OutOfMemoryError
+            } catch (OutOfMemoryError e) {
+                System.out.println("OOM: " + e.getMessage());
+            }
+        }
+    }
+      </pre>
+
+    <div class="tip">
+        <strong>Tip:</strong> The examples above are educational. In production you should <em>not</em> rely on catching
+        <code>Error</code>s — instead detect and prevent them (e.g., tune heap, avoid unbounded recursion).
+    </div>
+
+    <!-- UML -->
+    <h3>UML (Throwable hierarchy)</h3>
+    <pre>
+    Throwable
+     ├── Error
+     │    ├── VirtualMachineError
+     │    │     ├── OutOfMemoryError
+     │    │     ├── StackOverflowError
+     │    │     └── InternalError
+     │    └── LinkageError
+     │          ├── NoClassDefFoundError
+     │          └── UnsatisfiedLinkError
+     └── Exception
+          ├── CheckedException (IOException, SQLException, ...)
+          └── RuntimeException (NullPointerException, ...)
+      </pre>
+
+    <div class="note">
+        <strong>Quick read:</strong> <code>Error</code> extends <code>Throwable</code> (same root as Exceptions), but
+        indicates serious system-level issues.
+    </div>
+
+    <!-- pros/cons -->
+    <h3>Why Errors exist</h3>
+    <ul>
+        <li>Signal fatal problems that normal code cannot recover from safely (JVM integrity, resource exhaustion).</li>
+        <li>Separate class of failures so libraries and app code can choose not to catch them and keep system
+            predictable.</li>
+        <li>Help ops and monitoring systems know when to take corrective action (restart, scale, alert).</li>
+    </ul>
+
+    <h3>Drawbacks / risks</h3>
+    <ul>
+        <li>Usually unrecoverable — catching and continuing can leave program in inconsistent state.</li>
+        <li>Often indicate architectural or environment issues (memory leaks, unbounded recursion) that need fixing, not
+            catching.</li>
+        <li>Improperly handling Errors may mask critical failures and make debugging harder.</li>
+    </ul>
+
+    <!-- Java keywords -->
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+        <li><code>Throwable</code> — root superclass of all errors and exceptions.</li>
+        <li><code>Error</code> — superclass for serious system errors.</li>
+        <li><code>VirtualMachineError</code>, <code>OutOfMemoryError</code>, <code>StackOverflowError</code> — common
+            error types.</li>
+        <li><code>LinkageError</code>, <code>NoClassDefFoundError</code> — classloading/link issues.</li>
+        <li><code>try / catch / finally</code> — can catch Error, but generally discouraged for production recovery.
+        </li>
+        <li><code>Thread.setDefaultUncaughtExceptionHandler(...)</code> — handle uncaught exceptions/errors at thread
+            level for logging/restart strategies.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Important:</strong> use <code>Thread.setDefaultUncaughtExceptionHandler</code> or process-level
+        supervising (systemd, Kubernetes) for graceful handling, rather than catching <code>Error</code> in normal
+        application logic.
+    </div>
+
+    <!-- Latest Java updates -->
+    <h3>Latest Java / JVM updates</h3>
+    <ul>
+        <li><strong>Improved GC (ZGC, Shenandoah, G1)</strong> — reduces long GC pauses and helps avoid OutOfMemory
+            situations when tuned properly (available in modern JDKs, LTS: Java 17+, continued improvements through Java
+            21+).</li>
+        <li><strong>JVM diagnostics & tooling</strong> — tools like <code>jcmd</code>, <code>jmap</code>, flight
+            recorder and async-profiler help investigate OOM and native memory leaks.</li>
+        <li><strong>Helpful NullPointerException messages</strong> (since Java 14) — improves debugging, but not an
+            Error; still helpful while diagnosing root cause.</li>
+        <li><strong>Improved startup and footprint</strong> (Project Leyden / Java improvements) — helps in constrained
+            environments reducing chance of Errors caused by resource pressure.</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Ops tip:</strong> Keep your JDK/JVM up to date on LTS versions (e.g., Java 17/21) to benefit from
+        GC/diagnostics improvements that reduce Error frequency.
+    </div>
+
+    <!-- Real-life examples -->
+    <h3>Real-life examples</h3>
+    <ul>
+        <li><strong>OutOfMemoryError:</strong> Unexpected traffic spike causes heap exhaustion (e.g., unbounded
+            caching), app dies — requires heap tuning, memory leak hunt, or scaling.</li>
+        <li><strong>StackOverflowError:</strong> Infinite recursion in algorithm (bad base case) — fix code, add checks
+            or increase stack if appropriate.</li>
+        <li><strong>NoClassDefFoundError:</strong> Deployment missing a JAR or class version mismatch — fix
+            build/dependency or classpath.</li>
+        <li><strong>UnsatisfiedLinkError:</strong> Native library failed to load — wrong platform or missing native
+            dependency.</li>
+    </ul>
+
+    <!-- Tips for seniors -->
+    <h3>💡 Enhancement Tips</h3>
+    <ul>
+        <li><strong>Design for failure:</strong> assume processes can die — make services restartable and idempotent.
+        </li>
+        <li><strong>Monitor memory & threads:</strong> use metrics (heap usage, native memory, thread count) and alerts
+            before Errors escalate.</li>
+        <li><strong>Use bounded resources:</strong> limit caches, queue sizes, recursion depth, and thread pools to
+            prevent resource exhaustion.</li>
+        <li><strong>Use proper GC tuning:</strong> choose GC (G1, ZGC, Shenandoah) based on latency/throughput needs and
+            tune heap accordingly.</li>
+        <li><strong>Collect diagnostics:</strong> enable heap dumps on OOM
+            (<code>-XX:+HeapDumpOnOutOfMemoryError</code>), GC logs, and Flight Recorder for post-mortem analysis.</li>
+        <li><strong>Prefer process-level recovery:</strong> let orchestrators restart JVMs rather than try complex
+            in-process recovery from Errors.</li>
+        <li><strong>Use native memory tools:</strong> if using JNI or large direct buffers, monitor native memory and
+            use tools (jcmd, jmap, native profilers) to find leaks.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Final thought:</strong> Errors signal that something is fundamentally wrong with the runtime or
+        environment. Your goal is prevention (good code, sane limits, monitoring) and safe recovery (restart, scale,
+        fix), not catching and continuing as if nothing happened.
+    </div>
+
+    <!-- Interview questions -->
+    <h3>🎯 Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li><strong>Q:</strong> What is the difference between <code>Error</code> and <code>Exception</code>?<br>
+                <strong>A:</strong> <code>Error</code> indicates serious system/JVM issues usually not recoverable;
+                <code>Exception</code> indicates application-level problems that can often be handled.
+            </li>
+
+            <li><strong>Q:</strong> Should you catch <code>Error</code> in your application code?<br>
+                <strong>A:</strong> Generally no. Instead log and let process supervisors restart the JVM. Catching may
+                hide critical failures and leave app inconsistent.
+            </li>
+
+            <li><strong>Q:</strong> How do you handle OutOfMemoryError in production?<br>
+                <strong>A:</strong> Prevent: tune heap, fix memory leaks, use proper caching strategies, enable GC
+                logging, and use monitoring/alerting. For incidents: capture heap dump and analyze.
+            </li>
+
+            <li><strong>Q:</strong> What is NoClassDefFoundError and when does it appear?<br>
+                <strong>A:</strong> It appears when a class present at compile-time is missing at runtime
+                (classpath/deployment issue) or failed during initialization.
+            </li>
+
+            <li><strong>Q:</strong> How can you catch unexpected errors globally?<br>
+                <strong>A:</strong> Use <code>Thread.setDefaultUncaughtExceptionHandler</code> for threads, and
+                process-level supervisors (systemd, Kubernetes) to restart processes.
+            </li>
+        </ul>
+    </div>
+
+</section>

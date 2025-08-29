@@ -1,0 +1,177 @@
+<section id="state_pattern">
+    <h1>State Pattern</h1>
+    <p>
+        The <strong>State Pattern</strong> is a behavioral design pattern that lets an object change its behavior when
+        its internal state changes.
+        To the client, it looks like the object changed its class.
+    </p>
+
+    <h2>History</h2>
+    <p>
+        The State pattern was introduced in the famous "Gang of Four" (GoF) Design Patterns book (1994).
+        It was inspired by Finite State Machines (FSMs), which are commonly used in automata theory, compilers, and
+        workflow engines.
+    </p>
+
+    <h2>Real-Life Analogy</h2>
+    <ul>
+        <li><strong>Traffic Light:</strong> A traffic light changes behavior (red, green, yellow) depending on its
+            current state.</li>
+        <li><strong>Media Player:</strong> A player behaves differently if it’s in <em>Playing</em>, <em>Paused</em>, or
+            <em>Stopped</em> state.</li>
+        <li><strong>ATM Machine:</strong> Different behavior when it has money, out of service, or awaiting PIN.</li>
+    </ul>
+
+    <h2>Structure Diagram</h2>
+    <div class="diagram">
+        Context (uses State) ----> State (interface)<br>
+        | ^<br>
+        v |<br>
+        ConcreteStateA <----> ConcreteStateB
+    </div>
+
+    <h2>Java Example</h2>
+    <pre>
+// Step 1: State interface
+interface State {
+    void handleRequest();
+}
+
+// Step 2: Concrete States
+class PlayingState implements State {
+    public void handleRequest() {
+        System.out.println("Media is now playing.");
+    }
+}
+
+class PausedState implements State {
+    public void handleRequest() {
+        System.out.println("Media is paused.");
+    }
+}
+
+class StoppedState implements State {
+    public void handleRequest() {
+        System.out.println("Media stopped.");
+    }
+}
+
+// Step 3: Context
+class MediaPlayer {
+    private State state;
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void pressButton() {
+        state.handleRequest();
+    }
+}
+
+// Step 4: Demo
+public class StatePatternDemo {
+    public static void main(String[] args) {
+        MediaPlayer player = new MediaPlayer();
+
+        player.setState(new PlayingState());
+        player.pressButton(); // Media is now playing.
+
+        player.setState(new PausedState());
+        player.pressButton(); // Media is paused.
+
+        player.setState(new StoppedState());
+        player.pressButton(); // Media stopped.
+    }
+}
+  </pre>
+
+    <h2>Advantages</h2>
+    <ul>
+        <li>Encapsulates state-specific behavior.</li>
+        <li>Makes code cleaner instead of using large <code>if-else</code> or <code>switch</code> blocks.</li>
+        <li>Open/Closed Principle: Easy to add new states.</li>
+    </ul>
+
+    <h2>Disadvantages</h2>
+    <ul>
+        <li>Increases number of classes (each state is a class).</li>
+        <li>May add complexity if states are simple.</li>
+    </ul>
+
+    <h2>Use Cases</h2>
+    <ul>
+        <li>Media players (play/pause/stop).</li>
+        <li>ATM workflows (insert card, enter PIN, dispense cash).</li>
+        <li>Game characters (idle, running, jumping).</li>
+        <li>Document editing (draft, review, published).</li>
+    </ul>
+
+    <h2>Variants</h2>
+    <ul>
+        <li><strong>Classic State:</strong> Uses classes for each state (as shown above).</li>
+        <li><strong>Enum-based State:</strong> Use enums with behavior methods for lightweight states.</li>
+        <li><strong>Table-Driven State:</strong> Use a map of events to transitions instead of many classes.</li>
+    </ul>
+
+    <h3>Enum Variant Example</h3>
+    <pre>
+enum PlayerState {
+    PLAYING {
+        public void handle() { System.out.println("Playing..."); }
+    },
+    PAUSED {
+        public void handle() { System.out.println("Paused."); }
+    },
+    STOPPED {
+        public void handle() { System.out.println("Stopped."); }
+    };
+    public abstract void handle();
+}
+
+public class EnumStateDemo {
+    public static void main(String[] args) {
+        PlayerState state = PlayerState.PLAYING;
+        state.handle();
+        state = PlayerState.PAUSED;
+        state.handle();
+    }
+}
+  </pre>
+
+    <h2>Alternatives</h2>
+    <ul>
+        <li><strong>Strategy Pattern:</strong> Similar but used when behavior is interchangeable, not when it depends on
+            <em>internal state</em>.</li>
+        <li><strong>Switch-Case:</strong> Works but violates Open/Closed principle and becomes messy.</li>
+    </ul>
+
+    <h2>Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the State pattern solve?</li>
+            <li>How is State different from Strategy pattern?</li>
+            <li>Give a real-world example of the State pattern.</li>
+            <li>What are the pros/cons of using State vs switch-case?</li>
+        </ul>
+    </div>
+
+    <h2>Notes</h2>
+    <div class="note">
+        <ul>
+            <li><strong>Context:</strong> The main object whose behavior changes.</li>
+            <li><strong>State:</strong> Interface defining possible actions.</li>
+            <li><strong>ConcreteState:</strong> Implementations of state-specific behavior.</li>
+        </ul>
+    </div>
+
+    <h2>Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Start with enums if states are simple.</li>
+            <li>If states share logic, abstract it in base classes.</li>
+            <li>Great for workflow engines, games, and UI elements.</li>
+            <li>Avoid if you only have 2–3 trivial states (overkill).</li>
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,358 @@
+<section id="vector_class">
+    <h2>Vector</h2>
+
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+        <b>Vector</b> is a <b>synchronized, resizable array implementation</b> of the <code>List</code> interface.
+        It maintains <b>insertion order</b> and allows <b>duplicate elements</b>.
+        Vector is a legacy class but still part of Java Collections Framework.
+    </p>
+    <div class="note">
+        ⚡ <b>Note:</b> Vector is thread-safe because its methods are synchronized.
+        However, ArrayList is preferred in modern Java for non-threaded scenarios due to better performance.
+    </div>
+
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+        - Vector is similar to ArrayList but all its methods are synchronized.
+        - Resizes dynamically when capacity is exceeded (default growth: 100% of current capacity).
+        - Can store duplicate elements and maintains insertion order.
+        - Implements <code>List</code>, <code>RandomAccess</code>, <code>Cloneable</code>, and
+        <code>Serializable</code>.
+    </p>
+
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+        <li>Think of a synchronized bookshelf in a library where multiple librarians can safely add/remove books at the
+            same time.</li>
+        <li>Books are stored in order, and duplicates are allowed.</li>
+    </ul>
+
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  List (Interface)
+     |
+     |-- Vector (Class)
+           - extends AbstractList
+           - implements List, RandomAccess, Cloneable, Serializable
+    </pre>
+
+    <!-- 5. Java Code Examples (Basic to Advanced) -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic Vector
+  import java.util.*;
+  
+  class VectorDemo {
+      public static void main(String[] args) {
+          Vector<String> fruits = new Vector<>();
+          fruits.add("Apple");
+          fruits.add("Banana");
+          fruits.add("Apple"); // duplicates allowed
+          System.out.println("Fruits: " + fruits);
+  
+          // Access element by index
+          System.out.println("Second Fruit: " + fruits.get(1));
+  
+          // Remove element
+          fruits.remove("Banana");
+          System.out.println("After Removal: " + fruits);
+      }
+  }
+  
+  // Advanced Vector: Thread-safe operation
+  class VectorThreadSafe {
+      public static void main(String[] args) {
+          Vector<Integer> numbers = new Vector<>(5); // initial capacity = 5
+  
+          // Adding elements
+          for (int i = 1; i <= 7; i++) {
+              numbers.add(i); // automatically resizes when capacity exceeded
+          }
+          System.out.println("Numbers: " + numbers);
+  
+          // Iterating using synchronized block
+          synchronized(numbers) {
+              for (int n : numbers) {
+                  System.out.print(n + " ");
+              }
+          }
+      }
+  }
+    </pre>
+
+    <!-- 6. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b> Synchronized (thread-safe), dynamic resizing, maintains insertion order, allows
+            duplicates.</li>
+        <li><b>Disadvantages:</b> Slower than ArrayList due to synchronization overhead, legacy class (less preferred).
+        </li>
+    </ul>
+
+    <!-- 7. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+        <li>Synchronized methods – thread-safe operations</li>
+        <li>RandomAccess – fast index-based access</li>
+        <li>Cloneable – allows shallow copy</li>
+        <li>Serializable – supports object serialization</li>
+        <li>Methods: add(), get(), set(), remove(), size(), capacity(), isEmpty()</li>
+    </ul>
+
+    <!-- 8. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        Vector internally uses a <b>dynamic array</b> similar to ArrayList, but:
+    </p>
+    <ul>
+        <li>Default capacity = 10 (can be customized in constructor).</li>
+        <li>Resizes by <b>100%</b> of current capacity when exceeded.</li>
+        <li>All methods are <b>synchronized</b> for thread safety.</li>
+        <li>Random access is O(1); insertion/removal in middle is O(n).</li>
+    </ul>
+
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Initial Vector (capacity=5)
+  Index:   0    1    2    3    4
+  Data:   null null null null null
+  
+  Add Elements: "A","B","C","D","E"
+  Index:   0    1    2    3    4
+  Data:    A    B    C    D    E
+  
+  Add "F" → triggers resize (capacity doubles)
+  New capacity = 10
+  Index:   0 1 2 3 4 5 6 7 8 9
+  Data:    A B C D E F null null null null
+    </pre>
+
+    <!-- 10. Notes -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>Use Vector only when thread-safe operations are required.</li>
+            <li>ArrayList is preferred in modern Java for non-threaded code.</li>
+            <li>Vector supports all List operations: add, remove, get, set, etc.</li>
+            <li>Capacity can be set using constructor or <code>ensureCapacity()</code>.</li>
+        </ul>
+    </div>
+
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8+: Supports Stream API (<code>vector.stream()</code>).</li>
+        <li>Java 9+: Use <code>List.of()</code> for immutable lists as a modern alternative.</li>
+        <li>Vector remains legacy, mostly used for thread-safe legacy code.</li>
+    </ul>
+
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Prefer ArrayList over Vector unless thread-safety is required.</li>
+        <li>Use <code>Collections.synchronizedList()</code> for thread-safe ArrayList instead of Vector.</li>
+        <li>Predefine initial capacity to reduce resizing overhead.</li>
+    </ul>
+
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+        <li>Vector vs ArrayList: Synchronization makes Vector slower.</li>
+        <li>Legacy class – rarely used in modern applications.</li>
+        <li>Capacity doubling on overflow – may consume memory temporarily.</li>
+        <li>Vector allows null elements and duplicates.</li>
+    </ul>
+
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is the difference between Vector and ArrayList?</li>
+            <li>Why is Vector considered a legacy class?</li>
+            <li>How does Vector handle thread safety?</li>
+            <li>What happens internally when Vector exceeds capacity?</li>
+            <li>When should you prefer Vector over ArrayList?</li>
+        </ul>
+    </div>
+</section>
+
+<section id="stack_class">
+    <h2>Stack</h2>
+  
+    <!-- 1. Definition -->
+    <h3>Definition</h3>
+    <p>
+      <b>Stack</b> is a <b>last-in-first-out (LIFO)</b> data structure in Java.  
+      It extends the <code>Vector</code> class and provides methods to push, pop, and peek elements.  
+      Stack is used when you want to process the most recently added element first.
+    </p>
+    <div class="note">
+      ⚡ <b>Note:</b> Stack is a legacy class; modern alternatives include <code>Deque</code> implementations like <code>ArrayDeque</code>.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+      - Stack stores elements in a <b>vertical order</b>.  
+      - Operations:
+        <ul>
+          <li><b>push(E item):</b> Add element on top.</li>
+          <li><b>pop():</b> Remove and return top element.</li>
+          <li><b>peek():</b> View top element without removing.</li>
+          <li><b>empty():</b> Check if stack is empty.</li>
+          <li><b>search(Object o):</b> Return 1-based position from top, -1 if not found.</li>
+        </ul>
+      - Internally backed by <code>Vector</code> → synchronized (thread-safe).
+    </p>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a stack of plates: the last plate added is the first one you remove.</li>
+      <li>Push = adding a plate on top, Pop = taking the top plate, Peek = checking the top plate without removing.</li>
+    </ul>
+  
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  Vector (Class)
+     |
+     |-- Stack (Class)
+           - extends Vector
+           - methods: push(), pop(), peek(), empty(), search()
+    </pre>
+  
+    <!-- 5. Java Code Examples (Basic to Advanced) -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic Stack Example
+  import java.util.Stack;
+  
+  class StackDemo {
+      public static void main(String[] args) {
+          Stack<String> stack = new Stack<>();
+          stack.push("Plate1");
+          stack.push("Plate2");
+          stack.push("Plate3");
+          System.out.println("Stack: " + stack);
+  
+          // Peek top element
+          System.out.println("Top Element: " + stack.peek());
+  
+          // Pop element
+          System.out.println("Popped Element: " + stack.pop());
+          System.out.println("After Pop: " + stack);
+      }
+  }
+  
+  // Advanced Example: Using Stack for Expression Evaluation
+  class StackAdvanced {
+      public static void main(String[] args) {
+          Stack<Integer> stack = new Stack<>();
+          int[] numbers = {10, 20, 30};
+          
+          // Push all numbers
+          for (int n : numbers) stack.push(n);
+          
+          // Pop and process
+          while (!stack.empty()) {
+              int value = stack.pop();
+              System.out.println("Processing: " + value);
+          }
+      }
+  }
+    </pre>
+  
+    <!-- 6. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Simple LIFO structure, thread-safe (inherited from Vector), easy to implement algorithms like expression evaluation or undo/redo.</li>
+      <li><b>Disadvantages:</b> Legacy class (ArrayDeque preferred in modern Java), slower than ArrayDeque due to synchronization overhead, limited random access.</li>
+    </ul>
+  
+    <!-- 7. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+      <li>push(), pop(), peek(), empty(), search()</li>
+      <li>Extends Vector → synchronized methods</li>
+      <li>Used in algorithms like recursion, expression evaluation, undo/redo functionality</li>
+    </ul>
+  
+    <!-- 8. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      Stack internally extends Vector. Here’s how it works:
+    </p>
+    <ul>
+      <li>Uses dynamic array (Vector) as storage.</li>
+      <li>Top of stack = last element in Vector.</li>
+      <li>Push → add element at end of Vector.</li>
+      <li>Pop → remove element from end of Vector.</li>
+      <li>Peek → return last element without removing.</li>
+      <li>Thread-safe because Vector methods are synchronized.</li>
+    </ul>
+  
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Stack Top
+     ↑
+     [Plate3] <- last pushed
+     [Plate2]
+     [Plate1]
+  Stack Bottom
+    </pre>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Stack is suitable for LIFO operations like undo/redo or recursion handling.</li>
+        <li>Random access is slow (O(n)); prefer ArrayList/ArrayDeque for indexed operations.</li>
+        <li>Modern Java: prefer <code>ArrayDeque</code> for stack operations without synchronization overhead.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API supported via Vector methods (<code>stack.stream()</code>).</li>
+      <li>Java 9+: ArrayDeque recommended for stack implementation.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use Stack when thread safety is required and codebase uses legacy APIs.</li>
+      <li>Use <code>ArrayDeque</code> for high-performance stack operations in modern applications.</li>
+      <li>Predefine initial capacity if the maximum stack size is known.</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>Stack is a subclass of Vector → inherits all Vector methods.</li>
+      <li>Legacy class; ArrayDeque is more efficient and preferred.</li>
+      <li>Random access using index is possible but not recommended.</li>
+      <li>Common interview question: Stack vs ArrayDeque vs Vector for LIFO operations.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>Explain how Stack works internally in Java.</li>
+        <li>Difference between Stack and ArrayDeque for LIFO operations?</li>
+        <li>How does Stack ensure thread safety?</li>
+        <li>Which Stack methods are commonly used and what do they do?</li>
+        <li>Why is Stack considered a legacy class in Java?</li>
+      </ul>
+    </div>
+  </section>
+  

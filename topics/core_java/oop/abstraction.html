@@ -1,0 +1,134 @@
+<section id="abstraction">
+    <h2>Abstraction</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        Abstraction is the process of hiding <b>internal implementation details</b> and showing only the <b>necessary
+            features</b> of an object.
+        It focuses on <b>what an object does</b>, not <b>how it does it</b>.
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <b>car</b>. When you drive, you only know about <b>steering, brakes, and accelerator</b>.
+        You don’t worry about the <b>engine, fuel injection system, or exhaust</b>.
+        This is <b>abstraction</b> – hiding complexity and exposing only what’s needed.
+    </p>
+
+    <h3>Real-Life Example</h3>
+    <p>
+        Consider an <b>ATM machine</b>:
+        - You interact with simple options like <b>Withdraw</b>, <b>Check Balance</b>, etc.
+        - You don’t see how the bank’s internal servers work.
+        <br>
+        The ATM is an abstraction of the banking process.
+    </p>
+
+    <h3>Example</h3>
+    <pre>
+      // Abstract class - defines common structure but hides implementation
+      abstract class Vehicle {
+          abstract void start();  // abstract method (no body)
+  
+          void fuelCapacity() {   // concrete method
+              System.out.println("Every vehicle has a fuel tank");
+          }
+      }
+  
+      // Concrete class implements hidden details
+      class Car extends Vehicle {
+          @Override
+          void start() {
+              System.out.println("Car starts with a key or button");
+          }
+      }
+  
+      class Bike extends Vehicle {
+          @Override
+          void start() {
+              System.out.println("Bike starts with a kick or self-start button");
+          }
+      }
+  
+      public class AbstractionExample {
+          public static void main(String[] args) {
+              Vehicle v1 = new Car();
+              Vehicle v2 = new Bike();
+  
+              v1.start();  // Hides how exactly the engine starts
+              v2.start();
+          }
+      }
+    </pre>
+
+    <h3>UML Representation</h3>
+    <pre>
+          Vehicle (abstract)
+          -------------------
+          + start() : abstract
+          + fuelCapacity() : concrete
+                 ▲
+                 │
+       -----------------------
+       |                     |
+     Car                  Bike
+    </pre>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li>Makes code <b>clean</b> and <b>easy to understand</b></li>
+        <li>Improves <b>security</b> by exposing only required methods</li>
+        <li>Encourages <b>loose coupling</b> and <b>reusability</b></li>
+        <li>Makes systems <b>scalable</b> and <b>maintainable</b></li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>More <b>design effort</b> needed upfront</li>
+        <li>Too much abstraction may confuse beginners</li>
+        <li>Requires additional <b>inheritance or interface planning</b></li>
+    </ul>
+
+    <h3>Focused Keywords</h3>
+    <ul>
+        <li><code>abstract</code> – used for abstract class or methods</li>
+        <li><code>interface</code> – pure abstraction</li>
+        <li><code>extends</code> – to inherit abstract class</li>
+        <li><code>implements</code> – to implement an interface</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li><b>Java 8</b> → Interfaces can have <code>default</code> & <code>static</code> methods (partial abstraction)
+        </li>
+        <li><b>Java 9+</b> → Interfaces support <code>private methods</code> for code reusability</li>
+        <li><b>Java 14+</b> → <code>sealed classes</code> introduced for controlled abstraction hierarchy</li>
+    </ul>
+
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Use <b>interfaces</b> when you want <b>100% abstraction</b></li>
+        <li>Use <b>abstract classes</b> for <b>partial abstraction</b></li>
+        <li>Combine with <b>design patterns</b> (e.g., Template Method Pattern)</li>
+        <li>For large projects, prefer <b>abstraction layers</b> (Service → DAO → DB)</li>
+    </ul>
+
+    <h3>Quick Notes</h3>
+    <ul>
+        <li>Abstraction = <b>What to do?</b>, Implementation = <b>How to do?</b></li>
+        <li>Abstract class = <b>0–100% abstraction</b></li>
+        <li>Interface = <b>100% abstraction (till Java 7), now supports default methods</b></li>
+        <li>Best used in <b>layered architecture</b> and <b>design patterns</b></li>
+    </ul>
+
+    <h3>Interview Questions</h3>
+    <ol>
+        <li>What is abstraction in Java? How is it different from encapsulation?</li>
+        <li>Can we create an object of an abstract class? Why or why not?</li>
+        <li>What is the difference between <code>abstract class</code> and <code>interface</code>?</li>
+        <li>Why can an abstract class have both abstract and concrete methods?</li>
+        <li>How did abstraction evolve from Java 8 to Java 17?</li>
+        <li>What are sealed classes, and how do they relate to abstraction?</li>
+    </ol>
+
+</section>

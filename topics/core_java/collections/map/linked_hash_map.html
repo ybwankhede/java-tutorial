@@ -1,0 +1,182 @@
+<section id="linked_hash_map">
+    <h2>LinkedHashMap</h2>
+
+    <!-- 1. Definition -->
+    <p>
+        <strong>Definition:</strong><br> 
+        <b>LinkedHashMap</b> is an implementation of the <code>Map</code> interface that stores <b>key-value pairs</b>
+        while maintaining <b>insertion order</b> or <b>access order</b>.
+        Internally, it uses a <b>hash table</b> with a <b>doubly-linked list</b> connecting all entries.
+    </p>
+    <div class="note">
+        ⚡ LinkedHashMap is ideal when you need a predictable iteration order.
+    </div>
+
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+        <li>Each key is unique; values can be duplicated.</li>
+        <li>Maintains the order in which entries were inserted or last accessed (if access-order enabled).</li>
+        <li>Allows one null key and multiple null values.</li>
+        <li>Operations like <code>get()</code>, <code>put()</code>, <code>remove()</code> are O(1) on average.</li>
+        <li>Not synchronized; for thread-safety, use <code>Collections.synchronizedMap()</code> or
+            <code>ConcurrentHashMap</code>.</li>
+    </ul>
+
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+        <li>Think of a notebook where entries are written in order.</li>
+        <li>Accessing or updating an entry can optionally move it to the end (access-order).</li>
+        <li>Useful for caching (e.g., LRU cache) since order can be tracked.</li>
+    </ul>
+
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+            Map
+             |
+      HashMap<K,V>
+             |
+      LinkedHashMap<K,V>
+             - Insertion-order / Access-order
+             - Core Methods: put(), get(), remove(), containsKey(), containsValue(), entrySet()
+             - Implements Map, Serializable, Cloneable
+    </pre>
+
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  import java.util.*;
+  
+  class LinkedHashMapDemo {
+      public static void main(String[] args) {
+          // Create a LinkedHashMap
+          LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+  
+          // Add key-value pairs
+          map.put("Alice", 30);
+          map.put("Bob", 25);
+          map.put("Charlie", 35);
+          map.put(null, 50); // null key allowed
+          map.put("David", null); // null value allowed
+  
+          System.out.println("LinkedHashMap: " + map);
+  
+          // Access element
+          System.out.println("Alice's age: " + map.get("Alice"));
+  
+          // Remove element
+          map.remove("Bob");
+          System.out.println("After removal: " + map);
+  
+          // Iteration preserves insertion order
+          for(Map.Entry<String, Integer> entry : map.entrySet()) {
+              System.out.println(entry.getKey() + " => " + entry.getValue());
+          }
+  
+          // Access-order LinkedHashMap
+          LinkedHashMap<String, Integer> accessMap = new LinkedHashMap<>(16, 0.75f, true);
+          accessMap.put("X", 1);
+          accessMap.put("Y", 2);
+          accessMap.put("Z", 3);
+          accessMap.get("X"); // moves X to end
+          System.out.println("Access-order LinkedHashMap: " + accessMap);
+      }
+  }
+    </pre>
+
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+        <li><b>put(K key, V value):</b> Adds key-value pair or updates value if key exists.</li>
+        <li><b>get(Object key):</b> Returns value associated with the key.</li>
+        <li><b>remove(Object key):</b> Removes key-value pair by key.</li>
+        <li><b>containsKey(Object key):</b> Checks if key exists.</li>
+        <li><b>containsValue(Object value):</b> Checks if value exists.</li>
+        <li><b>keySet(), values(), entrySet():</b> Return keys, values, and key-value mappings.</li>
+        <li><b>putIfAbsent(), compute(), merge():</b> Functional updates (Java 8+).</li>
+        <li><b>removeEldestEntry(Map.Entry<K,V> eldest):</b> Can override to implement LRU cache.</li>
+    </ul>
+
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        - LinkedHashMap extends HashMap → uses <b>hash table for buckets</b>.
+        - Each entry is connected in a <b>doubly-linked list</b> for insertion/access order.
+        - Adding an element:
+    <ol>
+        <li>Compute hash → determine bucket.</li>
+        <li>If bucket empty → create new node.</li>
+        <li>If key exists → replace value.</li>
+        <li>Update linked list pointers to maintain order.</li>
+    </ol>
+    - Access-order mode moves accessed entry to the end.
+    </p>
+
+    <!-- 8. Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Insertion Order:
+     Alice -> Bob -> Charlie -> David
+  Access-order:
+     Access "Alice" → move to end
+     Order: Bob -> Charlie -> David -> Alice
+    </pre>
+
+    <!-- 9. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b> Maintains predictable order, fast O(1) operations, can implement LRU caches.</li>
+        <li><b>Disadvantages:</b> Slightly slower than HashMap due to linked list overhead, memory overhead higher, not
+            thread-safe.</li>
+    </ul>
+
+    <!-- 10. Notes -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>Insertion-order mode preserves the order of entry addition.</li>
+            <li>Access-order mode is useful for LRU caches.</li>
+            <li>Override <code>removeEldestEntry()</code> to remove oldest entry automatically.</li>
+        </ul>
+    </div>
+
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8+: Functional methods (compute, merge, putIfAbsent).</li>
+        <li>Java 17–21: Performance improvements internally for iteration and bucket management.</li>
+    </ul>
+
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Use LinkedHashMap for predictable iteration or access-order tracking.</li>
+        <li>Pre-size the map to reduce resizing overhead.</li>
+        <li>For caches, override <code>removeEldestEntry()</code> for automatic eviction.</li>
+    </ul>
+
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+        <li>Allows one null key and multiple null values.</li>
+        <li>Insertion vs access-order distinction is a common interview question.</li>
+        <li>Iteration is predictable unlike HashMap.</li>
+        <li>Performance similar to HashMap for basic operations.</li>
+    </ul>
+
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is LinkedHashMap and how does it differ from HashMap?</li>
+            <li>Explain insertion-order and access-order modes.</li>
+            <li>Time complexity of get(), put(), remove()?</li>
+            <li>How does LinkedHashMap maintain order internally?</li>
+            <li>How to implement LRU cache using LinkedHashMap?</li>
+            <li>Can LinkedHashMap store null key or null values?</li>
+            <li>Difference between LinkedHashMap and TreeMap?</li>
+        </ul>
+    </div>
+</section>

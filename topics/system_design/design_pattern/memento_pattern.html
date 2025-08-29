@@ -1,0 +1,177 @@
+<section id="memento_pattern">
+    <h1>Memento Pattern</h1>
+
+    <h2>1. Introduction</h2>
+    <p>
+        The <b>Memento Pattern</b> lets you capture an object’s state (snapshot) and restore it later without exposing
+        its internal details.
+        It’s like an “undo” button in your application. The object itself (called the <i>Originator</i>) doesn’t need to
+        know where or how the saved state is stored — that’s handled by a <i>Caretaker</i>.
+    </p>
+
+    <div class="note">
+        <b>Note:</b> The pattern follows the principle of encapsulation — the internal state is saved but not exposed.
+    </div>
+
+    <h2>2. History</h2>
+    <p>
+        The pattern was described in the <b>Gang of Four (GoF)</b> book <i>Design Patterns: Elements of Reusable
+            Object-Oriented Software</i> (1994).
+        It was introduced to formalize a way of supporting rollback/undo in object-oriented systems while respecting
+        encapsulation.
+    </p>
+
+    <h2>3. Real-Life Example</h2>
+    <p>
+        Imagine you’re writing a document in MS Word. Every time you press <i>Ctrl + Z</i> (Undo), Word restores the
+        previous snapshot of your document.
+        You don’t need to know how Word stores those snapshots internally — that’s the Memento Pattern at work!
+    </p>
+
+    <h2>4. Structure Diagram</h2>
+    <pre>
++----------------+       +----------------+       +----------------+
+|   Originator   |<----->|    Memento     |       |   Caretaker    |
+| (creates state)|       | (stores state) |       | (manages it)   |
++----------------+       +----------------+       +----------------+
+</pre>
+
+    <h2>5. Example</h2>
+    <pre>
+// Originator: The object whose state we want to save
+class TextEditor {
+    private String text;
+
+    public void write(String newText) {
+        this.text = newText;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    // Save current state to a memento
+    public Memento save() {
+        return new Memento(text);
+    }
+
+    // Restore state from a memento
+    public void restore(Memento m) {
+        this.text = m.getSavedText();
+    }
+
+    // Inner Memento class (encapsulation)
+    public static class Memento {
+        private final String savedText;
+
+        private Memento(String textToSave) {
+            this.savedText = textToSave;
+        }
+
+        private String getSavedText() {
+            return savedText;
+        }
+    }
+}
+
+// Caretaker: manages snapshots
+class Caretaker {
+    private java.util.Stack<TextEditor.Memento> history = new java.util.Stack<>();
+
+    public void save(TextEditor editor) {
+        history.push(editor.save());
+    }
+
+    public void undo(TextEditor editor) {
+        if (!history.isEmpty()) {
+            editor.restore(history.pop());
+        }
+    }
+}
+
+// Client usage
+public class MementoDemo {
+    public static void main(String[] args) {
+        TextEditor editor = new TextEditor();
+        Caretaker caretaker = new Caretaker();
+
+        editor.write("First version");
+        caretaker.save(editor);
+
+        editor.write("Second version");
+        caretaker.save(editor);
+
+        editor.write("Third version");
+        System.out.println("Current text: " + editor.getText());
+
+        caretaker.undo(editor);
+        System.out.println("After undo: " + editor.getText());
+
+        caretaker.undo(editor);
+        System.out.println("After second undo: " + editor.getText());
+    }
+}
+</pre>
+
+    <h2>6. Advantages</h2>
+    <ul>
+        <li>Provides a way to restore an object to a previous state.</li>
+        <li>Encapsulates state without breaking encapsulation principles.</li>
+        <li>Useful for undo/redo, checkpoints, rollback.</li>
+    </ul>
+
+    <h2>7. Disadvantages</h2>
+    <ul>
+        <li>Memory overhead (storing too many snapshots).</li>
+        <li>Managing history can be complex in large systems.</li>
+        <li>Doesn’t specify <i>how many</i> states to keep.</li>
+    </ul>
+
+    <h2>8. Real-World Uses</h2>
+    <ul>
+        <li>Text editors (Undo/Redo).</li>
+        <li>Games (save progress).</li>
+        <li>Database transactions (rollback to previous state).</li>
+        <li>GUI apps (restore window states).</li>
+    </ul>
+
+    <h2>9. Variants</h2>
+    <ul>
+        <li><b>White-box Memento:</b> State is accessible to everyone (less encapsulated, simpler).</li>
+        <li><b>Black-box Memento:</b> Only the Originator can access state (Java usually follows this).</li>
+    </ul>
+
+    <h2>10. Alternatives</h2>
+    <ul>
+        <li><b>Command Pattern:</b> Instead of storing state, it stores actions to reverse.</li>
+        <li><b>Prototype Pattern:</b> Can also clone an object instead of snapshotting.</li>
+    </ul>
+
+    <h2>11. Notes on Keywords</h2>
+    <ul>
+        <li><b>Encapsulation:</b> Hiding internal details of an object.</li>
+        <li><b>Stack:</b> A LIFO (last-in-first-out) data structure — used for undo history.</li>
+        <li><b>Immutable Object:</b> The Memento is usually immutable (state cannot change).</li>
+    </ul>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Use <code>Stack</code> or <code>Deque</code> for undo/redo operations.</li>
+            <li>Keep Memento lightweight to avoid memory issues.</li>
+            <li>Combine with <b>Command Pattern</b> for more advanced undo/redo features.</li>
+            <li>Limit the number of snapshots stored (set a history size).</li>
+        </ul>
+    </div>
+
+    <h2>13. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Memento Pattern solve?</li>
+            <li>How does it maintain encapsulation?</li>
+            <li>What’s the difference between Memento and Command?</li>
+            <li>What are drawbacks of using Memento?</li>
+            <li>Can you implement Undo/Redo without Memento?</li>
+        </ul>
+    </div>
+</section>

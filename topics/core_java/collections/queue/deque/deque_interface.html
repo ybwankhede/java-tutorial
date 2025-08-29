@@ -1,0 +1,131 @@
+<section>
+    <h2>Deque (Double-Ended Queue)</h2>
+  
+    <p>
+      <strong>Definition:</strong><br> 
+      A <b>Deque</b> (pronounced "deck") is a <b>double-ended queue</b> in Java that allows 
+      insertion and deletion of elements from both ends (front and rear).  
+      It supports both <b>FIFO</b> (like Queue) and <b>LIFO</b> (like Stack).
+    </p>
+  
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of Deque as a <b>flexible line</b>. People can enter or leave from both the front 
+      and back of the line.  
+      Unlike Queue (one way) or Stack (single top), Deque gives <b>two-way access</b>.
+    </p>
+  
+    <h3>Real-life Example</h3>
+    <p>
+      - <b>Bus with two doors:</b> Passengers can board or exit from the front door or the back door. <br> 
+      - <b>Double-ended ticket counter:</b> You can serve customers from either end of the counter.<br>
+    </p>
+  
+    <h3>Example</h3>
+    <pre>
+  import java.util.*;
+  
+  public class DequeExample {
+      public static void main(String[] args) {
+          Deque<String> deque = new ArrayDeque<>();
+  
+          // Insert at both ends
+          deque.addFirst("Front1");
+          deque.addLast("Rear1");
+          deque.offerFirst("Front2");
+          deque.offerLast("Rear2");
+  
+          System.out.println("Deque: " + deque);
+  
+          // Remove from both ends
+          System.out.println("Removed Front: " + deque.pollFirst());
+          System.out.println("Removed Rear: " + deque.pollLast());
+          System.out.println("Deque after removal: " + deque);
+      }
+  }
+    </pre>
+  
+    <h3>UML (Text-based Diagram)</h3>
+    <pre>
+    Deque (Interface)
+       ↑
+    -------------------------------
+    | ArrayDeque | LinkedList |
+    </pre>
+  
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> 
+        <ul>
+          <li>Supports both Queue (FIFO) and Stack (LIFO) behavior.</li>
+          <li>ArrayDeque is faster than Stack & LinkedList in most cases.</li>
+        </ul>
+      </li>
+      <li><b>Disadvantages:</b>
+        <ul>
+          <li>No random access like List (you can’t directly fetch by index).</li>
+          <li>ArrayDeque does not allow null elements.</li>
+        </ul>
+      </li>
+    </ul>
+  
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+      <li><b>addFirst()/offerFirst()</b>: Insert at the front.</li>
+      <li><b>addLast()/offerLast()</b>: Insert at the rear.</li>
+      <li><b>pollFirst()/removeFirst()</b>: Remove from the front.</li>
+      <li><b>pollLast()/removeLast()</b>: Remove from the rear.</li>
+      <li><b>peekFirst()/peekLast()</b>: View elements from both ends.</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8: Added <code>forEach()</code>, streams support for Deque.</li>
+      <li>Java 9+: Factory methods for List/Set/Map, but <b>no direct Deque.of()</b>.</li>
+      <li>Java 21: Performance improvements for concurrent deques.</li>
+    </ul>
+  
+    <h3>Notes</h3>
+    <div class="note">
+      - <code>ArrayDeque</code> is a good replacement for <code>Stack</code>. <br>
+      - <code>LinkedList</code> also implements Deque but is slower compared to ArrayDeque. <br>
+      - <b>Thread-safe versions</b>: Use <code>ConcurrentLinkedDeque</code>.
+    </div>
+  
+    <h3>Tips</h3>
+    <div class="tip">
+      - Use <b>ArrayDeque</b> when you need a faster stack/queue hybrid. <br>
+      - Avoid using <b>LinkedList</b> unless frequent insertions/removals are required in the middle. <br>
+      - For concurrency, use <b>BlockingDeque</b> (like LinkedBlockingDeque).
+    </div>
+
+    <h3>Realistic Example for Beginners</h3>
+    <pre>
+  // Example: Browser history navigation using Deque
+  Deque<String> history = new ArrayDeque<>();
+  
+  // Visiting pages
+  history.addLast("Google");
+  history.addLast("YouTube");
+  history.addLast("ChatGPT");
+  
+  System.out.println("Current Page: " + history.peekLast());
+  
+  // Back navigation
+  System.out.println("Going back: " + history.pollLast());
+  System.out.println("Now at: " + history.peekLast());
+    </pre>
+  
+    <h3>Interview Questions</h3>
+    <div class="interview">
+      <ul>
+        <li>What is the difference between Queue and Deque?</li>
+        <li>Why is ArrayDeque preferred over Stack?</li>
+        <li>How does Deque provide both FIFO and LIFO behavior?</li>
+        <li>Can ArrayDeque contain null values? Why or why not?</li>
+        <li>When should you use ConcurrentLinkedDeque instead of ArrayDeque?</li>
+      </ul>
+    </div>
+  
+  </section>
+  

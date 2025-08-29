@@ -1,0 +1,976 @@
+<section id="additional-oop-principles">
+    <h2>Additional OOP Principles</h2>
+    <p>Beyond the four main pillars of OOP (Encapsulation, Inheritance, Polymorphism, Abstraction), there are additional
+        concepts that help create more maintainable and modular code in Java.</p>
+
+    <section id="is-a-vs-has-a">
+        <h2>Understanding <span class="highlight">"is-a"</span> vs <span class="highlight">"has-a"</span> Relationship
+        </h2>
+
+        <p>
+            In Object-Oriented Programming (OOP), the terms <b>"is-a"</b> and <b>"has-a"</b> describe the relationship
+            between classes.
+            These relationships help us decide when to use <b>Inheritance</b> or <b>Composition</b>.
+        </p>
+
+        <h3>"is-a" Relationship (Inheritance)</h3>
+        <p>
+            The <b>"is-a"</b> relationship comes from <b>Inheritance</b>.
+            It means one class <i>is a specialized type</i> of another class.
+            For example:
+        </p>
+
+        <pre>
+          class Vehicle {
+              void start() { System.out.println("Vehicle starting..."); }
+          }
+          
+          class Car extends Vehicle {   // Car is-a Vehicle
+              void drive() { System.out.println("Car is driving..."); }
+          }
+        </pre>
+
+        <p>
+            Here, <code>Car</code> <b>is-a</b> <code>Vehicle</code>.
+            - We use <b>extends</b> in Java.
+            - This means <code>Car</code> automatically gets <code>start()</code> from <code>Vehicle</code>.
+        </p>
+
+        <div class="note">
+            🔑 Notes: "is-a" relationship is tested with the <b>instanceof</b> keyword in Java.
+            Example: <code>if (car instanceof Vehicle) { }</code>
+        </div>
+
+        <h3>"has-a" Relationship (Composition / Association)</h3>
+        <p>
+            The <b>"has-a"</b> relationship comes from <b>Composition</b>.
+            It means one class <i>uses</i> another class as a part of itself.
+            For example:
+        </p>
+
+        <pre>
+          class Engine {
+              void start() { System.out.println("Engine starting..."); }
+          }
+          
+          class Car {
+              private Engine engine;   // Car has-a Engine
+          
+              Car() {
+                  engine = new Engine();
+              }
+          
+              void start() {
+                  engine.start(); // Delegation
+                  System.out.println("Car is ready to go!");
+              }
+          }
+        </pre>
+
+        <p>
+            Here, <code>Car</code> <b>has-a</b> <code>Engine</code>.
+            - We use <b>fields/objects</b> inside a class.
+            - This is more flexible than inheritance.
+        </p>
+
+        <div class="tip">
+            ✅ <b>Simple way to remember:</b>
+            - <b>Inheritance</b> (is-a) = copy of parent structure (tight coupling).
+            - <b>Composition</b> (has-a) = reuse by delegation (loose coupling).
+        </div>
+
+        <h3>Visual Comparison</h3>
+        <div style="display: flex; gap: 30px; margin-top: 10px;">
+            <div style="flex:1; padding:10px; border:1px solid #ccc; border-radius:8px;">
+                <h4>is-a (Inheritance)</h4>
+                <p><b>Car</b> → <b>Vehicle</b></p>
+                <ul>
+                    <li>Car <b>is a</b> Vehicle</li>
+                    <li>Uses <code>extends</code></li>
+                    <li>Tight coupling</li>
+                    <li>Easy to share behavior</li>
+                </ul>
+            </div>
+            <div style="flex:1; padding:10px; border:1px solid #ccc; border-radius:8px;">
+                <h4>has-a (Composition)</h4>
+                <p><b>Car</b> → contains <b>Engine</b></p>
+                <ul>
+                    <li>Car <b>has a</b> Engine</li>
+                    <li>Uses <code>field reference</code></li>
+                    <li>Loose coupling</li>
+                    <li>More flexible</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Advantages & Disadvantages</h3>
+        <h4>is-a (Inheritance)</h4>
+        <ul>
+            <li>✅ Code reuse (subclass inherits methods)</li>
+            <li>✅ Natural hierarchy representation</li>
+            <li>❌ Can lead to fragile hierarchies</li>
+            <li>❌ Tight coupling between classes</li>
+        </ul>
+
+        <h4>has-a (Composition)</h4>
+        <ul>
+            <li>✅ More flexible (change Engine without changing Car)</li>
+            <li>✅ Promotes <b>loose coupling</b></li>
+            <li>✅ Favors <b>composition over inheritance</b> (Effective Java Principle)</li>
+            <li>❌ Slightly more code (delegation)</li>
+        </ul>
+
+        <div class="note">
+            🔥 <b>Latest Java Note:</b>
+            With Java <b>Records</b> and <b>Sealed Classes</b>, both "is-a" and "has-a" become more explicit.
+            - Use <b>records</b> for immutable "has-a" data.
+            - Use <b>sealed</b> for controlled "is-a" hierarchies.
+        </div>
+    </section>
+
+
+    <section id="composition">
+        <h2>Composition</h2>
+
+        <p>
+            <strong>Definition:</strong><br>
+            Composition means <em>one class contains another class</em>.
+            It represents a <strong>"has-a"</strong> relationship instead of
+            <strong>"is-a"</strong> (Inheritance).
+        </p>
+
+        <p>
+            Think about real life: <br>
+            - A <strong>Car</strong> is not an <em>Engine</em>, but a Car <strong>has</strong> an Engine. <br>
+            - A <strong>Person</strong> is not a <em>Heart</em>, but a Person <strong>has</strong> a Heart. <br>
+            - A <strong>Mobile Phone</strong> is not a <em>Battery</em>, but a Phone <strong>has</strong> a Battery.
+            <br>
+        </p>
+
+        <h3>Java-Specific Explanation</h3>
+        <ul>
+            <li>Composition is achieved by <strong>including an object reference</strong> of one class inside another.
+            </li>
+            <li>It allows <strong>code reusability</strong> without using inheritance.</li>
+            <li>In Java, composition is implemented through <strong>association</strong> (a field of another class
+                inside a class).</li>
+            <li>Sometimes called <strong>strong association</strong> (whole-part relationship).</li>
+        </ul>
+
+        <h3>Why is Composition Useful?</h3>
+        <ul>
+            <li>Keeps classes smaller and easier to understand.</li>
+            <li>We can reuse parts (Engine, Battery, Address) in many different places.</li>
+            <li>Makes systems flexible — you can replace one part without changing everything.</li>
+            <li>Preferred over Inheritance when "is-a" relationship does not fit.</li>
+        </ul>
+
+        <h3>Basic Example: Car and Engine</h3>
+        <pre>
+          // Engine class
+          class Engine {
+              void start() {
+                  System.out.println("Engine starts...");
+              }
+          }
+          
+          // Car class using composition (Car has an Engine)
+          class Car {
+              private Engine engine; // Car contains an Engine
+          
+              Car() {
+                  this.engine = new Engine(); // create engine inside Car
+              }
+          
+              void drive() {
+                  engine.start();
+                  System.out.println("Car is moving...");
+              }
+          }
+          
+          public class Main {
+              public static void main(String[] args) {
+                  Car car = new Car();
+                  car.drive();
+              }
+          }
+        </pre>
+
+        <p>
+            👉 Here, <code>Car</code> <em>has</em> an <code>Engine</code>.
+            Without the Engine, the Car cannot run. That’s Composition.
+        </p>
+
+        <h3>More Realistic Example: Person and Address</h3>
+        <pre>
+          // Address class
+          class Address {
+              String city;
+              String country;
+          
+              Address(String city, String country) {
+                  this.city = city;
+                  this.country = country;
+              }
+          
+              void showAddress() {
+                  System.out.println(city + ", " + country);
+              }
+          }
+          
+          // Person class has an Address
+          class Person {
+              String name;
+              Address address; // Composition
+          
+              Person(String name, Address address) {
+                  this.name = name;
+                  this.address = address;
+              }
+          
+              void showDetails() {
+                  System.out.println("Name: " + name);
+                  System.out.print("Lives in: ");
+                  address.showAddress();
+              }
+          }
+          
+          public class Main {
+              public static void main(String[] args) {
+                  Address addr = new Address("Pune", "India");
+                  Person person = new Person("Yogesh", addr);
+          
+                  person.showDetails();
+              }
+          }
+        </pre>
+
+        <p>
+            👉 Here, <strong>Person has an Address</strong>. This is a natural real-life relationship.
+        </p>
+
+        <h3>Key Difference from Inheritance</h3>
+        <ul>
+            <li><strong>Inheritance:</strong> "is-a" relationship (Dog is an Animal).</li>
+            <li><strong>Composition:</strong> "has-a" relationship (Car has an Engine).</li>
+        </ul>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li><strong>Flexibility:</strong> You can replace one part without changing the whole class (e.g., Car can
+                switch Engine type).</li>
+            <li><strong>Code Reusability:</strong> Same component can be reused (e.g., Address can be used in Person,
+                Company, Branch).</li>
+            <li><strong>Follows Encapsulation:</strong> Internal details of composed class are hidden.</li>
+            <li><strong>Loose Coupling:</strong> Classes are less dependent compared to inheritance.</li>
+            <li><strong>Testability:</strong> Easy to mock and test individual components (important for unit testing).
+            </li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li><strong>More Boilerplate Code:</strong> Need to write extra code for delegation methods.</li>
+            <li><strong>No Polymorphism by Default:</strong> Unlike inheritance, you can’t directly substitute one class
+                for another unless you use interfaces.</li>
+            <li><strong>Object Management:</strong> More objects to handle (Car manages Engine, Person manages Address).
+            </li>
+        </ul>
+
+        <h3>Key Difference from Inheritance</h3>
+        <ul>
+            <li><strong>Inheritance:</strong> "is-a" relationship (Dog is an Animal).</li>
+            <li><strong>Composition:</strong> "has-a" relationship (Car has an Engine).</li>
+            <li><strong>Inheritance:</strong> Tight coupling (changes in parent affect child).</li>
+            <li><strong>Composition:</strong> Loose coupling (parts can be swapped easily).</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>Delegation:</strong> One class delegates functionality to another via composition.</li>
+            <li><strong>Strong Association:</strong> Part cannot exist without the whole (Car → Engine).</li>
+            <li><strong>Code Reusability:</strong> Components reused across multiple classes.</li>
+            <li><strong>Encapsulation & Loose Coupling:</strong> Core OOP benefits in composition.</li>
+            <li><strong>Favour Composition over Inheritance:</strong> A famous design principle from "Gang of Four"
+                design patterns.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Tips</h3>
+            <div class="tip">
+                - Use Composition when you want flexibility.<br>
+                - Think "has-a" to identify Composition in real life.<br>
+                - In modern Java design, <strong>Composition is usually better than deep Inheritance</strong>.<br>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Interview Notes</h3>
+            <div class="interview">
+                - Q: What is Composition in Java? How is it different from Inheritance?<br>
+                - Q: What is the difference between Inheritance and Composition?<br>
+                - Q: What is Delegation in Composition?<br>
+                - Q: What does "Favour Composition over Inheritance" mean?<br>
+                - Q: Why is Composition often preferred over Inheritance?<br>
+                - Q: Can we combine Inheritance and Composition? (Yes, often together in designs)<br>
+                - Q: Give a real-life example of Composition in Java.<br>
+                - Q: In a banking app, would you use Composition for Account and Customer? Why?<br>
+            </div>
+        </div>
+    </section>
+
+    <section id="aggregation">
+        <h2>Aggregation</h2>
+
+        <p>
+            <strong>Definition:</strong> <br>
+            Aggregation is a special form of <em>Association</em> in Object-Oriented Programming (OOP).
+            It represents a <strong>"Has-a"</strong> relationship but with <strong>weak ownership</strong>.
+            The contained object <em>can exist independently</em> of the container.
+        </p>
+
+        <h3>Explanation</h3>
+        <p>
+            Think of a <strong>Library</strong> and <strong>Books</strong>.
+            A library <em>has</em> books, but even if the library is closed, the books can still exist elsewhere.
+            The library doesn’t <strong>own</strong> the books’ lifecycle → That’s Aggregation.
+        </p>
+
+        <h3>Real-Life Examples</h3>
+        <ul>
+            <li>A <strong>Department</strong> has <strong>Professors</strong>. Professors can exist without the
+                department.</li>
+            <li>A <strong>Team</strong> has <strong>Players</strong>. Players can exist even if the team is dissolved.
+            </li>
+            <li>A <strong>Car</strong> has <strong>Engines</strong> that can be removed or replaced independently.</li>
+        </ul>
+
+        <h3>Key Points</h3>
+        <ul>
+            <li>Aggregation is also called a <strong>“weak has-a” relationship</strong>.</li>
+            <li>The <strong>whole</strong> and the <strong>part</strong> can exist <strong>independently</strong>.</li>
+            <li>It’s a more specific type of Association.</li>
+        </ul>
+
+        <h3>Java Example</h3>
+        <pre>
+      import java.util.*;
+      
+      class Book {
+          private String title;
+      
+          public Book(String title) {
+              this.title = title;
+          }
+      
+          public String getTitle() {
+              return title;
+          }
+      }
+      
+      class Library {
+          // Aggregation: Library has books, but doesn't own their lifecycle
+          private List&lt;Book&gt; books;
+      
+          public Library(List&lt;Book&gt; books) {
+              this.books = books;
+          }
+      
+          public void showBooks() {
+              for(Book book : books) {
+                  System.out.println("Book: " + book.getTitle());
+              }
+          }
+      }
+      
+      public class TestAggregation {
+          public static void main(String[] args) {
+              Book b1 = new Book("Java Basics");
+              Book b2 = new Book("Spring Boot Guide");
+      
+              List&lt;Book&gt; bookList = new ArrayList&lt;&gt;();
+              bookList.add(b1);
+              bookList.add(b2);
+      
+              Library library = new Library(bookList);
+              library.showBooks();
+      
+              // Even if library is destroyed, books still exist
+              System.out.println("Independent Book: " + b1.getTitle());
+          }
+      }
+        </pre>
+
+        <h3>UML Notation</h3>
+        <p>
+            In UML diagrams, Aggregation is shown with a <strong>hollow diamond (◇──)</strong> pointing to the "whole".
+            Example: <code>Library ◇── Book</code>
+        </p>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li><strong>Loose coupling</strong> → objects remain reusable independently.</li>
+            <li><strong>Flexibility</strong> → parts can belong to multiple wholes.</li>
+            <li>Improves <strong>code reuse</strong> and design clarity.</li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li>Lifecycle of objects is <strong>not tightly controlled</strong>.</li>
+            <li>May cause <strong>data consistency issues</strong> if objects exist in multiple places.</li>
+            <li>Weaker relationship → harder to enforce strong business rules compared to Composition.</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>"Weak Has-a relationship"</strong>.</li>
+            <li>Both objects <strong>can exist independently</strong>.</li>
+            <li><strong>Special type of Association</strong>.</li>
+            <li>Shown with <strong>hollow diamond</strong> in UML.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Notes</h3>
+            <div class="note">
+                Interviewers often ask: <em>"How is Aggregation different from Composition?"</em>
+                → Answer: In <strong>Aggregation</strong>, parts can exist independently of the whole.
+                In <strong>Composition</strong>, parts cannot exist without the whole (strong ownership).
+            </div>
+        </div>
+    </section>
+
+
+    <section id="association">
+        <h2>Association</h2>
+
+        <p>
+            <strong>Definition:</strong><br>
+            Association in Java is a relationship between two separate classes
+            that establishes a connection through their objects.
+            It represents a "<em>works with</em>" or "<em>uses</em>" relationship.
+            In OOP terms, association is a <strong>structural relationship</strong> between objects.
+        </p>
+
+        <h3>Real-Life Example</h3>
+        <p>
+            Think about a <strong>Teacher</strong> and a <strong>Student</strong>.
+            A teacher can teach many students, and a student can learn from many teachers.
+            They are related, but neither is a direct part of the other.
+        </p>
+
+        <pre>
+        // Association Example
+        class Student {
+            private String name;
+        
+            public Student(String name) {
+                this.name = name;
+            }
+            public String getName() { return name; }
+        }
+        
+        class Teacher {
+            private String name;
+        
+            public Teacher(String name) {
+                this.name = name;
+            }
+            public String getName() { return name; }
+        }
+        
+        public class AssociationDemo {
+            public static void main(String[] args) {
+                Student s1 = new Student("Rahul");
+                Teacher t1 = new Teacher("Mrs. Sharma");
+        
+                // Association: Teacher teaches Student
+                System.out.println(t1.getName() + " teaches " + s1.getName());
+            }
+        }
+        </pre>
+
+        <p><strong>Output:</strong></p>
+        <pre>
+        Mrs. Sharma teaches Rahul
+        </pre>
+
+        <h3>Types of Association</h3>
+        <ul>
+            <li><strong>One-to-One:</strong> One student has one ID card.</li>
+            <li><strong>One-to-Many:</strong> One teacher teaches many students.</li>
+            <li><strong>Many-to-One:</strong> Many employees work in one company.</li>
+            <li><strong>Many-to-Many:</strong> Students can enroll in many courses, and courses can have many students.
+            </li>
+        </ul>
+
+        <h3>Visual Understanding</h3>
+        <p>
+            <strong>Association is like a friendship:</strong>
+            Both people are separate, but they are connected.
+        </p>
+        <pre>
+        Teacher -------- teaches -------- Student
+        </pre>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li>Makes code reusable by linking independent classes.</li>
+            <li>Improves modularity and separation of concerns.</li>
+            <li>Supports multiple relationships (One-to-Many, Many-to-Many).</li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li>If used incorrectly, can make relationships complex to manage.</li>
+            <li>Needs careful handling to avoid circular references (memory leaks).</li>
+            <li>Loose relationship – doesn’t enforce strong ownership like Composition.</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>Association</strong> is a "structural relationship" in UML diagrams.</li>
+            <li>Can be <strong>bidirectional</strong> (both objects know each other) or <strong>unidirectional</strong>.
+            </li>
+            <li>Association differs from <strong>Composition</strong> (strong ownership) and
+                <strong>Aggregation</strong> (weak ownership).
+            </li>
+            <li>Java implements association using <strong>object references</strong>.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Tips</h3>
+            <div class="tip">
+                - Be ready to differentiate <strong>Association vs Aggregation vs Composition</strong>.<br>
+                - Draw UML diagrams if asked: simple line for Association, diamond for Aggregation, filled diamond for
+                Composition.<br>
+                - Explain with real-world examples: Employee–Company, Teacher–Student.<br>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparison_co_as_ag">
+        <h2>Association vs Aggregation vs Composition</h2>
+        <p>
+            These three concepts are related to <strong>"has-a"</strong> relationships in Object-Oriented Programming
+            (OOP).
+            Interviewers often ask for their differences with examples.
+        </p>
+
+        <table cellspacing="0" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Association</th>
+                    <th>Aggregation</th>
+                    <th>Composition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Definition</strong></td>
+                    <td>A general relationship between two classes.</td>
+                    <td>A "has-a" relationship with <strong>weak ownership</strong>.</td>
+                    <td>A "has-a" relationship with <strong>strong ownership</strong>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Dependency</strong></td>
+                    <td>Objects can exist independently.</td>
+                    <td>Both objects can exist independently (loose coupling).</td>
+                    <td>Part cannot exist without the whole (tight coupling).</td>
+                </tr>
+                <tr>
+                    <td><strong>UML Notation</strong></td>
+                    <td>Simple line (—)</td>
+                    <td>Hollow diamond (◇)</td>
+                    <td>Filled diamond (◆)</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-Life Example</strong></td>
+                    <td><em>Student — Course</em>
+                        (a student can enroll in many courses, course exists independently)</td>
+                    <td><em>Department — Teacher</em>
+                        (a department has teachers, but teachers can exist without it)</td>
+                    <td><em>Car — Engine</em>
+                        (an engine is part of a car, without car engine doesn’t exist)</td>
+                </tr>
+                <tr>
+                    <td><strong>Java Implementation</strong></td>
+                    <td>Simple object references.</td>
+                    <td>Object references or collections (e.g., List&lt;Teacher&gt;).</td>
+                    <td>Objects created inside the class (e.g., <code>new Engine()</code> inside <code>Car</code>).</td>
+                </tr>
+                <tr>
+                    <td><strong>Ownership</strong></td>
+                    <td>No ownership.</td>
+                    <td>Weak ownership.</td>
+                    <td>Strong ownership.</td>
+                </tr>
+                <tr>
+                    <td><strong>Lifecycle</strong></td>
+                    <td>Independent lifecycle.</td>
+                    <td>Independent lifecycle (part can outlive the whole).</td>
+                    <td>Dependent lifecycle (part dies with whole).</td>
+                </tr>
+                <tr>
+                    <td><strong>Coupling</strong></td>
+                    <td>Loose coupling.</td>
+                    <td>Loose coupling (but slightly stronger than association).</td>
+                    <td>Tight coupling.</td>
+                </tr>
+                <tr>
+                    <td><strong>Technical Keywords</strong></td>
+                    <td>General link, bi-directional or uni-directional.</td>
+                    <td>“Has-a” with hollow diamond, weak reference, reusability.</td>
+                    <td>“Has-a” with filled diamond, containment, strong dependency.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="card">
+            <h3>Notes</h3>
+            <div class="note">
+                - Always use <strong>real-life examples</strong> (Car–Engine, Department–Teacher, Student–Course).<br>
+                - Mention <strong>UML notations</strong> — this shows system design knowledge.<br>
+                - Stress on <strong>lifecycle difference</strong> → That’s the key between Aggregation &
+                Composition.<br>
+            </div>
+        </div>
+    </section>
+
+    <section id="dependency">
+        <h2>Dependency</h2>
+
+        <p>
+            <strong>Definition:</strong><br>
+            Dependency in Object-Oriented Programming (OOP) represents a <strong>"uses-a"</strong> relationship.
+            It means one class <em>depends on</em> another class to perform its functionality, but only temporarily.
+            The dependent class does not store the object as a field – it simply <strong>uses it within a
+                method</strong>.
+        </p>
+
+        <h3>Simplified Understanding</h3>
+        <p>
+            Imagine a <strong>Car</strong> and a <strong>Mechanic</strong>.
+            The car <em>depends on</em> the mechanic for repair, but the mechanic is not a permanent part of the car.
+            👉 That’s a Dependency.
+        </p>
+
+        <h3>Real-Life Examples</h3>
+        <ul>
+            <li>A <strong>Teacher</strong> uses a <strong>Projector</strong> to teach (but doesn’t own it).</li>
+            <li>A <strong>CustomerService</strong> class depends on <strong>EmailService</strong> to send notifications.
+            </li>
+            <li>A <strong>Car</strong> depends on <strong>Fuel</strong> to run (but doesn’t contain fuel permanently).
+            </li>
+        </ul>
+
+        <h3>Key Points</h3>
+        <ul>
+            <li>Also called a <strong>“uses-a” relationship</strong>.</li>
+            <li>Dependency is <strong>temporary</strong>, not permanent.</li>
+            <li>Usually happens <strong>within method parameters or local variables</strong>.</li>
+            <li>Weaker than Association, Aggregation, and Composition.</li>
+        </ul>
+
+        <h3>Example</h3>
+        <pre>
+        class Engine {
+            public void start() {
+                System.out.println("Engine started...");
+            }
+        }
+        
+        class Car {
+            // Car depends on Engine only when running
+            public void drive(Engine engine) {
+                engine.start();
+                System.out.println("Car is moving...");
+            }
+        }
+        
+        public class TestDependency {
+            public static void main(String[] args) {
+                Engine e = new Engine();
+                Car c = new Car();
+                c.drive(e);  // Car temporarily uses Engine
+            }
+        }
+        </pre>
+
+        <h3>UML Notation</h3>
+        <p>
+            In UML diagrams, Dependency is shown with a <strong>dashed arrow (--&gt;)</strong> pointing from the
+            dependent class to the class it uses.
+            Example: <code>Car --&gt; Engine</code>
+        </p>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li>Encourages <strong>loose coupling</strong>.</li>
+            <li>Makes classes more <strong>modular and testable</strong>.</li>
+            <li>Supports <strong>Dependency Injection (DI)</strong> in frameworks like Spring.</li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li>Too many dependencies can lead to <strong>tight coupling</strong> (bad design).</li>
+            <li>Changes in one class may <strong>affect dependent classes</strong>.</li>
+            <li>Harder to maintain if not managed with proper patterns (like DI).</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>"Uses-a relationship"</strong>.</li>
+            <li><strong>Temporary relationship</strong> (usually inside methods).</li>
+            <li>Shown with <strong>dashed arrow</strong> in UML.</li>
+            <li>Important for <strong>Dependency Injection (Spring, CDI, Guice)</strong>.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Notes</h3>
+            <div class="note">
+                Interviewers may ask: <em>"How is Dependency different from Association?"</em>
+                → Answer: <strong>Association</strong> is a <em>structural relationship</em> (one object holds reference
+                to another).
+                <strong>Dependency</strong> is a <em>temporary functional relationship</em> (one object uses another
+                inside a method).
+            </div>
+        </div>
+    </section>
+
+    <section id="cohesion">
+        <h2>Cohesion</h2>
+
+        <p>
+            <strong>Definition:</strong><br>
+            Cohesion means how well the parts (methods, variables) of a class <strong>work together for a single
+                purpose</strong>.
+            In simple words: <em>"How focused is the class on doing one job?"</em>
+        </p>
+
+        <h3>Simplified Understanding</h3>
+        <p>
+            Imagine a <strong>Remote Control</strong>.
+            - All its buttons (power, volume, channel) are related to controlling the TV.
+            - It does <strong>one focused job</strong> – controlling the TV.
+            👉 This is <strong>High Cohesion</strong>.
+        </p>
+        <p>
+            Now imagine if the Remote Control also had a <strong>calculator, torch, and radio</strong>.
+            - Too many unrelated responsibilities.
+            👉 This is <strong>Low Cohesion</strong>.
+        </p>
+
+        <h3>Real-Life Examples</h3>
+        <ul>
+            <li>A <strong>BankAccount</strong> class having <code>deposit()</code>, <code>withdraw()</code>, and
+                <code>checkBalance()</code> → High Cohesion.
+            </li>
+            <li>A <strong>Utility</strong> class with methods for <code>printInvoice()</code>,
+                <code>calculateTax()</code>, <code>sendEmail()</code>, <code>generateReport()</code> → Low Cohesion.
+            </li>
+        </ul>
+
+        <h3>Types of Cohesion</h3>
+        <p>
+            In software engineering, there are different levels of cohesion:
+        </p>
+        <ul>
+            <li><strong>High Cohesion</strong> → Class focuses on one specific task (Good design).</li>
+            <li><strong>Low Cohesion</strong> → Class tries to do many unrelated tasks (Bad design).</li>
+        </ul>
+
+        <h3>Example</h3>
+        <pre>
+        // ✅ High Cohesion Example
+        class BankAccount {
+            private double balance;
+        
+            public void deposit(double amount) {
+                balance += amount;
+            }
+        
+            public void withdraw(double amount) {
+                if(balance >= amount) balance -= amount;
+            }
+        
+            public double getBalance() {
+                return balance;
+            }
+        }
+        
+        // ❌ Low Cohesion Example
+        class Utility {
+            public void sendEmail() { /* unrelated */ }
+            public void calculateTax() { /* unrelated */ }
+            public void printInvoice() { /* unrelated */ }
+            public void generateReport() { /* unrelated */ }
+        }
+        </pre>
+
+        <h3>UML Notation</h3>
+        <p>
+            UML doesn’t directly show cohesion.
+            It is measured by <strong>class responsibility</strong>.
+            A highly cohesive class will have all methods working towards a single purpose.
+        </p>
+
+        <h3>Advantages of High Cohesion</h3>
+        <ul>
+            <li>Improves <strong>readability</strong> and <strong>maintainability</strong>.</li>
+            <li>Makes testing easier (focused behavior).</li>
+            <li>Encourages <strong>reusability</strong>.</li>
+            <li>Reduces bugs (less unrelated logic in one place).</li>
+        </ul>
+
+        <h3>Disadvantages of Low Cohesion</h3>
+        <ul>
+            <li>Class becomes <strong>complex</strong> and hard to understand.</li>
+            <li>Difficult to <strong>test</strong> (many responsibilities).</li>
+            <li>Not reusable (methods are unrelated).</li>
+            <li>Breaks the <strong>Single Responsibility Principle (SRP)</strong>.</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>"Degree to which class methods work for a single purpose"</strong>.</li>
+            <li><strong>High Cohesion → Good Design</strong>.</li>
+            <li><strong>Low Cohesion → Bad Design</strong>.</li>
+            <li>Related to <strong>SRP (Single Responsibility Principle)</strong>.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Notes</h3>
+            <div class="note">
+                Interviewers may ask: <em>"What is the difference between Cohesion and Coupling?"</em>
+                → Answer:
+                - <strong>Cohesion</strong> → Focus within a class (how strongly methods/fields belong together).
+                - <strong>Coupling</strong> → Relationship between different classes (how dependent they are on each
+                other).
+            </div>
+        </div>
+    </section>
+
+    <section id="coupling">   
+        <h2>Coupling</h2>
+
+        <p>
+            <strong>Definition:</strong><br>
+            Coupling means how much one class depends on another class.
+            If a class knows too many details about another class → <strong>Tight Coupling</strong>.
+            If a class depends only on an interface/idea and not on details → <strong>Loose Coupling</strong>.
+        </p>
+
+        <div class="tip">
+            <strong>Easy memory trick:</strong>
+            A TV remote that only works with one brand = tight coupling.
+            A universal remote that works with many TVs = loose coupling.
+        </div>
+
+        <h3>Real-Life View</h3>
+        <ul>
+            <li><strong>Tight:</strong> A coffee machine that only accepts one special pod type.</li>
+            <li><strong>Loose:</strong> A charger that works with any USB-C device.</li>
+        </ul>
+
+        <h3>Example</h3>
+        <pre>
+          // ❌ Tight Coupling: Car is stuck to PetrolEngine
+          class PetrolEngine {
+              void start() { System.out.println("Petrol Engine starting..."); }
+          }
+      
+          class Car {
+              private PetrolEngine engine = new PetrolEngine(); // direct dependency
+      
+              void start() { engine.start(); }
+          }
+      
+          // ✅ Loose Coupling: Car depends on an abstraction (interface)
+          interface Engine { void start(); }
+      
+          class DieselEngine implements Engine {
+              public void start() { System.out.println("Diesel Engine starting..."); }
+          }
+      
+          class ElectricEngine implements Engine {
+              public void start() { System.out.println("Electric Engine starting..."); }
+          }
+      
+          class CarV2 {
+              private Engine engine;
+      
+              // Dependency Injection: pass the engine from outside
+              CarV2(Engine engine) { this.engine = engine; }
+      
+              void start() { engine.start(); }
+          }
+      
+          public class TestCoupling {
+              public static void main(String[] args) {
+                  CarV2 car1 = new CarV2(new DieselEngine());
+                  car1.start();  // Diesel Engine starting...
+      
+                  CarV2 car2 = new CarV2(new ElectricEngine());
+                  car2.start(); // Electric Engine starting...
+              }
+          }
+          </pre>
+
+        <h3>Why Loose Coupling is Good</h3>
+        <ul>
+            <li><strong>Easy to change/extend:</strong> add new engine type without touching <code>CarV2</code>.</li>
+            <li><strong>Testable:</strong> pass mock engines in unit tests.</li>
+            <li><strong>Works well with DI/IoC:</strong> used by Spring and other frameworks.</li>
+            <li><strong>Follows OOP principles:</strong> uses abstraction and interfaces.</li>
+        </ul>
+
+        <h3>Why Tight Coupling is Bad</h3>
+        <ul>
+            <li>Small change in one class forces changes in others.</li>
+            <li>Hard to reuse and maintain.</li>
+            <li>Makes unit testing difficult.</li>
+            <li>Often breaks the <strong>Open/Closed Principle</strong> (OCP).</li>
+        </ul>
+
+        <h3>Focused Keywords</h3>
+        <ul>
+            <li><strong>Coupling = dependency between classes</strong>.</li>
+            <li><strong>Tight Coupling → bad</strong>; <strong>Loose Coupling → good</strong>.</li>
+            <li>Use <strong>interfaces</strong> + <strong>Dependency Injection</strong> to reduce coupling.</li>
+            <li>Related ideas: <em>Abstraction, IoC, Mocking</em>.</li>
+        </ul>
+
+        <div class="card">
+            <h3>Tip</h3>
+            <div class="tip">
+                - <strong>Good design = High Cohesion (focused class) + Low Coupling (minimal dependency).</strong>
+                - <strong>Best Practice:</strong> Use interfaces and dependency injection to reduce coupling.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="card">
+        <h3>Tips for Experience</h3>
+        <div class="tip">
+            - Prefer composition to inheritance in complex systems to avoid fragile base class problems.
+            - Review coupling regularly in code reviews; tight coupling often appears in legacy systems.
+            - In microservices, treat services as loosely coupled modules with high internal cohesion.
+            - Use <code>record</code> types for immutable data carriers when composing objects.
+            - Combine OOP principles with modern Java features like Pattern Matching, Sealed Classes, and Records for
+            cleaner designs.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: Differentiate between Association, Aggregation, and Composition in Java.<br>
+            - Q: When would you choose Composition over Inheritance?<br>
+            - Q: What is the difference between Cohesion and Coupling, and why does it matter?<br>
+            - Q: Explain how Dependency Injection supports loose coupling.<br>
+            - Q: How can Java's <code>sealed</code> classes help in maintaining high cohesion?<br>
+        </div>
+    </div>
+
+</section>

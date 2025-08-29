@@ -1,0 +1,189 @@
+<section id="observer_pattern">
+    <h1>Observer Pattern</h1>
+
+    <h2>📖 Definition</h2>
+    <p>
+        The <b>Observer Pattern</b> is a <b>behavioral design pattern</b> where an object (called the <b>Subject</b>)
+        maintains a list of its dependents (called <b>Observers</b>) and notifies them automatically whenever
+        its state changes.
+    </p>
+
+    <div class="note">
+        <b>Note:</b> Subject = publisher (who generates events).
+        Observers = subscribers (who react to events).
+    </div>
+
+    <h2>📜 History</h2>
+    <p>
+        The Observer pattern was formally described in the famous <i>Gang of Four (GoF)</i> design patterns book (1994).
+        It is one of the most commonly used patterns in event-driven systems, GUIs, and reactive programming.
+    </p>
+
+    <h2>🌍 Real-life Example</h2>
+    <ul>
+        <li><b>News Agency</b>: A news agency (subject) publishes news. People (observers) subscribe to receive updates.
+        </li>
+        <li><b>YouTube Channel</b>: The channel is the subject. Subscribers (observers) get notified when new videos are
+            uploaded.</li>
+        <li><b>Stock Market</b>: Stock data feed (subject) notifies broker apps (observers) when prices change.</li>
+    </ul>
+
+    <h2>📊 Structure Diagram</h2>
+    <pre>
++-----------------+        +------------------+
+|     Subject     |------->|     Observer     |
+|-----------------|        |------------------|
+| + attach()      |        | + update()       |
+| + detach()      |        +------------------+
+| + notify()      |
++-----------------+
+        |
+        v
++----------------------+
+|  ConcreteSubject     |
+| - state              |
++----------------------+
+        |
+        v
++----------------------+
+|  ConcreteObserver    |
+| - update()           |
++----------------------+
+</pre>
+
+    <h2>💻 Example</h2>
+    <pre>
+// Subject interface
+interface Subject {
+    void attach(Observer o);
+    void detach(Observer o);
+    void notifyObservers();
+}
+
+// Observer interface
+interface Observer {
+    void update(String message);
+}
+
+// Concrete Subject
+class NewsAgency implements Subject {
+    private List<Observer> observers = new ArrayList<>();
+    private String news;
+
+    @Override
+    public void attach(Observer o) { observers.add(o); }
+
+    @Override
+    public void detach(Observer o) { observers.remove(o); }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update(news);
+        }
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+        notifyObservers(); // important!
+    }
+}
+
+// Concrete Observer
+class Subscriber implements Observer {
+    private String name;
+
+    public Subscriber(String name) { this.name = name; }
+
+    @Override
+    public void update(String message) {
+        System.out.println(name + " received update: " + message);
+    }
+}
+
+// Usage
+public class ObserverDemo {
+    public static void main(String[] args) {
+        NewsAgency agency = new NewsAgency();
+
+        Observer alice = new Subscriber("Alice");
+        Observer bob = new Subscriber("Bob");
+
+        agency.attach(alice);
+        agency.attach(bob);
+
+        agency.setNews("Breaking News: Observer Pattern in Action!");
+    }
+}
+</pre>
+
+    <h2>✅ Output</h2>
+    <pre>
+Alice received update: Breaking News: Observer Pattern in Action!
+Bob received update: Breaking News: Observer Pattern in Action!
+</pre>
+
+    <h2>⚖ Advantages</h2>
+    <ul>
+        <li>Loose coupling between subject and observers.</li>
+        <li>Supports broadcast communication (one-to-many relationship).</li>
+        <li>Dynamic – observers can join or leave anytime.</li>
+    </ul>
+
+    <h2>⚠ Disadvantages</h2>
+    <ul>
+        <li>Notification may cause unexpected updates if observers are not managed carefully.</li>
+        <li>Can lead to memory leaks if observers are not unsubscribed properly.</li>
+        <li>Debugging can become harder with many observers.</li>
+    </ul>
+
+    <h2>🛠 Real-world Usage</h2>
+    <ul>
+        <li>Java <b>Event Listeners</b> (Swing, AWT).</li>
+        <li><b>Spring Framework</b> ApplicationEvent + ApplicationListener.</li>
+        <li>Message brokers (Kafka, RabbitMQ).</li>
+        <li>Reactive frameworks like RxJava, Reactor (Observer core idea).</li>
+    </ul>
+
+    <h2>🔀 Variants of Observer Pattern</h2>
+    <ul>
+        <li><b>Push Model</b>: Subject sends detailed update to observers.</li>
+        <li><b>Pull Model</b>: Subject only notifies change; observers fetch data when needed.</li>
+        <li><b>Property Change Listeners</b>: Common in Java Beans, listeners attached to properties.</li>
+    </ul>
+
+    <h2>🔄 Alternatives</h2>
+    <ul>
+        <li><b>Mediator Pattern</b>: Instead of direct notifications, communication goes through a central mediator.
+        </li>
+        <li><b>Event Bus</b>: A publish/subscribe system (like Google Guava EventBus).</li>
+    </ul>
+
+    <h2>💡 Notes</h2>
+    <ul>
+        <li><b>Interface</b>: In Java, it defines a contract (methods without implementation).</li>
+        <li><b>Loose coupling</b>: Classes interact through interfaces, not concrete types.</li>
+        <li><b>Event-driven</b>: A programming style where flow is controlled by events (like clicks, updates).</li>
+    </ul>
+
+    <h2>📝 Interview Questions</h2>
+    <div class="interview"> 
+        <ul>
+            <li>What is the Observer Pattern, and where is it used in Java?</li>
+            <li>Difference between <b>push model</b> and <b>pull model</b> in Observer?</li>
+            <li>How does Java’s <b>Observer / Observable</b> classes relate to this pattern?</li>
+            <li>What issues can happen with too many observers?</li>
+            <li>How is Observer different from <b>Publish-Subscribe</b> systems?</li>
+        </ul>
+    </div>
+
+    <h2>👨‍💻 Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Always detach observers to prevent <b>memory leaks</b> in long-running apps.</li>
+            <li>Use weak references for observers in some cases (to avoid leaks).</li>
+            <li>Consider reactive libraries (RxJava, Project Reactor) for complex async Observer cases.</li>
+            <li>Use <b>interfaces</b> for Observer/Subject so code stays extensible.</li>
+        </ul>
+    </div>
+</section>

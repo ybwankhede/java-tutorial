@@ -1,0 +1,220 @@
+<section id="functional-programming">
+    <h2>Functional Programming</h2>
+  
+    <!-- 1. Definition -->
+    <div class="section">
+      <p>
+        <strong>Definition:</strong><br> 
+        <strong>Functional Programming (FP)</strong> is a programming style where 
+        you treat <em>functions as first-class citizens</em>.  
+        That means functions can be:
+        <ul>
+          <li>Assigned to variables</li>
+          <li>Passed as arguments</li>
+          <li>Returned from other functions</li>
+        </ul>
+        In Java, FP became possible with <strong>Java 8</strong> using 
+        <code>lambdas</code>, <code>streams</code>, and <code>functional interfaces</code>.
+      </p>
+    </div>
+  
+    <!-- 2. Simple Understanding Block -->
+    <div class="section">
+      <h3>Simple Understanding</h3>
+      <p><strong>Traditional Java (Imperative):</strong> "Tell computer step by step HOW to do."</p>
+      <pre>
+  List&lt;Integer&gt; list = Arrays.asList(1,2,3,4,5);
+  List&lt;Integer&gt; evens = new ArrayList<>();
+  for (Integer n : list) {
+      if (n % 2 == 0) {
+          evens.add(n);
+      }
+  }
+  System.out.println(evens);
+      </pre>
+  
+      <p><strong>Functional Java:</strong> "Tell computer WHAT you want."</p>
+      <pre>
+  List&lt;Integer&gt; list = Arrays.asList(1,2,3,4,5);
+  List&lt;Integer&gt; evens = list.stream()
+                             .filter(n -> n % 2 == 0)
+                             .toList();
+  System.out.println(evens);
+      </pre>
+      <p>
+        ➡️ FP focuses on <strong>declarative style</strong> (what to do), 
+        instead of <strong>imperative style</strong> (how to do).
+      </p>
+    </div>
+  
+    <!-- 3. Real-Life Analogy -->
+    <div class="section">
+      <h3>3. Real-Life Example</h3>
+      <p>
+        Imagine you want a <em>cup of coffee</em>:
+      </p>
+      <ul>
+        <li>Imperative: You grind beans, boil water, pour, stir — step by step instructions.</li>
+        <li>Functional: You just say “Give me coffee” and the system already knows the recipe.</li>
+      </ul>
+    </div>
+  
+    <!-- 4. Key Concepts -->
+    <div class="section">
+      <h3>Key Concepts in Functional Programming</h3>
+      <ul>
+        <li><strong>Lambda Expressions</strong> — Inline functions (e.g., <code>x -> x * 2</code>)</li>
+        <li><strong>Functional Interfaces</strong> — Interface with one abstract method (<code>Predicate</code>, <code>Function</code>, etc.)</li>
+        <li><strong>Streams API</strong> — To process data declaratively (map, filter, reduce, collect).</li>
+        <li><strong>Method References</strong> — Shortcuts to use existing methods (<code>String::toUpperCase</code>).</li>
+        <li><strong>Immutability</strong> — Prefer not to modify data, but return new values.</li>
+      </ul>
+    </div>
+  
+    <!-- 5. UML / Flow -->
+    <div class="section">
+      <h3>Execution Flow</h3>
+      <pre>
+  Data Collection ---> Stream ---> Intermediate Operations ---> Terminal Operation ---> Result
+                             (map, filter, sorted)             (forEach, reduce, collect)
+      </pre>
+    </div>
+  
+    <!-- 6. Code Examples -->
+    <div class="section">
+      <h3>Examples</h3>
+      <pre>
+  import java.util.*;
+  import java.util.stream.*;
+  
+  public class FunctionalDemo {
+      public static void main(String[] args) {
+  
+          // Example 1: map (transform each element)
+          List&lt;String&gt; names = Arrays.asList("alice", "bob", "charlie");
+          names.stream()
+               .map(String::toUpperCase)
+               .forEach(System.out::println);
+  
+          // Example 2: filter (pick matching)
+          List&lt;Integer&gt; numbers = Arrays.asList(10,15,20,25,30);
+          numbers.stream()
+                 .filter(n -> n % 2 == 0)
+                 .forEach(System.out::println);
+  
+          // Example 3: reduce (combine into one value)
+          int sum = numbers.stream()
+                           .reduce(0, (a,b) -> a+b);
+          System.out.println("Sum = " + sum);
+  
+          // Example 4: collect (back to collection)
+          Set&lt;Integer&gt; evens = numbers.stream()
+                                     .filter(n -> n%2==0)
+                                     .collect(Collectors.toSet());
+          System.out.println(evens);
+  
+          // Example 5: Functional interface
+          Predicate&lt;String&gt; isShort = s -> s.length() &lt;= 4;
+          System.out.println(isShort.test("Java"));   // true
+          System.out.println(isShort.test("Lambda")); // false
+      }
+  }
+      </pre>
+    </div>
+  
+    <!-- 7. Common Functional Interfaces -->
+    <div class="section">
+      <h3>Common Functional Interfaces (java.util.function.*)</h3>
+      <table>
+        <tr><th>Interface</th><th>Method</th><th>Example</th></tr>
+        <tr><td>Predicate&lt;T&gt;</td><td>boolean test(T t)</td><td>n -> n > 10</td></tr>
+        <tr><td>Function&lt;T,R&gt;</td><td>R apply(T t)</td><td>s -> s.length()</td></tr>
+        <tr><td>Consumer&lt;T&gt;</td><td>void accept(T t)</td><td>x -> System.out.println(x)</td></tr>
+        <tr><td>Supplier&lt;T&gt;</td><td>T get()</td><td>() -> "Hello"</td></tr>
+        <tr><td>BiFunction&lt;T,U,R&gt;</td><td>R apply(T,U)</td><td>(a,b) -> a+b</td></tr>
+      </table>
+    </div>
+  
+    <!-- 8. Internal Working -->
+    <div class="section">
+      <h3>Internal Working</h3>
+      <ul>
+        <li>Streams use <strong>lazy evaluation</strong> → intermediate operations don’t run until a terminal operation is called.</li>
+        <li>Lambdas are compiled to <code>invokedynamic</code> bytecode instructions.</li>
+        <li>Each operation creates a pipeline stage; only when terminal op runs, all execute in order.</li>
+        <li>FP encourages immutability — so data is not modified in place.</li>
+      </ul>
+    </div>
+  
+    <!-- 9. Advantages / Disadvantages -->
+    <div class="section">
+      <h3>Advantages</h3>
+      <ul>
+        <li>Concise and clean code.</li>
+        <li>Parallel stream support → better performance in large data sets.</li>
+        <li>Easy to apply transformations, filters, aggregations.</li>
+        <li>Encourages immutability and safer multi-threading.</li>
+      </ul>
+      <h3>Disadvantages</h3>
+      <ul>
+        <li>Harder to debug pipelines.</li>
+        <li>Not all problems fit FP well (stateful tasks can be tricky).</li>
+        <li>Learning curve for beginners.</li>
+        <li>Excessive use may hurt readability.</li>
+      </ul>
+    </div>
+  
+    <!-- 10. Notes & Tips -->
+    <div class="section">
+      <h3>Notes</h3>
+      <div class="note">
+        <ul>
+            <li>Always end a stream pipeline with a terminal operation.</li>
+            <li>Use <code>parallelStream()</code> carefully (only for CPU-heavy tasks, not IO-bound).</li>
+            <li>Avoid modifying external state inside lambdas.</li>
+            <li>Prefer method references for cleaner code: <code>names.forEach(System.out::println)</code>.</li>
+          </ul>
+      </div>
+    </div>
+  
+    <!-- 11. Corner Points -->
+    <div class="section">
+      <h3>Corner Points</h3>
+      <ul>
+        <li>Streams can only be consumed once; reusing throws <code>IllegalStateException</code>.</li>
+        <li>Lambdas capture only effectively final variables from outer scope.</li>
+        <li>Order matters: <code>map().filter()</code> vs <code>filter().map()</code> may differ in performance.</li>
+        <li>Short-circuit operations like <code>findFirst()</code> stop the pipeline early.</li>
+      </ul>
+    </div>
+  
+    <!-- 13. Quick Cheat Sheet -->
+    <div class="section">
+      <h3>Imperative Comparison</h3>
+      <table >
+        <tr><th>Aspect</th><th>Imperative</th><th>Functional</th></tr>
+        <tr><td>Style</td><td>Step-by-step (HOW)</td><td>Declarative (WHAT)</td></tr>
+        <tr><td>State</td><td>Mutable</td><td>Immutable</td></tr>
+        <tr><td>Focus</td><td>Loops & Control flow</td><td>Functions & Transformations</td></tr>
+        <tr><td>Java Support</td><td>Since Java 1</td><td>Since Java 8 (Lambdas, Streams)</td></tr>
+      </table>
+    </div>
+
+    <!-- 12. Interview Questions -->
+    <div class="section">
+        <h3>Interview Questions</h3>
+        <div class="interview">
+            <ul>
+                <li>What is Functional Programming? How does Java support it?</li>
+                <li>Explain the difference between imperative and declarative style.</li>
+                <li>What are functional interfaces? Name a few built-in ones.</li>
+                <li>How do streams work internally (lazy evaluation)?</li>
+                <li>Difference between map(), flatMap(), filter() in streams?</li>
+                <li>What are terminal vs intermediate operations?</li>
+                <li>When would you avoid using parallel streams?</li>
+                <li>Explain immutability in the context of FP.</li>
+              </ul>
+        </div>
+      </div>
+  </section>
+  

@@ -1,0 +1,176 @@
+<section id="strategy_pattern">
+    <h1>Strategy Pattern</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>
+        The <b>Strategy Pattern</b> is a behavioral design pattern that allows you to define a family of algorithms,
+        encapsulate each one, and make them interchangeable at runtime. Instead of hardcoding an algorithm inside a
+        class,
+        you can select the behavior dynamically.
+    </p>
+    <p>
+        This pattern was introduced as part of the <i>Gang of Four (GoF)</i> design patterns in their famous 1994 book
+        <i>"Design Patterns: Elements of Reusable Object-Oriented Software"</i>. It solves the problem of multiple
+        <code>if-else</code>
+        or <code>switch</code> statements that choose different algorithms.
+    </p>
+
+    <div class="note">
+        <b>Note:</b> The Strategy Pattern is also called <b>Policy Pattern</b>.
+    </div>
+
+    <h2>2. Real-Life Analogy</h2>
+    <ul>
+        <li><b>Travel Strategy:</b> Suppose you want to travel. You can go by <i>car</i>, <i>train</i>, <i>flight</i>,
+            or <i>bus</i>.
+            Each is a strategy for traveling. You can switch strategies depending on budget, speed, or convenience.</li>
+        <li><b>Sorting Algorithms:</b> In Java, <code>Collections.sort()</code> allows you to pass a
+            <code>Comparator</code>.
+            Different comparators represent different sorting strategies (ascending, descending, by name, by age, etc.).
+        </li>
+    </ul>
+
+    <h2>3. Structure Diagram (ASCII)</h2>
+    <pre>
+          +-------------------+
+          |     Context       |
+          |-------------------|
+          | - strategy: S     |
+          |-------------------|
+          | + setStrategy()   |
+          | + execute()       |
+          +---------+---------+
+                    |
+          -----------------
+          |               |
+  +---------------+   +---------------+
+  |  Strategy A   |   |  Strategy B   |
+  |---------------|   |---------------|
+  | + execute()   |   | + execute()   |
+  +---------------+   +---------------+
+</pre>
+
+    <h2>4. Java Example with Comments</h2>
+    <pre>
+// Step 1: Define Strategy interface
+interface PaymentStrategy {
+    void pay(int amount);
+}
+
+// Step 2: Implement different strategies
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Credit Card.");
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using PayPal.");
+    }
+}
+
+// Step 3: Context class that uses a strategy
+class ShoppingCart {
+    private PaymentStrategy paymentStrategy;
+
+    // set strategy dynamically
+    public void setPaymentStrategy(PaymentStrategy strategy) {
+        this.paymentStrategy = strategy;
+    }
+
+    public void checkout(int amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+
+// Step 4: Client code
+public class StrategyPatternDemo {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+
+        // Use CreditCard strategy
+        cart.setPaymentStrategy(new CreditCardPayment());
+        cart.checkout(100);
+
+        // Switch to PayPal strategy
+        cart.setPaymentStrategy(new PayPalPayment());
+        cart.checkout(200);
+    }
+}
+</pre>
+
+    <h2>5. Advantages</h2>
+    <ul>
+        <li>Encapsulates algorithms and makes them interchangeable.</li>
+        <li>Removes long <code>if-else</code> or <code>switch</code> conditions.</li>
+        <li>Makes code more flexible and easier to extend with new strategies.</li>
+        <li>Follows <b>Open/Closed Principle</b> (add new strategies without modifying existing code).</li>
+    </ul>
+
+    <h2>6. Disadvantages</h2>
+    <ul>
+        <li>Increases number of classes (each strategy is a separate class).</li>
+        <li>Client must be aware of different strategies to choose the right one.</li>
+    </ul>
+
+    <h2>7. Use Cases in Frameworks</h2>
+    <ul>
+        <li><b>Java:</b> <code>Comparator</code> in sorting is a classic strategy example.</li>
+        <li><b>Spring:</b> Bean selection via profiles or conditional beans.</li>
+        <li><b>Payment Gateways:</b> Different payment options (Credit Card, PayPal, UPI, etc.).</li>
+    </ul>
+
+    <h2>8. Variants with Examples</h2>
+    <ul>
+        <li><b>Static Strategy:</b> Strategy chosen at compile time (not flexible).</li>
+        <li><b>Dynamic Strategy:</b> Strategy chosen at runtime (most common use case).</li>
+        <li><b>Lambda Strategy:</b> In Java 8+, strategies can be defined using lambdas (less boilerplate).</li>
+    </ul>
+    <pre>
+// Example: Lambda strategy
+PaymentStrategy upiPayment = amount -> System.out.println("Paid " + amount + " using UPI.");
+ShoppingCart cart = new ShoppingCart();
+cart.setPaymentStrategy(upiPayment);
+cart.checkout(500);
+</pre>
+
+    <h2>9. Alternatives</h2>
+    <ul>
+        <li><b>Template Method:</b> Defines the skeleton of an algorithm in a base class and lets subclasses override
+            steps.
+            Strategy prefers composition, Template Method uses inheritance.</li>
+        <li><b>State Pattern:</b> Looks similar, but focuses on changing behavior based on internal state,
+            whereas Strategy focuses on algorithm selection.</li>
+    </ul>
+
+    <h2>10. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Strategy Pattern solve?</li>
+            <li>How does Strategy differ from State Pattern?</li>
+            <li>Give real-world examples of Strategy Pattern in Java libraries.</li>
+            <li>When should you prefer Strategy over Template Method?</li>
+            <li>What are the trade-offs of using Strategy Pattern?</li>
+        </ul>
+    </div>
+
+    <h2>11. Notes for Keywords</h2>
+    <div class="note">
+        <b>Interface:</b> A contract in Java that defines methods without implementation.
+        Strategies implement the same interface so they can be interchangeable.
+    </div>
+    <div class="note">
+        <b>Composition:</b> Context uses (has-a) Strategy object instead of inheriting it.
+        This makes the pattern flexible.
+    </div>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tip">
+        ✔ Use Strategy Pattern when you have multiple ways of doing something (algorithms) and want to switch easily.
+        ✔ In Java 8+, prefer Lambdas to reduce boilerplate when strategies are simple.
+        ✔ Don’t overuse this pattern; it’s best when algorithms are clearly different and likely to change.
+        ✔ Combine with Dependency Injection (e.g., Spring) to inject strategies dynamically.
+    </div>
+
+</section>

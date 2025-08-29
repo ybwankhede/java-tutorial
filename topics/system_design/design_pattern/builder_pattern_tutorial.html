@@ -1,0 +1,272 @@
+<section id="builder_pattern">
+    <h1>Builder Pattern</h1>
+
+    <h2>Introduction & History</h2>
+    <p>
+        The <b>Builder Pattern</b> is a <i>creational design pattern</i> introduced by the GoF (Gang of Four, 1994) in
+        their book
+        <b>"Design Patterns: Elements of Reusable Object-Oriented Software"</b>.
+        It helps construct complex objects step by step without needing to pass a long constructor with too many
+        parameters.
+    </p>
+
+    <div class="note">
+        <b>Note:</b> In Java, when a class has many attributes (optional + mandatory), constructors become long and hard
+        to manage.
+        This is called the <b>Telescoping Constructor Problem</b>. Builder pattern solves this neatly.
+    </div>
+
+    <h2>Real-Life Analogy</h2>
+    <p>
+        Think about ordering a <b>Burger in a restaurant</b>.
+        - You can choose bread type, add cheese, veggies, sauces, etc.
+        - Each customer may want a different combination.
+        - A <i>builder</i> (chef) prepares the burger step by step as per your order.
+        This is how the Builder Pattern works — assembling complex objects with flexibility.
+    </p>
+
+    <h2>Structure Diagram</h2>
+    <pre>
+    Builder Pattern Structure:
+    
+            +-------------------+
+            |   Product         |
+            +-------------------+
+                      ^
+                      |
+            +-------------------+
+            |   Builder         |<---------+
+            +-------------------+          |
+            | + setPart()       |          |
+            | + build()         |          |
+            +-------------------+          |
+                      ^                     |
+                      |                     |
+            +-------------------+    +-----------------+
+            | ConcreteBuilder   |    | Director        |
+            +-------------------+    +-----------------+
+            | + implementation  |    | + construct()   |
+            +-------------------+    +-----------------+
+    </pre>
+
+    <h2>Example</h2>
+    <pre>
+    // Product Class (House)
+    class House {
+        private String foundation;
+        private String structure;
+        private String roof;
+        private boolean hasGarden;
+    
+        // private constructor (only Builder can access)
+        private House(HouseBuilder builder) {
+            this.foundation = builder.foundation;
+            this.structure = builder.structure;
+            this.roof = builder.roof;
+            this.hasGarden = builder.hasGarden;
+        }
+    
+        @Override
+        public String toString() {
+            return "House [foundation=" + foundation + 
+                   ", structure=" + structure + 
+                   ", roof=" + roof + 
+                   ", hasGarden=" + hasGarden + "]";
+        }
+    
+        // Static Inner Builder Class
+        public static class HouseBuilder {
+            private String foundation;
+            private String structure;
+            private String roof;
+            private boolean hasGarden;
+    
+            // Fluent setters
+            public HouseBuilder setFoundation(String foundation) {
+                this.foundation = foundation;
+                return this;
+            }
+            public HouseBuilder setStructure(String structure) {
+                this.structure = structure;
+                return this;
+            }
+            public HouseBuilder setRoof(String roof) {
+                this.roof = roof;
+                return this;
+            }
+            public HouseBuilder setGarden(boolean hasGarden) {
+                this.hasGarden = hasGarden;
+                return this;
+            }
+    
+            // build() method returns the final object
+            public House build() {
+                return new House(this);
+            }
+        }
+    }
+    
+    // Usage
+    public class BuilderPatternDemo {
+        public static void main(String[] args) {
+            House house = new House.HouseBuilder()
+                            .setFoundation("Concrete")
+                            .setStructure("Wood")
+                            .setRoof("Tiles")
+                            .setGarden(true)
+                            .build();
+    
+            System.out.println(house);
+        }
+    }
+    </pre>
+
+    <h2>Advantages</h2>
+    <ul>
+        <li>Solves telescoping constructor problem.</li>
+        <li>Makes object creation readable and flexible.</li>
+        <li>Supports immutability (final fields).</li>
+        <li>Step-by-step object construction.</li>
+    </ul>
+
+    <h2>Disadvantages</h2>
+    <ul>
+        <li>More boilerplate code compared to simple constructors.</li>
+        <li>May increase complexity for small objects.</li>
+    </ul>
+
+    <h2>Use Cases</h2>
+    <ul>
+        <li><b>StringBuilder</b> in Java – builds strings step by step.</li>
+        <li><b>Apache HttpClient</b> – RequestConfig builder.</li>
+        <li><b>Spring Boot</b> – Builders used in configuration objects.</li>
+        <li><b>Lombok</b> – <code>@Builder</code> annotation auto-generates builder classes.</li>
+    </ul>
+
+    <h2>Variants of Builder Pattern</h2>
+
+    <h3>1. Classic Builder with Director</h3>
+    <pre>
+    class Car {
+        String engine;
+        int wheels;
+        boolean airbags;
+        // constructor + toString()
+    }
+    
+    interface CarBuilder {
+        void buildEngine();
+        void buildWheels();
+        void buildAirbags();
+        Car getCar();
+    }
+    
+    class SportsCarBuilder implements CarBuilder {
+        private Car car = new Car();
+        public void buildEngine() { car.engine = "V8"; }
+        public void buildWheels() { car.wheels = 4; }
+        public void buildAirbags() { car.airbags = true; }
+        public Car getCar() { return car; }
+    }
+    
+    class Director {
+        private CarBuilder builder;
+        Director(CarBuilder builder) { this.builder = builder; }
+        Car construct() {
+            builder.buildEngine();
+            builder.buildWheels();
+            builder.buildAirbags();
+            return builder.getCar();
+        }
+    }
+    
+    public class ClassicBuilderDemo {
+        public static void main(String[] args) {
+            Director director = new Director(new SportsCarBuilder());
+            Car car = director.construct();
+            System.out.println("Built Car: " + car);
+        }
+    }
+    </pre>
+
+    <h3>2. Fluent Builder (Method Chaining)</h3>
+    <pre>
+    Employee emp = new Employee.Builder()
+                       .setId(101)
+                       .setName("John")
+                       .setDepartment("IT")
+                       .build();
+    </pre>
+
+    <h3>3. Inner Static Class Builder</h3>
+    <p>This is the most common approach in modern Java (as shown in the House example).</p>
+
+    <h3>4. Lombok @Builder</h3>
+    <pre>
+    import lombok.Builder;
+    import lombok.ToString;
+    
+    @Builder
+    @ToString
+    class Student {
+        private int id;
+        private String name;
+        private String course;
+    }
+    
+    public class LombokBuilderDemo {
+        public static void main(String[] args) {
+            Student s = Student.builder()
+                               .id(1)
+                               .name("Alice")
+                               .course("Java")
+                               .build();
+            System.out.println(s);
+        }
+    }
+    </pre>
+
+    <h2>Alternatives</h2>
+    <ul>
+        <li><b>Factory Pattern</b> – when object creation logic is simple and fixed.</li>
+        <li><b>Prototype Pattern</b> – when objects are created by cloning.</li>
+        <li><b>Abstract Factory</b> – when families of related objects are needed.</li>
+    </ul>
+
+    <h2>Interview Questions</h2>
+    <div class="interview">
+        <b>Q1:</b> What problem does the Builder Pattern solve?<br>
+        <b>A:</b> It solves the telescoping constructor problem by allowing step-by-step object creation.
+    </div>
+    <div class="interview">
+        <b>Q2:</b> How is Builder different from Factory? <br>
+        <b>A:</b> Factory focuses on <i>what</i> object to create, Builder focuses on <i>how</i> to assemble it step by
+        step.
+    </div>
+    <div class="interview">
+        <b>Q3:</b> Which JDK classes use Builder? <br>
+        <b>A:</b> StringBuilder, StringBuffer, Stream.Builder, RequestConfig in Apache HttpClient, etc.
+    </div>
+    <div class="interview">
+        <b>Q4:</b> Is Builder thread-safe? <br>
+        <b>A:</b> Not by default. Synchronization must be added if used in multi-threaded scenarios.
+    </div>
+
+    <h2>Notes for Keywords</h2>
+    <div class="note">
+        <b>Note:</b>
+        - <b>interface</b> is a contract with abstract methods, implemented by builders.
+        - <b>static inner class</b> allows logical grouping without needing an outer object.
+        - <b>fluent interface</b> means chaining methods by returning <code>this</code>.
+    </div>
+
+    <h2>Developer Tips</h2>
+    <div class="tips">
+        ✔ Use Builder for objects with many optional parameters. <br>
+        ✔ Combine with immutability for cleaner design. <br>
+        ✔ In DTOs and POJOs, prefer Lombok's <code>@Builder</code> to save time. <br>
+        ✔ Avoid over-engineering small classes with Builder. <br>
+        ✔ Always validate input inside the <code>build()</code> method.
+    </div>
+
+</section>

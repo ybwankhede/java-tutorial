@@ -1,0 +1,123 @@
+<section id="object">
+    <h2>Object</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        An objcet is a real-world entity that has <b>state</b> (data/fields) and <b>behavior</b> (methods).
+        In Java, objects are created from a <b>class</b>, which acts like a blueprint.
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>
+        Think of a <b>Car</b> class: it defines what every car can have (color, model, engine) and what it can do
+        (drive, brake, honk).
+        But only when you create an <b>actual car</b> (e.g., <code>new Car()</code>), you get a real usable
+        <b>object</b>.
+    </p>
+
+    <h3>Real-Life Example</h3>
+    <p>
+        Imagine a <b>BankAccount</b> class → every user (Vasu, Nidhi, Shree) will have their own
+        <b>account object</b> with balance, accountNumber, and actions like deposit or withdraw.
+    </p>
+
+    <h3>Example</h3>
+    <p>
+    <ul>
+        <li><b>Class:</b> Car (blueprint)</li>
+        <li><b>Objects:</b> MyCar (Red Honda City), DadCar (White Hyundai Creta)</li>
+    </ul>
+    </p>
+    <pre>
+      class Car {
+          String color;
+          String model;
+  
+          void drive() {
+              System.out.println("Car is driving...");
+          }
+      }
+  
+      public class Main {
+          public static void main(String[] args) {
+              Car myCar = new Car();   // Object created
+              myCar.color = "Red";
+              myCar.model = "Honda City";
+              myCar.drive();           // calling method on object
+  
+              System.out.println("My Car: " + myCar.color + " " + myCar.model);
+          }
+      }
+    </pre>
+
+    <h3>UML (Text-based)</h3>
+    <pre>
+     +--------------------+
+     |       Car          |
+     +--------------------+
+     | - color: String    |
+     | - model: String    |
+     +--------------------+
+     | + drive(): void    |
+     +--------------------+
+  
+     Object Example:
+     myCar:Car
+     -------------
+     color = "Red"
+     model = "Honda City"
+    </pre>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li>Represent real-world things in code.</li>
+        <li>Allow code reuse (create multiple objects from one class).</li>
+        <li>Encourage modularity and maintainability.</li>
+        <li>Enable encapsulation and security with private fields.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>Need more memory than primitive data types.</li>
+        <li>Extra object creation can slow down performance.</li>
+        <li>Poorly designed objects can cause tight coupling.</li>
+    </ul>
+
+    <h3>Specific Concepts</h3>
+    <ul>
+        <li><code>new</code> keyword → used to create objects.</li>
+        <li><code>null</code> → default value if object reference is not initialized.</li>
+        <li>Objects are always stored in <b>Heap Memory</b>, references live in the <b>Stack</b>.</li>
+        <li>Every object inherits from the <code>Object</code> class in Java (root of class hierarchy).</li>
+        <li>Garbage Collector automatically removes unused objects.</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Since Java 16, <b>Records</b> are introduced → they act like special classes to create immutable data
+            objects easily.</li>
+        <li>Java 14+ → <b>Helpful NullPointerExceptions</b> → show exactly which variable was null in an object
+            reference chain.</li>
+        <li>Java 17 LTS → pattern matching improvements for objects in <code>instanceof</code>.</li>
+    </ul>
+
+    <h3>Enhancement Tips (For Senior Developers)</h3>
+    <ul>
+        <li>Use <b>immutable objects</b> for thread safety (e.g., String, or custom immutable class).</li>
+        <li>Minimize object creation in loops for better performance.</li>
+        <li>Use <code>Object Pooling</code> if object creation is expensive (like database connections).</li>
+        <li>Override <code>equals()</code> and <code>hashCode()</code> when using objects in collections (HashMap,
+            HashSet).</li>
+    </ul>
+
+    <h3>Interview Questions</h3>
+    <ul>
+        <li><b>Basic:</b> What is an object in Java?</li>
+        <li><b>Basic:</b> How do you create an object in Java?</li>
+        <li><b>Intermediate:</b> Where are objects stored in Java memory?</li>
+        <li><b>Intermediate:</b> Difference between object and class?</li>
+        <li><b>Advanced:</b> How does Garbage Collector handle unused objects?</li>
+        <li><b>Advanced:</b> Why is <code>equals()</code> and <code>hashCode()</code> important for objects?</li>
+    </ul>
+
+</section>

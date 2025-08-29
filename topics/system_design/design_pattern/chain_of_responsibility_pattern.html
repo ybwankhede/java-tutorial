@@ -1,0 +1,286 @@
+<section id="chain_of_responsibility_pattern">
+    <h1>Chain of Responsibility Pattern</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>
+        The <strong>Chain of Responsibility (CoR)</strong> is a <strong>behavioral design pattern</strong> that lets you
+        pass a request along a chain of handlers.
+        Each handler decides either to <strong>handle</strong> the request or <strong>pass</strong> it to the next
+        handler in the chain.
+        This avoids big <code>if-else</code> or <code>switch</code> ladders and keeps senders decoupled from receivers.
+    </p>
+    <p>
+        Popularized by the <strong>Gang of Four (GoF)</strong> in 1994, CoR is widely used in frameworks for request
+        processing pipelines (filters, interceptors, middleware).
+    </p>
+
+    <h2>2. Real-Life Example</h2>
+    <ul>
+        <li><strong>Customer Support Escalation:</strong> L1 → L2 → L3. If L1 can't solve it, the ticket moves up the
+            chain.</li>
+        <li><strong>Purchase Approvals:</strong> Team Lead approves small amounts, Manager for medium, Director for
+            large.</li>
+        <li><strong>Airport Security:</strong> Initial check → baggage scan → manual inspection, each stage may handle
+            or forward.</li>
+    </ul>
+
+    <h2>3. Structure Diagram</h2>
+    <pre>
+    Client ---> [Handler] ---> [Handler] ---> [Handler] ---> (end)
+                  ^              ^              ^
+                  |              |              |
+              Concrete A     Concrete B     Concrete C
+    
+    interface Handler
+      + setNext(Handler): Handler   // returns next for fluent chaining
+      + handle(Request): void       // or Optional<Response>
+    
+    ConcreteHandler
+      - next: Handler
+      + handle(req) { if (canHandle) ... else next.handle(req); }
+    </pre>
+
+    <h2>4. Example (Purchase Approval Chain)</h2>
+    <div class="note"><strong>Goal:</strong> Approvals are based on amount. Each approver handles up to a limit;
+        otherwise forwards to the next approver.</div>
+    <pre>
+    // Request model (can be a simple POJO)
+    class PurchaseRequest {
+        final double amount;           // immutable for safety
+        final String purpose;
+        PurchaseRequest(double amount, String purpose) {
+            this.amount = amount;
+            this.purpose = purpose;
+        }
+    }
+    
+    // 1. Handler interface
+    interface Approver {
+        Approver setNext(Approver next);  // allows fluent chain building
+        void approve(PurchaseRequest req);
+    }
+    
+    // 2. Abstract base to store "next" and share logic (optional but convenient)
+    abstract class BaseApprover implements Approver {
+        protected Approver next; // the next handler in the chain (may be null)
+        public Approver setNext(Approver next) { this.next = next; return next; }
+    
+        // Helper to forward when not handled
+        protected void forward(PurchaseRequest req) {
+            if (next != null) next.approve(req);
+            else System.out.println("No approver available for amount: " + req.amount);
+        }
+    }
+    
+    // 3. Concrete handlers with specific limits
+    class TeamLead extends BaseApprover {
+        private static final double LIMIT = 1000.0;
+        public void approve(PurchaseRequest req) {
+            if (req.amount <= LIMIT) {
+                System.out.println("TeamLead approved: " + req.amount + " for " + req.purpose);
+            } else {
+                forward(req);
+            }
+        }
+    }
+    
+    class Manager extends BaseApprover {
+        private static final double LIMIT = 10000.0;
+        public void approve(PurchaseRequest req) {
+            if (req.amount <= LIMIT) {
+                System.out.println("Manager approved: " + req.amount + " for " + req.purpose);
+            } else {
+                forward(req);
+            }
+        }
+    }
+    
+    class Director extends BaseApprover {
+        private static final double LIMIT = 50000.0;
+        public void approve(PurchaseRequest req) {
+            if (req.amount <= LIMIT) {
+                System.out.println("Director approved: " + req.amount + " for " + req.purpose);
+            } else {
+                forward(req); // none -> will show fallback message
+            }
+        }
+    }
+    
+    // 4. Client builds the chain and sends requests
+    public class CoRDemo {
+        public static void main(String[] args) {
+            Approver lead = new TeamLead();
+            Approver manager = new Manager();
+            Approver director = new Director();
+    
+            // Build the chain: lead -> manager -> director
+            lead.setNext(manager).setNext(director);
+    
+            // Try different amounts
+            lead.approve(new PurchaseRequest(300, "Office Supplies"));
+            lead.approve(new PurchaseRequest(5000, "Team Training"));
+            lead.approve(new PurchaseRequest(35000, "New Servers"));
+            lead.approve(new PurchaseRequest(120000, "Data Center Upgrade"));
+        }
+    }
+    </pre>
+
+    <h2>5. Advantages</h2>
+    <ul>
+        <li><strong>Decouples</strong> sender from specific receiver implementation.</li>
+        <li><strong>Open/Closed Principle:</strong> Add/remove/reorder handlers without changing client code.</li>
+        <li>Improves <strong>single responsibility</strong>: each handler focuses on one check/action.</li>
+        <li>Flexible runtime configuration; chains can be built dynamically.</li>
+    </ul>
+
+    <h2>6. Disadvantages</h2>
+    <ul>
+        <li>Requests may go <strong>unhandled</strong> if no terminal/default handler exists.</li>
+        <li>Harder <strong>debugging</strong>: flow hops across many small classes.</li>
+        <li><strong>Ordering</strong> matters; wrong order can cause bugs or inefficiency.</li>
+        <li>Potential <strong>performance overhead</strong> due to deep chains.</li>
+    </ul>
+
+    <h2>7. Real Framework Uses</h2>
+    <ul>
+        <li><strong>Servlet Filters</strong> (<code>javax.servlet.Filter</code>): Request/response passes through a
+            filter chain.</li>
+        <li><strong>Spring Security</strong>: Filter chain for authentication/authorization.</li>
+        <li><strong>Spring MVC</strong>: <code>HandlerInterceptor</code> chain (preHandle/postHandle/afterCompletion).
+        </li>
+        <li><strong>Logging</strong>: <code>java.util.logging</code> handlers propagate up the logger hierarchy.</li>
+        <li><strong>Netty</strong>: ChannelPipeline of handlers for inbound/outbound events.</li>
+    </ul>
+
+    <h2>8. Variants & Examples</h2>
+    <h3>8.1. Pure Chain (One-and-Only-One Handles)</h3>
+    <div class="note">Stop the chain as soon as a handler has processed the request.</div>
+    <pre>
+    class SpamFilter extends BaseApprover {
+        public void approve(PurchaseRequest req) {
+            if (req.purpose.contains("SPAM")) {
+                System.out.println("Rejected as SPAM");
+                // do NOT forward; chain stops here
+            } else {
+                forward(req);
+            }
+        }
+    }
+    </pre>
+
+    <h3>8.2. Default/Terminal Handler</h3>
+    <div class="note">Ensure every request is handled by ending the chain with a default handler.</div>
+    <pre>
+    class DefaultApprover extends BaseApprover {
+        public void approve(PurchaseRequest req) {
+            System.out.println("Auto-logging unhandled request: " + req.amount + ", " + req.purpose);
+        }
+    }
+    
+    // Usage: director.setNext(new DefaultApprover());
+    </pre>
+
+    <h3>8.3. Filter-Style (Pre/Post) Chain</h3>
+    <div class="note">Like Servlet filters: each handler does work <em>before</em> and <em>after</em> delegating.</div>
+    <pre>
+    interface Filter {
+        void doFilter(PurchaseRequest req, FilterChain chain);
+    }
+    
+    class FilterChain {
+        private final List<Filter> filters = new ArrayList<>();
+        private int index = 0;
+        public FilterChain add(Filter f) { filters.add(f); return this; }
+        public void doFilter(PurchaseRequest req) {
+            if (index < filters.size()) {
+                filters.get(index++).doFilter(req, this);
+            }
+        }
+    }
+    
+    class AuditFilter implements Filter {
+        public void doFilter(PurchaseRequest req, FilterChain chain) {
+            System.out.println("[PRE] audit: " + req.purpose);
+            chain.doFilter(req);
+            System.out.println("[POST] audit: " + req.purpose);
+        }
+    }
+    </pre>
+
+    <h3>8.4. Functional Chain (Java 8+)</h3>
+    <div class="note">Use functions to build pipelines without creating many classes.</div>
+    <pre>
+    import java.util.function.Function;
+    
+    Function<PurchaseRequest, PurchaseRequest> limit1000 = r -> {
+        if (r.amount <= 1000) { System.out.println("TL ok: " + r.amount); }
+        return r; // always pass along (or return null to stop)
+    };
+    
+    Function<PurchaseRequest, PurchaseRequest> limit10000 = r -> {
+        if (r.amount <= 10000) { System.out.println("Mgr ok: " + r.amount); }
+        return r;
+    };
+    
+    Function<PurchaseRequest, PurchaseRequest> pipeline = limit1000.andThen(limit10000);
+    pipeline.apply(new PurchaseRequest(700, "Chairs"));
+    </pre>
+
+    <h3>8.5. Async Chain (CompletableFuture)</h3>
+    <div class="note">Useful when each step may be asynchronous (I/O, services).</div>
+    <pre>
+    CompletableFuture.supplyAsync(() -> new PurchaseRequest(2000, "Laptops"))
+        .thenApply(req -> { System.out.println("Validate " + req.amount); return req; })
+        .thenApply(req -> { System.out.println("FraudCheck " + req.amount); return req; })
+        .thenAccept(req -> System.out.println("Persist " + req.amount));
+    </pre>
+
+    <h2>9. Alternatives & When to Use</h2>
+    <ul>
+        <li><strong>Strategy:</strong> Choose exactly one algorithm/handler explicitly (no pass-along).</li>
+        <li><strong>Decorator:</strong> Layer behavior around one object (symmetrical pre/post), not conditional
+            routing.</li>
+        <li><strong>Mediator:</strong> Centralizes complex communication instead of passing along a chain.</li>
+        <li><strong>Command:</strong> Encapsulate requests; can be combined with CoR for routing commands to handlers.
+        </li>
+    </ul>
+
+    <h2>10. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does Chain of Responsibility solve? Give a real example.</li>
+            <li>How do you stop a chain? How do you ensure every request is handled?</li>
+            <li>Compare CoR with Decorator, Strategy, and Mediator.</li>
+            <li>How would you make handler order configurable at runtime?</li>
+            <li>How do you handle exceptions and retries inside a chain?</li>
+            <li>Where have you used filter/interceptor chains in frameworks?</li>
+        </ul>
+    </div>
+
+    <h2>11. Notes</h2>
+    <div class="note">
+        <ul>
+            <li><strong>interface</strong>: A contract (methods only). Handlers implement the same interface to be
+                chainable.</li>
+            <li><strong>abstract class</strong>: Can hold shared code (e.g., <code>next</code> field,
+                <code>forward()</code> helper).</li>
+            <li><strong>next handler</strong>: Reference to the next element in the chain; may be <code>null</code>.
+            </li>
+            <li><strong>immutable request</strong>: Prefer immutable request objects to avoid side effects.</li>
+            <li><strong>idempotent</strong>: Handlers should avoid changing external state (or document it) to allow
+                retries.</li>
+        </ul>
+    </div>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Always add a <strong>default/terminal handler</strong> to avoid silent drops.</li>
+            <li>Keep handlers <strong>small and focused</strong>; one concern per handler.</li>
+            <li>Make chain <strong>configurable</strong> (properties, DI container) for easy reordering.</li>
+            <li>Log at the <strong>boundaries</strong> (enter/exit each handler) to simplify debugging.</li>
+            <li>Consider <strong>metrics</strong> and <strong>timeouts</strong> for production readiness in async
+                chains.</li>
+        </ul>
+    </div>
+</section>

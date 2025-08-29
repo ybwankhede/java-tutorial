@@ -1,0 +1,447 @@
+<section id="info">
+    <h2>What is Java?</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        <b>Java</b> is a <b>high-level, object-oriented, platform-independent programming language</b> developed by Sun
+        Microsystems (now owned by Oracle) in 1995. It is designed with the philosophy of <b>"Write Once, Run Anywhere
+            (WORA)"</b>, meaning code written in Java can run on any machine that has the Java Virtual Machine (JVM).
+    </p>
+
+    <h3>Simple Understanding</h3>
+    <p>Think of Java like a universal **electric plug adapter**. Just as an adapter allows you to use the same charger
+        in different countries, Java allows you to run the same program on Windows, Mac, or Linux without rewriting it.
+    </p>
+
+    <h3>History of Java</h3>
+    <ul>
+        <li>1991 → Started as a project called <b>Oak</b> by James Gosling at Sun Microsystems.</li>
+        <li>1995 → Officially renamed as <b>Java</b>.</li>
+        <li>2006 → Sun released Java as open-source.</li>
+        <li>2010 → Oracle acquired Sun Microsystems and now manages Java.</li>
+        <li>Today → Java is one of the most widely used languages for enterprise, mobile (Android), web, and cloud
+            applications.</li>
+    </ul>
+
+    <h3>Key Features of Java</h3>
+    <ul>
+        <li>Platform Independent – Write Once, Run Anywhere (WORA)</li>
+        <li>Object-Oriented – Everything is treated as an object</li>
+        <li>Secure – Built-in security features</li>
+        <li>Robust – Strong memory management & exception handling</li>
+        <li>Multithreaded – Supports concurrent execution</li>
+        <li>High Performance – Just-In-Time compiler</li>
+    </ul>
+
+    <h3>Java Versions & Updates</h3>
+    <div class="update">
+        <strong>Java 17–21 Highlights:</strong>
+        <ul>
+            <li><strong>Java 17</strong> – Sealed classes, Pattern matching for switch (preview)</li>
+            <li><strong>Java 18</strong> – Simple web server (for testing), UTF-8 by default</li>
+            <li><strong>Java 19</strong> – Virtual threads (preview), Record patterns</li>
+            <li><strong>Java 20</strong> – Scoped values (incubator)</li>
+            <li><strong>Java 21</strong> – Pattern Matching for switch (final), Sequenced collections</li>
+        </ul>
+    </div>
+
+    <h3>Example: First Java Program</h3>
+    <pre>
+    class HelloWorld {
+        public static void main(String[] args) {
+            System.out.println("Hello, Java!");
+        }
+    }
+    </pre>
+
+    <h3>How Java Works</h3>
+    <ol>
+        <li><b>Write Code:</b> You write Java code in a <code>.java</code> file.</li>
+        <li><b>Compile:</b> The Java Compiler (<code>javac</code>) converts it into <b>bytecode</b> (<code>.class</code>
+            file).</li>
+        <li><b>Run:</b> The JVM executes the bytecode, making it run on any operating system.</li>
+    </ol>
+
+    <h3>Real-Life Example</h3>
+    <p>Suppose you are building a <b>banking application</b>:</p>
+    <ul>
+        <li>Customers (Objects)</li>
+        <li>Accounts (Classes)</li>
+        <li>Transactions (Methods)</li>
+        <li>Java ensures it runs on bank computers, ATMs, and even mobile apps without rewriting everything.</li>
+    </ul>
+
+    <h3>Advantages</h3>
+    <div>
+        <ul>
+            <li>✅ <b>Platform-independent</b> → Runs on any OS with JVM.</li>
+            <li>✅ <b>Object-Oriented</b> → Based on real-world concepts (class, object, inheritance).</li>
+            <li>✅ <b>Secure</b> → No direct memory access, runs inside JVM sandbox.</li>
+            <li>✅ <b>Rich API & Libraries</b> → Supports networking, collections, utilities.</li>
+            <li>✅ <b>Strong Community</b> → Millions of developers worldwide.</li>
+        </ul>
+    </div>
+
+    <h3>Disadvantages</h3>
+    <div>
+        <ul>
+            <li>❌ <b>Slower than C/C++</b> (because of JVM overhead).</li>
+            <li>❌ <b>Consumes more memory</b> (garbage collection adds overhead).</li>
+            <li>❌ <b>No low-level programming</b> (not suitable for system programming like OS or device drivers).</li>
+        </ul>
+    </div>
+
+    <h3>Specific Keywords & Concepts</h3>
+    <div>
+        <ul>
+            <li><code>class</code> → Blueprint for creating objects</li>
+            <li><code>object</code> → Instance of a class</li>
+            <li><code>public static void main</code> → Entry point of Java application</li>
+            <li><code>System.out.println()</code> → Used to print output</li>
+            <li><code>JVM</code>, <code>JRE</code>, <code>JDK</code> → Core parts of Java ecosystem</li>
+        </ul>
+    </div>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li><b>Switch Expressions (Java 14+)</b> → More powerful switch statement.</li>
+        <li><b>Records (Java 16+)</b> → Compact way to create data classes.</li>
+        <li><b>Pattern Matching (Java 16+)</b> → Easier instanceof checks.</li>
+        <li><b>Sealed Classes (Java 17+)</b> → Restrict which classes can extend a type.</li>
+        <li><b>Virtual Threads (Java 21+)</b> → Lightweight threads for better performance.</li>
+    </ul>
+
+    <div class="note">
+        📌 <b>Quick Note:</b> Java is still one of the top 3 programming languages worldwide in 2025 and continues to
+        power enterprise, Android, and cloud systems.
+    </div>
+
+    <!-- ✅ Enhancement Tips -->
+    <div class="card">
+        <h3>Enhancement Tips</h3>
+        <div class="tip">
+            - Use <b>Streams & Lambdas</b> (Java 8+) for cleaner code.<br>
+            - Prefer <b>Records</b> for immutable DTOs.<br>
+            - Use <b>Sealed Classes</b> for controlled class hierarchies.<br>
+            - Experiment with <b>Virtual Threads</b> for scalable apps (Java 21+).<br>
+            - Always write <b>unit tests</b> with JUnit or TestNG.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h3>Interview Notes</h3>
+        <div class="interview">
+            - Q: What is Java and why is it platform-independent?<br>
+            - Q: Explain JVM, JRE, and JDK.<br>
+            - Q: What is the difference between Java and C++?<br>
+            - Q: Why is Java considered secure?<br>
+            - Q: What are the major new features in the latest Java versions?<br>
+            - Q: How does garbage collection work in Java?<br>
+            - Q: Explain "Write Once, Run Anywhere".<br>
+        </div>
+    </div>
+
+</section>
+
+<section id="ecosystem">
+    <h2>Java Ecosystem Overview</h2>
+
+    <p>The Java ecosystem mainly consists of three key components: <strong>JVM (Java Virtual Machine)</strong>,
+        <strong>JRE (Java Runtime Environment)</strong>, and <strong>JDK (Java Development Kit)</strong>. Understanding
+        their roles is crucial for both beginners and experienced developers.
+    </p>
+
+    <h3>1. JVM (Java Virtual Machine)</h3>
+    <p><strong>Definition:</strong> JVM is the engine that runs Java bytecode and makes Java programs
+        platform-independent.</p>
+
+    <div>
+        <strong>Simple Understanding:</strong> Think of JVM as a translator that converts your Java program (compiled
+        into bytecode) into machine code that your computer understands.
+    </div>
+
+    <h3>Key Points:</h3>
+    <ul>
+        <li>It provides <strong>platform independence</strong>.</li>
+        <li>Manages <strong>memory (Garbage Collection)</strong>.</li>
+        <li>Handles <strong>JIT compilation</strong> for performance.</li>
+        <li>Part of JRE.</li>
+    </ul>
+
+    <div>
+        <strong>Diagram (Text-based):</strong><br>
+        Source Code (.java) → Compiler (javac) → Bytecode (.class) → <b>JVM</b> → Machine Code (OS-specific)
+    </div>
+
+    <h3>Example:</h3>
+    <pre>
+    // Java source file
+    public class Hello {
+        public static void main(String[] args) {
+            System.out.println("Hello JVM!");
+        }
+    }
+    </pre>
+    <p>
+        When compiled with <code>javac Hello.java</code>, it produces <code>Hello.class</code>. The
+        <code>java Hello</code>
+        command runs it on JVM.
+    </p>
+
+    <h3>Advantages:</h3>
+    <ul>
+        <li>Write Once, Run Anywhere (WORA).</li>
+        <li>Automatic memory management.</li>
+        <li>Secure execution environment.</li>
+    </ul>
+
+    <h3>Disadvantages:</h3>
+    <ul>
+        <li>Slower compared to native machine code.</li>
+        <li>Consumes more memory.</li>
+    </ul>
+
+    <h3>2. JRE (Java Runtime Environment)</h3>
+    <p><strong>Definition:</strong> JRE provides the environment to run Java programs. It includes JVM + libraries +
+        other components.</p>
+
+    <div>
+        <strong>Simple Understanding:</strong> If JVM is a translator, JRE is the full package (translator + dictionary
+        + helpers) that allows your program to run.
+    </div>
+
+    <h3>Contents:</h3>
+    <ul>
+        <li>JVM</li>
+        <li>Core libraries (java.lang, java.util, java.io, etc.)</li>
+        <li>Supporting files</li>
+    </ul>
+
+    <h3>Use Case:</h3>
+    <p>A <strong>normal user</strong> who only wants to run Java applications needs JRE.</p>
+
+    <h3>3. JDK (Java Development Kit)</h3>
+    <p><strong>Definition:</strong> JDK is the complete toolset for Java developers. It includes JRE + compilers +
+        development tools.</p>
+
+    <div>
+        <strong>Simple Understanding:</strong> If JRE is like a car engine, JDK is like the entire car (engine +
+        steering + wheels) that allows you to <b>build and run</b> programs.
+    </div>
+
+    <h3>Contents:</h3>
+    <ul>
+        <li>JRE (JVM + Libraries)</li>
+        <li>Compiler (<code>javac</code>)</li>
+        <li>Debugger, javadoc, tools</li>
+    </ul>
+
+    <h3>Use Case:</h3>
+    <p>A <strong>developer</strong> who writes and compiles Java code needs JDK.</p>
+
+    <div>
+        <strong>Diagram: Relationship</strong><br>
+        <b>JDK</b> = JRE + Development Tools<br>
+        <b>JRE</b> = JVM + Libraries<br>
+        <b>JVM</b> = Execution Engine
+    </div>
+
+    <h3>Comparison Table (JVM vs JRE vs JDK)</h3>
+    <table cellpadding="8" cellspacing="0">
+        <tr>
+            <th>Aspect</th>
+            <th>JVM</th>
+            <th>JRE</th>
+            <th>JDK</th>
+        </tr>
+        <tr>
+            <td>Full Form</td>
+            <td>Java Virtual Machine</td>
+            <td>Java Runtime Environment</td>
+            <td>Java Development Kit</td>
+        </tr>
+        <tr>
+            <td>Purpose</td>
+            <td>Runs Java bytecode</td>
+            <td>Provides environment to run Java programs</td>
+            <td>Develops and runs Java programs</td>
+        </tr>
+        <tr>
+            <td>Includes</td>
+            <td>Only the execution engine</td>
+            <td>JVM + Libraries</td>
+            <td>JRE + Development Tools</td>
+        </tr>
+        <tr>
+            <td>Used By</td>
+            <td>Both devs & users</td>
+            <td>End-users</td>
+            <td>Developers</td>
+        </tr>
+    </table>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li><strong>JDK 17+</strong> is the current Long-Term Support (LTS) version.</li>
+        <li><strong>JEP 409: Sealed Classes</strong> allow restricting inheritance (executed inside JVM).</li>
+        <li><strong>JEP 359: Records</strong> reduce boilerplate code.</li>
+        <li>JVM improvements with better <strong>Garbage Collectors (ZGC, G1GC)</strong>.</li>
+    </ul>
+
+    <!-- ✅ Enhancement Tips -->
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Use the latest JDK version for new features like Records and Sealed Classes.<br>
+            - Know different GC algorithms for performance tuning.<br>
+            - Explore JVM internals like ClassLoader and JIT compiler for interviews.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: What is the difference between JVM, JRE, and JDK?<br>
+            - Q: Can we run Java without JDK?<br>
+            - Q: Is JVM platform-independent?<br>
+            - Q: How does JIT help JVM?<br>
+        </div>
+    </div>
+
+</section>
+
+<section id="java-architecture">
+    <h2>Java Architecture</h2>
+  
+    <p>
+      <strong>Definition:</strong><br>
+      Java Architecture defines how Java programs are executed internally.  
+      It is the structure that shows how the <b>JVM (Java Virtual Machine)</b>, 
+      <b>JRE (Java Runtime Environment)</b>, and <b>JDK (Java Development Kit)</b> 
+      work together to make Java programs <b>compile once and run anywhere</b>.
+    </p>
+  
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of Java as a coffee machine:
+      <ul>
+        <li><b>JDK</b> is like the coffee maker (includes all tools to make coffee/programs).</li>
+        <li><b>JRE</b> is the cup + hot water where coffee (program) is served.</li>
+        <li><b>JVM</b> is the actual machine that makes the coffee (executes bytecode).</li>
+        <li>The <b>.java</b> file is like the coffee beans (source code).</li>
+        <li>The <b>.class</b> file (bytecode) is the ground coffee ready for the machine.</li>
+      </ul>
+    </p>
+  
+    <!-- Architecture Layers -->
+    <h3>Components of Java Architecture</h3>
+    <ol>
+      <li><b>JDK (Java Development Kit)</b> – Contains compiler (javac), debugger, and JRE.</li>
+      <li><b>JRE (Java Runtime Environment)</b> – Provides JVM + runtime libraries.</li>
+      <li><b>JVM (Java Virtual Machine)</b> – Converts <b>bytecode (.class)</b> into <b>machine code</b>.</li>
+    </ol>
+  
+    <!-- Text-based Diagram -->
+    <h3>UML Diagram (Text-based)</h3>
+    <pre>
+     [Java Source Code] (.java file)
+                 |
+             (javac compiler)
+                 |
+           ------------------
+           |   Bytecode     |  -->  (.class file)
+           ------------------
+                 |
+               (JVM)
+         --------------------
+         | Class Loader      |
+         | Bytecode Verifier |
+         | JIT Compiler      |
+         | Garbage Collector |
+         --------------------
+                 |
+           [Native Machine Code]
+                 |
+            Program Execution
+    </pre>
+  
+    <!-- Example -->
+    <h3>Example</h3>
+    <pre>
+    // Save as HelloWorld.java
+    public class HelloWorld {
+        public static void main(String[] args) {
+            System.out.println("Hello, Java Architecture!");
+        }
+    }
+    </pre>
+    <p><b>Steps:</b></p>
+    <ul>
+      <li>Compile → <code>javac HelloWorld.java</code> → produces <b>HelloWorld.class</b></li>
+      <li>Run → <code>java HelloWorld</code> → JVM executes bytecode</li>
+    </ul>
+  
+    <!-- Advantages and Disadvantages -->
+    <h3>Advantages</h3>
+    <ul>
+      <li>Platform independent (WORA – Write Once, Run Anywhere)</li>
+      <li>Automatic memory management (Garbage Collector)</li>
+      <li>Security (bytecode verifier, classloader restrictions)</li>
+      <li>Rich standard libraries (API)</li>
+    </ul>
+  
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>Slower than native languages (extra JVM layer)</li>
+      <li>Consumes more memory compared to C/C++</li>
+      <li>JVM tuning is sometimes needed for performance</li>
+    </ul>
+  
+    <!-- Java Specific Terms -->
+    <h3>Specific Terms</h3>
+    <ul>
+      <li><b>JIT Compiler</b> – Converts frequently used bytecode into native code for faster execution.</li>
+      <li><b>ClassLoader</b> – Loads classes at runtime.</li>
+      <li><b>Garbage Collector (GC)</b> – Removes unused objects from memory automatically.</li>
+      <li><b>Bytecode Verifier</b> – Ensures code is safe before execution.</li>
+    </ul>
+
+    <!-- Latest Java Updates -->
+    <h3>Latest Java Updates (Java 17+)</h3>
+    <ul>
+      <li><b>Sealed Classes</b> – Control which classes can extend a parent class.</li>
+      <li><b>Records</b> – For concise data carrier classes.</li>
+      <li><b>Switch Expressions</b> – More readable control flow.</li>
+      <li><b>Pattern Matching with instanceof</b> – Simplified type checking.</li>
+      <li><b>Enhanced Garbage Collectors</b> – ZGC & Shenandoah for low-latency apps.</li>
+    </ul>
+  
+    <!-- Enhancement Tips -->
+    <div class="card">
+        <h2>Enhancement Tips</h2>
+        <div class="tip">
+            - Use JVM options like <code>-Xmx</code>, <code>-Xms</code>, <code>-XX:+UseG1GC</code> for tuning.<br>
+            - Profile memory usage with tools like JVisualVM or JConsole.<br>
+            - Choose the right GC (G1GC, ZGC, Shenandoah) based on your project needs.<br>
+            - Understand modular system (Java 9+) for cleaner architecture.<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h2>Interview Notes</h2>
+        <div class="interview">
+            - Q: Explain the difference between JDK, JRE, and JVM?<br>
+            - Q: Why is Java platform independent?<br>
+            - Q: What is bytecode in Java?<br>
+            - Q: What is the role of ClassLoader in JVM?<br>
+            - Q: How does Garbage Collection work in Java?<br>
+            - Q: What is JIT Compiler and why is it used?<br>
+        </div>
+    </div>
+    
+  </section>
+  

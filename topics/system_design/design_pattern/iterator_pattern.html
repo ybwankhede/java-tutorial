@@ -1,0 +1,179 @@
+<section id="iterator_pattern">
+    <h1>Iterator Pattern</h1>
+
+    <h2>1. Definition</h2>
+    <p>
+        The <b>Iterator Pattern</b> provides a way to access the elements of a collection
+        (like a list, array, or custom data structure) sequentially without exposing
+        the underlying representation.
+    </p>
+
+    <div class="note">
+        <b>Note:</b> Think of an iterator like a <b>remote control</b> that lets you move through a playlist without
+            opening the device and touching the internals. </div>
+
+        <h2>2. History</h2>
+        <p>
+            - First introduced in the <b>Gang of Four (GoF)</b> book in 1994 as a <b>behavioral design pattern</b>.<br>
+            - Widely adopted in Java Collections Framework (<code>Iterator</code> interface, <code>for-each</code>
+            loop).<br>
+            - Later evolved into <b>Stream API</b> in Java 8+ for more advanced iteration.
+        </p>
+
+        <h2>3. Real-Life Example</h2>
+        <p>
+            Imagine a <b>TV remote</b>: you don’t need to know how channels are stored inside the TV.
+            You just press "next" or "previous" to browse channels sequentially.
+            That’s exactly what an <b>Iterator</b> does for collections in software.
+        </p>
+
+        <h2>4. Structure Diagram</h2>
+        <div class="diagram">
+            Collection (Aggregate)
+            |
+            v
+            +----------------+
+            | Iterator |
+            | hasNext() |
+            | next() |
+            +----------------+
+            ^
+            |
+            +----------------+
+            | ConcreteIterator|
+            +----------------+
+            ^
+            |
+            +----------------+
+            | ConcreteCollection|
+            | createIterator() |
+            +----------------+
+        </div>
+
+        <h2>5. Example</h2>
+        <div class="code">
+            <pre>
+// Step 1: Iterator Interface
+interface Iterator<T> {
+    boolean hasNext();
+    T next();
+}
+
+// Step 2: Concrete Iterator
+class NameIterator implements Iterator<String> {
+    private String[] names;
+    private int index = 0;
+
+    public NameIterator(String[] names) {
+        this.names = names;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return index < names.length;
+    }
+
+    @Override
+    public String next() {
+        return hasNext() ? names[index++] : null;
+    }
+}
+
+// Step 3: Aggregate (Collection)
+interface NameCollection {
+    Iterator<String> createIterator();
+}
+
+// Step 4: Concrete Collection
+class NameRepository implements NameCollection {
+    private String[] names = {"Alice", "Bob", "Charlie"};
+
+    @Override
+    public Iterator<String> createIterator() {
+        return new NameIterator(names);
+    }
+}
+
+// Step 5: Client
+public class IteratorPatternDemo {
+    public static void main(String[] args) {
+        NameRepository repo = new NameRepository();
+        Iterator<String> iterator = repo.createIterator();
+
+        while (iterator.hasNext()) {
+            System.out.println("Name: " + iterator.next());
+        }
+    }
+}
+</pre>
+        </div>
+
+        <h2>6. Advantages</h2>
+        <ul>
+            <li>Provides <b>uniform way</b> to iterate different collections.</li>
+            <li>Encapsulates iteration logic separately from collection.</li>
+            <li>Supports multiple iterations at once.</li>
+            <li>Simplifies client code (no need to know internal structure).</li>
+        </ul>
+
+        <h2>7. Disadvantages</h2>
+        <ul>
+            <li>Can add extra complexity for simple collections.</li>
+            <li>External iteration may be less efficient than internal (e.g., streams).</li>
+            <li>Custom iterators require extra code to maintain.</li>
+        </ul>
+
+        <h2>8. Real World Uses</h2>
+        <ul>
+            <li>Java Collections Framework (<code>Iterator</code>, <code>ListIterator</code>).</li>
+            <li>Enhanced for-each loop internally uses Iterator.</li>
+            <li>Java 8 Streams (internal iteration concept).</li>
+        </ul>
+
+        <h2>9. Variants</h2>
+        <ul>
+            <li><b>External Iterator:</b> Client controls iteration (classic Java Iterator).</li>
+            <li><b>Internal Iterator:</b> Collection controls iteration (Java Streams, <code>forEach</code>).</li>
+            <li><b>Bidirectional Iterator:</b> Move both forward & backward (<code>ListIterator</code>).</li>
+            <li><b>Null Iterator:</b> Safe empty iterator avoids null checks.</li>
+        </ul>
+
+        <h2>10. Alternatives</h2>
+        <ul>
+            <li>For simple data access, use <b>for loop</b> or <b>enhanced for-each</b>.</li>
+            <li>For functional operations, prefer <b>Stream API</b> in Java 8+.</li>
+            <li>For filtering & mapping, Streams or Reactive APIs can replace custom iterators.</li>
+        </ul>
+        
+
+        <h2>11. Notes</h2>
+        <div class="note">
+            <ul>
+                <li><b>Interface:</b> Defines a contract without implementation. Iterators rely on interfaces for
+                    flexibility.</li>
+                <li><b>hasNext():</b> Checks if more elements are available.</li>
+                <li><b>next():</b> Returns the next element and advances the cursor.</li>
+                <li><b>Aggregate:</b> A collection that can create an iterator.</li>
+            </ul>
+        </div>
+
+        <h2>12. Developer Tips</h2>
+        <div class="tip">
+            <ul>
+                <li>Use <code>Iterator</code> when you want <b>consistent traversal</b> of custom collections.</li>
+                <li>Prefer <code>ListIterator</code> when you need bidirectional navigation.</li>
+                <li>In Java 8+, prefer <b>Streams</b> for readability & parallel execution.</li>
+                <li>Always handle <code>NoSuchElementException</code> if next() is called without hasNext().</li>
+                <li>Fail-fast iterators in Java help detect <b>concurrent modifications</b> early.</li>
+            </ul>
+        </div>
+
+        <h2>13. Interview Questions</h2>
+        <div class="interview">
+            <p><b>Q1:</b> What problem does the Iterator pattern solve?</p>
+            <p><b>Q2:</b> Difference between external and internal iteration?</p>
+            <p><b>Q3:</b> How is <code>Iterator</code> used in Java Collections Framework?</p>
+            <p><b>Q4:</b> Compare Iterator vs. Enumeration in Java?</p>
+            <p><b>Q5:</b> Why is <code>fail-fast</code> behavior important in Java iterators?</p>
+        </div>
+</section>

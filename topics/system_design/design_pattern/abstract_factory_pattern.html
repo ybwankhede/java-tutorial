@@ -1,0 +1,199 @@
+<section>
+    <h2>Abstract Factory Pattern</h2>
+
+    <h3>1. Introduction</h3>
+    <p>The <strong>Abstract Factory Pattern</strong> is a creational design pattern that provides an interface to create
+        <em>families of related objects</em> without specifying their exact classes. Unlike the Factory Method, which
+        focuses on one product, Abstract Factory is used when you need multiple related products (like a suite of UI
+        components).</p>
+
+    <h3>2. History</h3>
+    <p>The pattern was formalized in the <strong>Gang of Four (GoF)</strong> book (1994). It evolved as a solution for
+        creating product families in a scalable, modular way.</p>
+
+    <h3>3. Real-Life Example</h3>
+    <p>Imagine a <strong>Furniture Factory</strong>:</p>
+    <ul>
+        <li>A <em>Modern Furniture Factory</em> creates Modern Chair and Modern Table.</li>
+        <li>A <em>Victorian Furniture Factory</em> creates Victorian Chair and Victorian Table.</li>
+    </ul>
+    <p>The client only interacts with the factory, not the concrete products.</p>
+
+    <h3>4. Structure Diagram</h3>
+    <pre>
+    AbstractFactory
+        |---> ConcreteFactoryA
+        |---> ConcreteFactoryB
+  
+    AbstractProductA   AbstractProductB
+        |                  |
+        v                  v
+    ProductA1           ProductB1
+    ProductA2           ProductB2
+    </pre>
+
+    <h3>5. Example</h3>
+    <pre>
+  // Step 1: Product Interfaces
+  interface Chair {
+      void sitOn();
+  }
+  
+  interface Table {
+      void use();
+  }
+  
+  // Step 2: Concrete Products
+  class ModernChair implements Chair {
+      public void sitOn() {
+          System.out.println("Sitting on a Modern Chair");
+      }
+  }
+  
+  class VictorianChair implements Chair {
+      public void sitOn() {
+          System.out.println("Sitting on a Victorian Chair");
+      }
+  }
+  
+  class ModernTable implements Table {
+      public void use() {
+          System.out.println("Using a Modern Table");
+      }
+  }
+  
+  class VictorianTable implements Table {
+      public void use() {
+          System.out.println("Using a Victorian Table");
+      }
+  }
+  
+  // Step 3: Abstract Factory
+  interface FurnitureFactory {
+      Chair createChair();
+      Table createTable();
+  }
+  
+  // Step 4: Concrete Factories
+  class ModernFurnitureFactory implements FurnitureFactory {
+      public Chair createChair() { return new ModernChair(); }
+      public Table createTable() { return new ModernTable(); }
+  }
+  
+  class VictorianFurnitureFactory implements FurnitureFactory {
+      public Chair createChair() { return new VictorianChair(); }
+      public Table createTable() { return new VictorianTable(); }
+  }
+  
+  // Step 5: Client Code
+  public class AbstractFactoryDemo {
+      public static void main(String[] args) {
+          // Choose factory type (Modern)
+          FurnitureFactory factory = new ModernFurnitureFactory();
+  
+          Chair chair = factory.createChair();
+          Table table = factory.createTable();
+  
+          chair.sitOn();
+          table.use();
+  
+          // Switch to Victorian Factory
+          factory = new VictorianFurnitureFactory();
+          chair = factory.createChair();
+          table = factory.createTable();
+  
+          chair.sitOn();
+          table.use();
+      }
+  }
+    </pre>
+
+    <h3>6. Advantages</h3>
+    <ul>
+        <li>Ensures consistency among related products.</li>
+        <li>Hides the complexity of object creation.</li>
+        <li>Makes it easy to introduce new product families.</li>
+    </ul>
+
+    <h3>7. Disadvantages</h3>
+    <ul>
+        <li>Adding a new product type (e.g., Sofa) requires changes in all factories.</li>
+        <li>Increases complexity compared to simple factories.</li>
+    </ul>
+
+    <h3>8. Uses in Real Frameworks</h3>
+    <ul>
+        <li><strong>GUI Toolkits</strong>: Swing/AWT factories for buttons, text fields, checkboxes.</li>
+        <li><strong>Database Drivers</strong>: Different factories for MySQL, PostgreSQL, Oracle connections.</li>
+    </ul>
+
+    <h3>9. Variants</h3>
+    <ul>
+        <li><strong>Reflection-based Factory</strong>: Dynamically load product classes using
+            <code>Class.forName()</code>.</li>
+        <li><strong>Lambda-based Factory</strong>: Use Java 8 functional interfaces for cleaner factory creation.</li>
+    </ul>
+    <pre>
+        // Reflection-based Factory
+        class ReflectionFactoryProvider {
+        static FurnitureFactory getFactory(Class<? extends FurnitureFactory> clazz) {
+        try {
+        return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+        throw new RuntimeException(e);
+        }
+        }
+        }
+        
+        
+        public class ReflectionDemo {
+        public static void main(String[] args) {
+        FurnitureFactory factory = ReflectionFactoryProvider.getFactory(ModernFurnitureFactory.class);
+        Chair chair = factory.createChair();
+        chair.sitOn();
+        }
+        }
+        </pre>
+    <pre>
+  // Lambda-based Abstract Factory (Java 8+)
+  interface UIFactory {
+      Button createButton();
+      TextField createTextField();
+  }
+  
+  UIFactory darkThemeFactory = new UIFactory() {
+      public Button createButton() { return () -> System.out.println("Dark Button"); }
+      public TextField createTextField() { return () -> System.out.println("Dark TextField"); }
+  };
+  
+  Button b = darkThemeFactory.createButton();
+  b.render();
+    </pre>
+
+    <h3>10. Alternatives</h3>
+    <ul>
+        <li>Use <strong>Factory Method</strong> if only one product family is needed.</li>
+        <li>Use <strong>Prototype</strong> if object creation is costly and can be cloned.</li>
+    </ul>
+
+    <h3>11. Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li>What is the difference between Factory Method and Abstract Factory?</li>
+            <li>When would you prefer Abstract Factory over Builder?</li>
+            <li>Can Abstract Factory break the Open/Closed Principle? Why?</li>
+            <li>How would you implement Abstract Factory using dependency injection frameworks like Spring?</li>
+        </ul>
+    </div>
+
+    <h3>12. Notes</h3>
+    <div class="note"><strong>interface</strong>: A Java keyword used to define contracts (methods without
+        implementation).</div>
+    <div class="note"><strong>abstract</strong>: A class or method that cannot be instantiated directly and must be
+        extended.</div>
+
+    <h3>13. Developer Tips</h3>
+    <div class="tip">Use Abstract Factory when your system needs to be independent of how its objects are created.</div>
+    <div class="tip">Combine with Dependency Injection (e.g., Spring Beans) for even more flexibility.</div>
+    <div class="tip">Avoid over-engineering: don’t use Abstract Factory when a simple Factory will do.</div>
+</section>

@@ -1,0 +1,510 @@
+<section id="class">
+  <h2>Class</h2>
+
+  <p>   
+    <strong>Definition:</strong><br> 
+      A Class in Java is like a <i>blueprint</i> or <i>template</i> used to create objects.
+      It defines <b>properties (fields/variables)</b> and <b>behaviors (methods)</b> that objects of that class will
+      have.
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of a <b>class</b> as a <b>house plan</b> made by an architect.
+    - The <b>plan (class)</b> itself is not a real house.
+    - From this plan, you can build <b>houses (objects)</b>.
+    - Each house can look the same but also have different wall colors or furniture.
+  </p>
+
+  <h3>Real-life Example</h3>
+  <p>
+    Example: "Car" can be a <b>class</b>.
+    - Properties → color, brand, model, speed
+    - Behaviors → drive(), stop(), honk()
+    Each actual car (like a red Honda City or black BMW) is an <b>object</b> of that class.
+  </p>
+
+  <h3>Example</h3>
+  <pre>
+      class Car {
+          // Properties (fields)
+          String brand;
+          String color;
+          int speed;
+  
+          // Constructor
+          Car(String brand, String color, int speed) {
+              this.brand = brand;
+              this.color = color;
+              this.speed = speed;
+          }
+  
+          // Behavior (method)
+          void drive() {
+              System.out.println(brand + " is driving at " + speed + " km/h.");
+          }
+      }
+  
+      public class Main {
+          public static void main(String[] args) {
+              Car car1 = new Car("Honda", "Red", 120);
+              Car car2 = new Car("BMW", "Black", 180);
+  
+              car1.drive(); // Honda is driving at 120 km/h.
+              car2.drive(); // BMW is driving at 180 km/h.
+          }
+      }
+    </pre>
+
+  <h3>UML Representation</h3>
+  <pre>
+   -------------------
+   |      Car        |
+   -------------------
+   | brand: String   |
+   | color: String   |
+   | speed: int      |
+   -------------------
+   | drive(): void   |
+   -------------------
+    </pre>
+
+  <h3>Advantages & Disadvantages</h3>
+  <ul>
+    <li><b>Advantages:</b> Reusability, code organization, easier to understand, supports OOP features.</li>
+    <li><b>Disadvantages:</b> More boilerplate code, overuse of classes may increase complexity.</li>
+  </ul>
+
+  <h3>Focused Keywords</h3>
+  <ul>
+    <li><code>class</code> – used to define a class.</li>
+    <li><code>object</code> – instance of a class.</li>
+    <li><code>this</code> – refers to the current object.</li>
+    <li><code>new</code> – used to create objects.</li>
+    <li><code>static</code> – used for class-level members.</li>
+  </ul>
+
+  <h3>Example</h3>
+  <p>
+    Class: <b>Student</b>
+    - Properties → name, rollNo, marks
+    - Behaviors → study(), giveExam()
+  </p>
+  <pre>
+      class Student {
+          String name;
+          int rollNo;
+          int marks;
+  
+          void study() {
+              System.out.println(name + " is studying.");
+          }
+      }
+    </pre>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li><b>Records (Java 14+):</b> A new type of class to hold immutable data without boilerplate code.</li>
+    <li><b>Sealed Classes (Java 17):</b> Restrict which classes can extend a given class → better control.</li>
+    <li><b>Pattern Matching (Java 16+):</b> Cleaner syntax when using <code>instanceof</code>.</li>
+  </ul>
+
+  <h3>Enhancement Tips</h3>
+  <ul>
+    <li>Use <code>Immutable classes</code> for thread-safety (e.g., String class).</li>
+    <li>Leverage <code>Records</code> when modeling DTOs (Data Transfer Objects).</li>
+    <li>Prefer <code>composition</code> over inheritance where possible (better flexibility).</li>
+    <li>Apply <code>design patterns</code> (Singleton, Builder, Factory) when structuring classes.</li>
+  </ul>
+
+  <h3>Interview Questions</h3>
+  <ol>
+    <li>What is a class in Java? How is it different from an object?</li>
+    <li>Can a class be declared as <code>final</code>?</li>
+    <li>Difference between <code>class</code> and <code>interface</code>?</li>
+    <li>What is a nested/inner class? Why do we need them?</li>
+    <li>What are <code>static</code> nested classes vs <code>inner</code> classes?</li>
+    <li>Can a class have multiple constructors? What is constructor overloading?</li>
+  </ol>
+
+</section>
+
+<section id="records">
+  <h2>Records</h2>
+  <p>
+    <strong>Definition:</strong><br>
+    A <b>Record</b> in Java is a special kind of class introduced in
+    <b>Java 14 (Preview)</b> and made a standard feature in <b>Java 16</b>.
+    Records are used to create <b>immutable data-carrier classes</b>
+    without writing a lot of boilerplate code (getters, equals, hashCode, toString).
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of a <b>Record</b> like a <i>data container</i>.
+    Imagine you want to store details of a <b>Student</b> like <code>name</code> and <code>rollNumber</code>.
+    Normally, you’d create a class, add fields, constructor, getters, <code>equals()</code>,
+    <code>hashCode()</code>, <code>toString()</code> → very boring and repetitive.
+    With a <b>Record</b>, Java does all of that automatically for you.
+  </p>
+
+
+  <h3>Example</h3>
+  <pre>
+      // Traditional class (lots of code)
+      class Student {
+          private final String name;
+          private final int rollNumber;
+  
+          public Student(String name, int rollNumber) {
+              this.name = name;
+              this.rollNumber = rollNumber;
+          }
+  
+          public String name() { return name; }
+          public int rollNumber() { return rollNumber; }
+  
+          // equals(), hashCode(), toString() need to be written manually
+      }
+  
+      // Record version (1 line!)
+      record Student(String name, int rollNumber) {}
+    </pre>
+
+  <h3>UML Representation</h3>
+  <pre>
+      ----------------------
+      |      Student       |
+      ----------------------
+      | - name : String    |
+      | - rollNumber : int |
+      ----------------------
+      | + name() : String  |
+      | + rollNumber() :int|
+      | + equals()         |
+      | + hashCode()       |
+      | + toString()       |
+      ----------------------
+    </pre>
+
+  <div class="note">
+    <b>Note:</b> By default, all fields in a record are <code>private</code>, <code>final</code>,
+    and accessible via <b>getter-like methods</b> (named the same as the field).
+  </div>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Less boilerplate code (no need for getters/setters, equals, hashCode, toString).</li>
+    <li>Immutable data → safer in multithreaded applications.</li>
+    <li>Perfect for <b>DTOs (Data Transfer Objects)</b>, configs, API responses.</li>
+    <li>Improves code readability & maintainability.</li>
+    <li>Built-in <b>Pattern Matching</b> with switch in Java 17+.</li>
+  </ul>
+
+  <h3>Disadvantages</h3>
+  <ul>
+    <li>Immutable → you cannot change field values after creation.</li>
+    <li>No inheritance (records are implicitly <code>final</code>).</li>
+    <li>Not suitable for classes with complex business logic.</li>
+    <li>Less flexibility compared to normal classes.</li>
+  </ul>
+
+  <h3>Realistic Example</h3>
+  <pre>
+      record Employee(int id, String name, String department) {}
+  
+      public class Company {
+          public static void main(String[] args) {
+              Employee e1 = new Employee(101, "Alice", "HR");
+              Employee e2 = new Employee(102, "Bob", "Finance");
+  
+              System.out.println(e1); 
+              // Output: Employee[id=101, name=Alice, department=HR]
+  
+              System.out.println(e1.name()); 
+              // Output: Alice
+          }
+      }
+    </pre>
+
+  <h3>Specific Keywords & Concepts</h3>
+  <ul>
+    <li><b>Record</b> keyword → defines the record.</li>
+    <li><b>Compact Constructor</b> → special constructor for validation:
+      <pre>
+          record Product(String name, double price) {
+              Product {
+                  if(price < 0) throw new IllegalArgumentException("Price cannot be negative");
+              }
+          }
+        </pre>
+    </li>
+    <li>Records can implement interfaces but cannot extend classes.</li>
+    <li>All fields are implicitly <code>private final</code>.</li>
+  </ul>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li><b>Java 14</b>: Records introduced as a preview.</li>
+    <li><b>Java 16</b>: Records became a permanent feature.</li>
+    <li><b>Java 17+</b>: Pattern matching with records in switch statements.</li>
+    <li><b>Java 21</b>: Enhanced pattern matching → deconstruction in <code>switch</code>.</li>
+  </ul>
+
+  <h3>Enhancement Tips</h3>
+  <ul>
+    <li>Use records for <b>DTOs in REST APIs</b> instead of Lombok-generated POJOs.</li>
+    <li>Combine records with <b>sealed classes</b> for cleaner domain modeling.</li>
+    <li>Great fit for <b>value-based classes</b> in functional programming style.</li>
+  </ul>
+
+  <h3>Interview Questions</h3>
+  <ol>
+    <li>What is a Record in Java? How is it different from a class?</li>
+    <li>Why are records immutable? Can we make their fields mutable?</li>
+    <li>Can records extend other classes?</li>
+    <li>How are <code>equals()</code> and <code>hashCode()</code> implemented in records?</li>
+    <li>What is a compact constructor in records? Give an example.</li>
+    <li>Where would you use a record instead of a class in enterprise applications?</li>
+    <li>What enhancements do records bring compared to using Lombok?</li>
+  </ol>
+
+</section>
+
+<section id="sealed-classes">
+  <h2>Sealed Classes</h2>
+
+  <p>
+    <strong>Definition:</strong><br>
+    A <b>Sealed Class</b> in Java (introduced in <b>Java 15</b> as a preview, stable in <b>Java 17</b>)
+    is a special type of class or interface that <b>restricts which other classes</b> can extend or implement it.
+    It helps in giving developers <b>more control over inheritance</b>.
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of a <b>Sealed Class</b> like a VIP Club.
+    Only members (subclasses) whose names are <b>explicitly listed</b> are allowed to enter.
+    Everyone else is denied access automatically.
+  </p>
+
+  <h3>Real-Life Example</h3>
+  <p>
+    Imagine you are building a system for <b>Vehicle types</b>.
+    You only want to allow certain categories like <b>Car</b> and <b>Bike</b>, but not allow random unknown types.
+    Sealed classes help here by controlling which subclasses are permitted.
+  </p>
+
+  <!-- Java Example -->
+  <h3>Example</h3>
+  <pre>
+    // Parent Sealed Class
+    public sealed class Vehicle permits Car, Bike {
+      String brand;
+      public Vehicle(String brand) {
+        this.brand = brand;
+      }
+      public abstract void drive();
+    }
+  
+    // Permitted Subclass
+    public final class Car extends Vehicle {
+      public Car(String brand) { super(brand); }
+      @Override
+      public void drive() {
+        System.out.println("Driving a Car of brand: " + brand);
+      }
+    }
+  
+    // Another Permitted Subclass
+    public final class Bike extends Vehicle {
+      public Bike(String brand) { super(brand); }
+      @Override
+      public void drive() {
+        System.out.println("Riding a Bike of brand: " + brand);
+      }
+    }
+  
+    // ❌ This will throw an error because not permitted
+    // public class Truck extends Vehicle { ... } 
+    </pre>
+
+  <h3>UML Representation</h3>
+  <pre>
+          Vehicle (sealed)
+          ├── Car (permits)
+          └── Bike (permits)
+    </pre>
+
+
+  <h3>Specific Keywords & Concepts</h3>
+  <ul>
+    <li><code>sealed</code> → Used for the parent class.</li>
+    <li><code>permits</code> → Lists allowed subclasses.</li>
+    <li><code>final</code> → Subclass cannot be extended further.</li>
+    <li><code>non-sealed</code> → Allows subclass to be extended without restriction.</li>
+  </ul>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Improves <b>security & maintainability</b> by controlling class hierarchy.</li>
+    <li>Enables <b>better pattern matching</b> in switch expressions.</li>
+    <li>Helps compiler <b>exhaustively check cases</b> in pattern matching.</li>
+    <li>Clear <b>domain modeling</b> by restricting hierarchy.</li>
+  </ul>
+
+  <h3>Disadvantages</h3>
+  <ul>
+    <li>Makes the design <b>less flexible</b> (tight restrictions).</li>
+    <li>Can increase <b>boilerplate</b> if many subtypes exist.</li>
+    <li>Older versions (< Java 17) don’t support sealed classes.</li>
+  </ul>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li><b>Java 17 (LTS):</b> Sealed Classes became a permanent feature.</li>
+    <li>Works great with <b>Pattern Matching for Switch</b> (Java 17+).</li>
+    <li>Helps compiler enforce <b>exhaustive checks</b> → No “default” needed in switch for sealed hierarchy.</li>
+  </ul>
+
+  <h3>Enhancement Tips (for Senior Devs)</h3>
+  <ul>
+    <li>Use sealed classes to model <b>restricted domains</b> like Payment Methods (CreditCard, UPI, Wallet).</li>
+    <li>Combine with <b>Records</b> for immutable and well-bounded models.</li>
+    <li>Helps in <b>Domain-Driven Design</b> (DDD) to restrict unwanted extension of core models.</li>
+  </ul>
+
+  <h3>Interview Questions</h3>
+  <ol>
+    <li>What is a sealed class in Java, and why was it introduced?</li>
+    <li>Difference between <code>sealed</code>, <code>final</code>, and <code>non-sealed</code> keywords?</li>
+    <li>How do sealed classes help in <b>pattern matching for switch</b>?</li>
+    <li>Can we create an <b>abstract sealed class</b>? (Yes, sealed can combine with abstract).</li>
+    <li>Can interfaces be sealed in Java? (Yes).</li>
+  </ol>
+
+</section>
+
+<section id="instanceof">
+  <h2>instanceof Operator</h2>
+
+  <p>
+    <strong>Definition:</strong><br>
+    The <code>instanceof</code> operator in Java is used to test whether an object is an
+    <b>instance</b> of a specific class or implements an interface.
+    It returns <code>true</code> or <code>false</code>.
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of <code>instanceof</code> like asking a real-life question:
+    “Is this person a Student?” If yes → true. If not → false.
+    <br> Example: A <b>Dog</b> is an <b>Animal</b> → true.
+    A <b>Car</b> is an <b>Animal</b> → false.
+  </p>
+
+  <h3>Example</h3>
+  <pre>
+    // Base class
+    class Animal { }
+  
+    // Derived class
+    class Dog extends Animal { }
+  
+    public class InstanceOfExample {
+      public static void main(String[] args) {
+        Animal a = new Dog();
+  
+        // Checking relationship
+        System.out.println(a instanceof Dog);     // true
+        System.out.println(a instanceof Animal);  // true
+        System.out.println(a instanceof Object);  // true
+        System.out.println(a instanceof String);  // false (not related)
+      }
+    }
+    </pre>
+
+  <h3>UML View (Text-Based)</h3>
+  <pre>
+            Object
+               ↑
+            Animal
+               ↑
+              Dog
+    </pre>
+  
+  <div class="note">
+    <strong>Note :</strong><code>instanceof</code> checks the arrow direction — if a Dog "is-an" Animal.
+  </div>
+
+  <h3>Real-Life Example</h3>
+  <p>
+    Suppose we are building a School Management System:
+  </p>
+  <pre>
+    class Person { }
+    class Student extends Person { }
+    class Teacher extends Person { }
+  
+    Person p = new Student();
+  
+    if (p instanceof Student) {
+      System.out.println("This person is a Student.");
+    }
+    </pre>
+
+  <div class="note">
+    <strong>Note :</strong>Just like in real life, a <b>Student</b> is also a <b>Person</b>.
+  </div>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Helps in type checking at runtime.</li>
+    <li>Useful in polymorphism to know the actual object type.</li>
+    <li>Works well with interfaces.</li>
+  </ul>
+
+  <h3>Disadvantages</h3>
+  <ul>
+    <li>Overusing it may break OOP principles (Polymorphism should handle behavior).</li>
+    <li>Can make code less clean compared to method overriding.</li>
+  </ul>
+
+  <h3>Specific Keywords & Concepts</h3>
+  <ul>
+    <li><code>null instanceof ClassName</code> → always <code>false</code>.</li>
+    <li>Works with <b>interfaces</b> as well.</li>
+    <li>Since <b>Java 14+</b>, <b>Pattern Matching for instanceof</b> simplifies code.</li>
+  </ul>
+
+  <h3>Latest Java Update</h3>
+  <pre>
+    // Before Java 14
+    if (obj instanceof String) {
+      String s = (String) obj; // need explicit cast
+      System.out.println(s.toUpperCase());
+    }
+  
+    // Java 14+ (pattern matching)
+    if (obj instanceof String s) {
+      System.out.println(s.toUpperCase()); // no cast needed
+    }
+    </pre>
+
+  <h3>Enhancement Tips</h3>
+  <ul>
+    <li>Prefer <b>method overriding</b> and <b>polymorphism</b> instead of heavy <code>instanceof</code> checks.</li>
+    <li>Use <b>sealed classes</b> (Java 17+) with <code>instanceof</code> for type-safe hierarchies.</li>
+    <li>Leverage <b>pattern matching</b> to reduce boilerplate casting code.</li>
+  </ul>
+
+  <h3>Interview Questions</h3>
+  <ol>
+    <li>What is the purpose of the <code>instanceof</code> operator?</li>
+    <li>What does <code>null instanceof ClassName</code> return?</li>
+    <li>How does <code>instanceof</code> relate to polymorphism?</li>
+    <li>What is <b>Pattern Matching for instanceof</b> introduced in Java 14?</li>
+    <li>Can <code>instanceof</code> be used with interfaces?</li>
+  </ol>
+
+</section>

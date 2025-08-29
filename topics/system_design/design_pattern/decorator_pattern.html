@@ -1,0 +1,161 @@
+<section id="decorator_pattern">
+
+    <h1>Decorator Pattern</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>The <b>Decorator Pattern</b> is a <b>Structural Design Pattern</b> that lets us add new functionalities to
+        objects dynamically, without altering their structure. Instead of extending a class via inheritance, the
+        decorator uses <b>composition</b> to wrap objects at runtime.</p>
+    <p>History: The pattern was popularized by the <b>GoF (Gang of Four)</b> in their book "Design Patterns: Elements of
+        Reusable Object-Oriented Software" (1994). It was created to solve the problem of class explosion in inheritance
+        hierarchies.</p>
+
+    <h2>2. Real-Life Analogy</h2>
+    <ul>
+        <li><b>Coffee Shop:</b> Start with black coffee (base). Add milk, sugar, or whipped cream dynamically →
+            Decorators add features to the base object.</li>
+        <li><b>Gift Wrapping:</b> A gift (base object) can be wrapped with paper, then decorated with ribbons, then with
+            a greeting card → Each decorator adds functionality.</li>
+        <li><b>Car Customization:</b> Buy a base car, then add features like sunroof, alloy wheels, or premium audio
+            system.</li>
+    </ul>
+
+    <h2>3. Structure Diagram</h2>
+    <pre>
+            +----------------+
+            |   Component    | <---- Interface / Abstract class
+            +----------------+
+                    ^
+                    |
+        +----------------------+       +-------------------+
+        |   ConcreteComponent  |       |    Decorator      | (abstract wrapper)
+        +----------------------+       +-------------------+
+                                              ^
+                                              |
+                     +------------------------------------+
+                     | ConcreteDecorator (extra feature)  |
+                     +------------------------------------+
+</pre>
+
+    <h2>4. Example</h2>
+    <pre>
+// Step 1: Component interface
+interface Coffee {
+    String getDescription();
+    double getCost();
+}
+
+// Step 2: Concrete Component
+class SimpleCoffee implements Coffee {
+    public String getDescription() { return "Simple Coffee"; }
+    public double getCost() { return 5.0; }
+}
+
+// Step 3: Base Decorator
+abstract class CoffeeDecorator implements Coffee {
+    protected Coffee decoratedCoffee;
+    public CoffeeDecorator(Coffee coffee) { this.decoratedCoffee = coffee; }
+}
+
+// Step 4: Concrete Decorators
+class MilkDecorator extends CoffeeDecorator {
+    public MilkDecorator(Coffee coffee) { super(coffee); }
+    public String getDescription() { return decoratedCoffee.getDescription() + ", Milk"; }
+    public double getCost() { return decoratedCoffee.getCost() + 1.5; }
+}
+
+class SugarDecorator extends CoffeeDecorator {
+    public SugarDecorator(Coffee coffee) { super(coffee); }
+    public String getDescription() { return decoratedCoffee.getDescription() + ", Sugar"; }
+    public double getCost() { return decoratedCoffee.getCost() + 0.5; }
+}
+
+// Step 5: Client
+public class DecoratorDemo {
+    public static void main(String[] args) {
+        Coffee coffee = new SimpleCoffee();
+        System.out.println(coffee.getDescription() + " => $" + coffee.getCost());
+
+        // Add Milk
+        coffee = new MilkDecorator(coffee);
+        System.out.println(coffee.getDescription() + " => $" + coffee.getCost());
+
+        // Add Sugar
+        coffee = new SugarDecorator(coffee);
+        System.out.println(coffee.getDescription() + " => $" + coffee.getCost());
+    }
+}
+</pre>
+
+    <h2>5. Advantages</h2>
+    <ul>
+        <li>Enhances objects dynamically at runtime.</li>
+        <li>Avoids large inheritance hierarchies.</li>
+        <li>Follows <b>Open/Closed Principle</b> (open for extension, closed for modification).</li>
+        <li>Flexible: multiple decorators can be stacked in any order.</li>
+    </ul>
+
+    <h2>6. Disadvantages</h2>
+    <ul>
+        <li>Can result in many small classes → harder to manage.</li>
+        <li>Debugging can be complex because behavior is distributed across multiple wrappers.</li>
+        <li>Order of decorator application matters → can cause unexpected results.</li>
+    </ul>
+
+    <h2>7. Real Use Cases</h2>
+    <ul>
+        <li><b>Java I/O Streams:</b> InputStream → BufferedInputStream → DataInputStream.</li>
+        <li><b>GUI frameworks:</b> Swing components (e.g., JScrollPane wrapping JTextArea).</li>
+        <li><b>Spring:</b> BeanPostProcessor and AOP proxies wrap beans with additional logic.</li>
+    </ul>
+
+    <h2>8. Variants of Decorator Pattern</h2>
+    <ul>
+        <li><b>Simple Decorator:</b> Adds one feature at a time.</li>
+        <li><b>Multiple Layered Decorators:</b> Stack decorators (Coffee → Milk → Sugar → WhippedCream).</li>
+    </ul>
+
+    <pre>
+Coffee c = new WhippedCreamDecorator(new SugarDecorator(new MilkDecorator(new SimpleCoffee())));
+System.out.println(c.getDescription() + " => $" + c.getCost());
+</pre>
+
+    <h2>9. Alternatives</h2>
+    <ul>
+        <li><b>Inheritance:</b> Extend class directly, but leads to class explosion.</li>
+        <li><b>Proxy Pattern:</b> Similar wrapping but focus is on control, not feature addition.</li>
+        <li><b>Composite Pattern:</b> Handles tree structures, not dynamic extension.</li>
+    </ul>
+
+    <h2>10. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Decorator Pattern solve?</li>
+            <li>How is it different from inheritance?</li>
+            <li>Can you name real examples of Decorator Pattern in Java libraries?</li>
+            <li>How is it different from Proxy Pattern?</li>
+            <li>What are the disadvantages of using many decorators?</li>
+        </ul>
+    </div>
+
+    <h2>11. Notes on Keywords</h2>
+    <div class="note">
+        <ul>
+            <li><b>Interface:</b> Defines contract (e.g., Coffee interface). Both base and decorator must implement it.
+            </li>
+            <li><b>Composition:</b> Decorators use composition (HAS-A relationship) to wrap original objects.</li>
+            <li><b>Runtime Behavior:</b> Features can be added at runtime by wrapping objects dynamically.</li>
+        </ul>
+    </div>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tips">
+        <ul>
+            <li>Use when you need dynamic, runtime feature addition without modifying original code.</li>
+            <li>Prefer composition (Decorator) over inheritance (subclassing).</li>
+            <li>Careful with too many layers → may hurt readability.</li>
+            <li>Good practice in frameworks: Logging, Security, Transaction management via decorators/proxies.</li>
+        </ul>
+    </div>
+
+</section>

@@ -1,0 +1,254 @@
+<section id="factory_pattern">
+    <h2>Factory Pattern in Java</h2>
+
+    <h3>1. Introduction</h3>
+    <p>
+        The Factory Pattern is a <strong>creational design pattern</strong> that provides an interface or method
+        to create objects without exposing the creation logic to the client.
+    </p>
+
+    <h3>2. History</h3>
+    <p>
+        Originated from the <strong>Gang of Four (GoF)</strong> design patterns in 1994.
+        It addresses the problem of <em>object creation</em> in a flexible and reusable way.
+    </p>
+
+    <h3>3. Real-Life Example</h3>
+    <ul>
+        <li><strong>Car Factory:</strong> You request a "Car", and the factory decides whether to give you a Sedan,
+            SUV, or Truck.</li>
+        <li><strong>Document Factory:</strong> You ask to open a "Document", the factory decides whether it's Word,
+            Excel, or PDF.</li>
+    </ul>
+
+    <h3>4. Structure Diagram</h3>
+    <pre>
+            +------------------+       +------------------+
+            |    Product       |<------|  ConcreteProduct |
+            +------------------+       +------------------+
+                     ^
+                     |
+            +------------------+
+            |   Factory        |
+            +------------------+
+                     |
+                     v
+            +------------------+
+            | ConcreteFactory  |
+            +------------------+
+        </pre>
+
+    <h3>5. Example</h3>
+    <pre>
+      // Step 1: Product Interface
+      interface Shape {
+          void draw();
+      }
+      
+      // Step 2: Concrete Products
+      class Circle implements Shape {
+          public void draw() {
+              System.out.println("Drawing a Circle");
+          }
+      }
+      
+      class Rectangle implements Shape {
+          public void draw() {
+              System.out.println("Drawing a Rectangle");
+          }
+      }
+      
+      // Step 3: Factory Class
+      class ShapeFactory {
+          // Factory method
+          public Shape getShape(String type) {
+              if (type == null) return null;
+              if (type.equalsIgnoreCase("CIRCLE")) return new Circle();
+              if (type.equalsIgnoreCase("RECTANGLE")) return new Rectangle();
+              return null;
+          }
+      }
+      
+      // Step 4: Client
+      public class FactoryPatternDemo {
+          public static void main(String[] args) {
+              ShapeFactory factory = new ShapeFactory();
+      
+              Shape shape1 = factory.getShape("CIRCLE"); // Client doesn't know creation details
+              shape1.draw();
+      
+              Shape shape2 = factory.getShape("RECTANGLE");
+              shape2.draw();
+          }
+      }
+        </pre>
+
+    <div class="note">
+        <strong>Note:</strong> The client only calls <code>getShape()</code> and doesn’t worry about which class to
+        instantiate.
+    </div>
+
+    <h3>6. Advantages</h3>
+    <ul>
+        <li>Encapsulates object creation.</li>
+        <li>Promotes loose coupling.</li>
+        <li>Makes code scalable — adding new products requires less modification.</li>
+    </ul>
+
+    <h3>7. Disadvantages</h3>
+    <ul>
+        <li>Can become complex if too many product classes exist.</li>
+        <li>May introduce too many small classes (maintenance overhead).</li>
+    </ul>
+
+    <h3>8. Uses in Real Projects</h3>
+    <ul>
+        <li><strong>Spring Framework:</strong> BeanFactory, ApplicationContext use factory patterns to manage beans.
+        </li>
+        <li><strong>Java Collections:</strong> Methods like <code>Collections.synchronizedList()</code> return
+            factory-created objects.</li>
+        <li><strong>Loggers:</strong> Log4j and SLF4J use factories to create logger instances.</li>
+    </ul>
+
+    <h3>9. Alternative Implementations</h3>
+    <ul>
+        <li><strong>Reflection-Based Factory:</strong> Uses Java reflection to dynamically create instances.</li>
+        <li><strong>Lambda-Based Factory:</strong> Uses functional interfaces to create objects in a cleaner way.
+        </li>
+    </ul>
+
+    <pre>
+      // Reflection-Based Factory Example
+      class ReflectionFactory {
+          public static Object createInstance(String className) {
+              try {
+                  return Class.forName(className).getDeclaredConstructor().newInstance();
+              } catch (Exception e) {
+                  throw new RuntimeException("Error creating instance", e);
+              }
+          }
+      }
+      
+      public class ReflectionDemo {
+          public static void main(String[] args) {
+              Shape circle = (Shape) ReflectionFactory.createInstance("Circle");
+              circle.draw();
+          }
+      }
+        </pre>
+
+    <pre>
+      // Lambda-Based Factory Example
+      import java.util.HashMap;
+      import java.util.Map;
+      import java.util.function.Supplier;
+      
+      class LambdaShapeFactory {
+          private static final Map<String, Supplier<Shape>> registry = new HashMap<>();
+      
+          static {
+              registry.put("CIRCLE", Circle::new);
+              registry.put("RECTANGLE", Rectangle::new);
+          }
+      
+          public static Shape getShape(String type) {
+              Supplier<Shape> shape = registry.get(type.toUpperCase());
+              if (shape != null) {
+                  return shape.get();
+              }
+              throw new IllegalArgumentException("Unknown shape type");
+          }
+      }
+      
+      public class LambdaDemo {
+          public static void main(String[] args) {
+              Shape shape = LambdaShapeFactory.getShape("CIRCLE");
+              shape.draw();
+          }
+      }
+        </pre>
+
+    <h3>10. Variants of Factory Pattern</h3>
+    <ul>
+        <li><strong>Simple Factory:</strong> One class decides which product to create.</li>
+        <li><strong>Factory Method:</strong> Subclasses decide which product to create.</li>
+        <li><strong>Static Factory:</strong> Factory methods are static (common in utility classes).</li>
+    </ul>
+
+    <pre>
+      // Simple Factory Example
+      class SimpleCarFactory {
+          public static Car createCar(String type) {
+              if (type.equalsIgnoreCase("SEDAN")) return new Sedan();
+              if (type.equalsIgnoreCase("SUV")) return new SUV();
+              throw new IllegalArgumentException("Unknown car type");
+          }
+      }
+      
+      class SimpleFactoryDemo {
+          public static void main(String[] args) {
+              Car car = SimpleCarFactory.createCar("SEDAN");
+              car.drive();
+          }
+      }
+        </pre>
+
+    <pre>
+      // Factory Method Example
+      abstract class Dialog {
+          public void renderWindow() {
+              Button okButton = createButton();
+              okButton.render();
+          }
+          protected abstract Button createButton(); // Factory Method
+      }
+      
+      class WindowsDialog extends Dialog {
+          protected Button createButton() {
+              return new WindowsButton();
+          }
+      }
+      
+      class FactoryMethodDemo {
+          public static void main(String[] args) {
+              Dialog dialog = new WindowsDialog();
+              dialog.renderWindow();
+          }
+      }
+        </pre>
+
+    <pre>
+      // Static Factory Example
+      class NumberFactory {
+          public static Integer getInteger(String value) {
+              return Integer.valueOf(value); // Uses caching for performance
+          }
+      }
+      
+      public class StaticFactoryDemo {
+          public static void main(String[] args) {
+              Integer num = NumberFactory.getInteger("10");
+              System.out.println(num);
+          }
+      }
+        </pre>
+
+    <h3>11. Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Factory Pattern solve?</li>
+            <li>How is it different from Abstract Factory?</li>
+            <li>Can you give examples from Java libraries?</li>
+            <li>What are the trade-offs between Simple Factory, Factory Method, and Abstract Factory?</li>
+        </ul>
+    </div>
+
+    <h3>12. Experience Developer Notes & Tips</h3>
+    <div class="tip">
+        <ul>
+            <li>Prefer Factory when object creation is complex or varies by condition.</li>
+            <li>Use enum or lambda registry for cleaner factory implementations.</li>
+            <li>In Spring, factories are everywhere — understanding this pattern is crucial.</li>
+        </ul>
+    </div>
+</section>

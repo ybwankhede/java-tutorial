@@ -1,0 +1,199 @@
+<section id="operators">
+    <h2>Operators</h2>
+
+    <p>
+        <strong>Definition:</strong><br>
+        Operators in Java are special symbols used to perform operations on variables and values.
+        Think of them as tools that help us do math, comparisons, logic checks, or assignments in our code.
+    </p>
+
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        Imagine operators like the keys on a calculator.
+        Just as you press <strong>+</strong> to add two numbers,
+        in Java you use <code>+</code> to add values inside your program.
+    </p>
+
+    <!-- Categories of Operators -->
+    <h3>Types of Operators in Java</h3>
+    <ul>
+        <li><strong>Arithmetic Operators</strong> → <code>+, -, *, /, %</code></li>
+        <li><strong>Relational Operators</strong> → <code>==, !=, >, <, >=, <=</code></li>
+        <li><strong>Logical Operators</strong> → <code>&&, ||, !</code></li>
+        <li><strong>Assignment Operators</strong> → <code>=, +=, -=, *=, /=, %=</code></li>
+        <li><strong>Unary Operators</strong> → <code>++, --, +, -</code></li>
+        <li><strong>Bitwise Operators</strong> → <code>&, |, ^, ~, <<, >>, >>></code></li>
+        <li><strong>Conditional (Ternary) Operator</strong> → <code>?:</code></li>
+        <li><strong>Instanceof Operator</strong> → <code>instanceof</code></li>
+        <li><strong>New (Java 14+): Pattern Matching for instanceof</strong></li>
+    </ul>
+
+    <!-- Java Code Examples -->
+    <h3>Examples in Java</h3>
+    <pre>
+    // Arithmetic Operators
+    int a = 10, b = 3;
+    System.out.println(a + b); // 13
+    System.out.println(a % b); // 1 (remainder)
+    
+    // Relational
+    System.out.println(a > b); // true
+    System.out.println(a == b); // false
+    
+    // Logical
+    boolean x = true, y = false;
+    System.out.println(x && y); // false
+    System.out.println(x || y); // true
+    
+    // Unary
+    int count = 5;
+    System.out.println(++count); // 6 (pre-increment)
+    System.out.println(count--); // 6 (then count = 5)
+    
+    // Conditional (ternary)
+    int age = 20;
+    String status = (age >= 18) ? "Adult" : "Minor";
+    System.out.println(status); // Adult
+    
+    // Bitwise
+    int p = 5, q = 3;
+    System.out.println(p & q); // 1 (0101 & 0011 = 0001)
+    
+    // instanceof (Java 16+)
+    Object obj = "Hello";
+    if (obj instanceof String s) {  // pattern matching
+        System.out.println(s.toUpperCase()); // HELLO
+    }
+    </pre>
+
+    <!-- UML-like Table -->
+    <h3>Operator Summary Table</h3>
+    <table cellpadding="8">
+        <tr>
+            <th>Category</th>
+            <th>Operators</th>
+            <th>Purpose</th>
+            <th>Example</th>
+        </tr>
+        <tr>
+            <td>Arithmetic</td>
+            <td>+, -, *, /, %</td>
+            <td>Basic math operations</td>
+            <td>a + b</td>
+        </tr>
+        <tr>
+            <td>Relational</td>
+            <td>==, !=, &gt;, &lt;, &gt;=, &lt;=</td>
+            <td>Compare values</td>
+            <td>a &gt; b</td>
+        </tr>
+        <tr>
+            <td>Logical</td>
+            <td>&& , || , !</td>
+            <td>Combine or invert conditions</td>
+            <td>(a&gt;b && b&gt;c)</td>
+        </tr>
+        <tr>
+            <td>Assignment</td>
+            <td>=, +=, -=, *=, /=</td>
+            <td>Assign values</td>
+            <td>a += 5</td>
+        </tr>
+        <tr>
+            <td>Bitwise</td>
+            <td>&, |, ^, ~, &lt;&lt;, &gt;&gt;</td>
+            <td>Work at bit level</td>
+            <td>a & b</td>
+        </tr>
+        <tr>
+            <td>Ternary</td>
+            <td>?:</td>
+            <td>Shorthand if-else</td>
+            <td>(age &gt;= 18) ? "Adult" : "Minor"</td>
+        </tr>
+        <tr>
+            <td>Instanceof</td>
+            <td>instanceof</td>
+            <td>Check object type</td>
+            <td>obj instanceof String</td>
+        </tr>
+    </table>
+
+    <!-- Advantages & Disadvantages -->
+    <h3>Advantages</h3>
+    <ul>
+        <li>Make code concise and readable.</li>
+        <li>Provide rich ways to perform calculations and decisions.</li>
+        <li>Work seamlessly with Java primitive types and objects.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>Overuse can make code confusing (e.g., too many nested ternaries).</li>
+        <li>Bitwise operators can be tricky for beginners.</li>
+        <li>Integer division <code>(/)</code> may give unexpected results (truncation).</li>
+    </ul>
+
+    <!-- Java Specific Notes -->
+    <h3>Specific Keywords & Notes</h3>
+    <ul>
+        <li><code>instanceof</code> enhanced with pattern matching (Java 16+).</li>
+        <li>Division of integers truncates (10/3 = 3, not 3.33).</li>
+        <li>Bitwise operators often used in <strong>low-level coding</strong> (flags, masks).</li>
+    </ul>
+
+    <!-- Real-Life Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+        Imagine a school grading system:
+    </p>
+    <pre>
+    int marks = 85;
+    // Ternary operator to decide grade
+    String grade = (marks >= 40) ? "Pass" : "Fail";
+    System.out.println(grade); // Pass
+    </pre>
+
+    <div class="card">
+        <h3>Note</h3>
+        <div class="note">
+           - Use == for primitive types (int, double, char…). <br>
+           - Use equals() for objects (String, custom classes…) when you care about values.<br>
+           <pre>
+            String a = new String("hello");
+            String b = new String("hello");
+        
+            System.out.println(a == b);      // false (different memory locations)
+            System.out.println(a.equals(b)); // true  (same content: "hello")
+            </pre>
+            - It checks uaing (==): “Are these two references pointing to the exact same object?”<br>
+            - It checks using (equals()): “Do these two objects look the same in terms of data?”<br>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Enhancement Tips</h3>
+        <div class="tip">
+            - Avoid deep nesting with ternary operator — prefer <code>if-else</code> for readability.<br>
+            - Use <code>Objects.isNull()</code> or <code>Objects.nonNull()</code> instead of tricky null checks with
+            operators.<br>
+            - Pattern Matching with <code>instanceof</code> simplifies casting → use it in modern Java.<br>
+            - For performance: Bitwise operators can sometimes replace arithmetic operations (e.g., <code>x & 1</code>
+            instead of <code>x % 2</code> for even/odd check).<br>
+        </div>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="card">
+        <h3>Interview Notes</h3>
+        <div class="interview">
+            - Q: What is the difference between <code>==</code> and <code>equals()</code> in Java?<br>
+            - Q: Explain <code>&&</code> vs <code>&</code> in logical operators.<br>
+            - Q: How does <code>instanceof</code> operator work in Java 16+?<br>
+            - Q: What happens when you divide two integers in Java?<br>
+            - Q: Can we overload operators in Java?<br>
+        </div>
+    </div>
+
+</section>

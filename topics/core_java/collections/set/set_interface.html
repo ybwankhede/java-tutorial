@@ -1,0 +1,301 @@
+<section id = "set_interface">
+    <h2>Set Interface</h2>
+  
+    <p>
+      <strong>Definition:</strong><br> 
+      A <b>Set</b> in Java is a collection that <b>does not allow duplicate elements</b>.  
+      It models the mathematical concept of a "set".
+    </p>
+  
+    <h3>Simple Understanding</h3>
+    <p>
+      Imagine you have a <b>bag of unique lottery numbers</b>.  
+      Even if you try to add "42" twice, it will only keep one copy.  
+      That’s exactly how Java <b>Set</b> behaves.
+    </p>
+  
+    <h3>Real-Life Example</h3>
+    <p>
+      Think of a <b>classroom attendance register</b>.  
+      A student’s name cannot appear more than once in the attendance list.  
+      This ensures uniqueness – just like a Set.
+    </p>
+  
+    <h3>Example</h3>
+    <pre>
+  // Example of Set in Java
+  import java.util.*;
+  
+  public class SetExample {
+      public static void main(String[] args) {
+          Set<String> uniqueFruits = new HashSet<>();
+  
+          // Adding elements
+          uniqueFruits.add("Apple");
+          uniqueFruits.add("Banana");
+          uniqueFruits.add("Mango");
+          uniqueFruits.add("Apple"); // Duplicate, ignored
+  
+          // Iterating
+          for (String fruit : uniqueFruits) {
+              System.out.println(fruit);
+          }
+      }
+  }
+    </pre>
+  
+    <h3>UML (Text-based Diagram)</h3>
+    <pre>
+    Collection
+       ↑
+      Set (Interface)
+       ↑
+    ------------------------------------
+    | HashSet | LinkedHashSet | TreeSet |
+    </pre>
+  
+    
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b>
+        <ul>
+          <li>No duplicates.</li>
+          <li>Useful for uniqueness constraints.</li>
+          <li>Index-based access.</li>
+         
+        </ul>
+      </li>
+      <li><b>Disadvantages:</b>
+        <ul>
+          <li>No index-based access.</li>
+          <li>Ordering depends on implementation.</li>
+        </ul>
+      </li>
+    </ul>
+  
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+      <li><b>HashSet:</b> Fast lookup (uses HashMap internally), no order guarantee.</li>
+      <li><b>LinkedHashSet:</b> Maintains insertion order.</li>
+      <li><b>TreeSet:</b> Maintains sorted order (uses Red-Black Tree).</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 9 introduced <code>Set.of(...)</code> for creating immutable sets.</li>
+      <li>Java Streams provide <code>.collect(Collectors.toSet())</code> to easily convert lists to sets.</li>
+    </ul>
+  
+    <h3>Notes</h3>
+    <div class="note">
+      Use <b>HashSet</b> for speed, <b>LinkedHashSet</b> if you care about order,  
+      and <b>TreeSet</b> when you need sorting.
+    </div>
+  
+    <h3>Tips</h3>
+    <div class="tip">
+      To remove duplicates from a List quickly, just pass it into a <code>new HashSet&lt;&gt;(list)</code>.
+    </div>
+
+    <h3>Realistic Example for Beginners</h3>
+    <pre>
+  // Example: Removing duplicate student names
+  List<String> students = Arrays.asList("Alice", "Bob", "Alice", "Charlie");
+  Set<String> uniqueStudents = new HashSet<>(students);
+  
+  System.out.println("Unique Students: " + uniqueStudents);
+    </pre>
+  
+    <h3>Interview Questions</h3>
+    <div class="interview">
+      <ul>
+        <li>What is the difference between List and Set?</li>
+        <li>How does HashSet ensure uniqueness?</li>
+        <li>What is the difference between HashSet, LinkedHashSet, and TreeSet?</li>
+        <li>Why is TreeSet slower than HashSet?</li>
+        <li>What happens if you insert a null value in a HashSet or TreeSet?</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <section>
+    <h1>Set Module</h1>
+  
+    <!-- 1. HashSet Overview -->
+    <h2>1. HashSet</h2>
+    <p>
+      <b>HashSet</b> is an implementation of <code>Set</code> that stores **unique elements** with **no guaranteed order**.  
+      Internally uses a <b>hash table</b>.
+    </p>
+    <div class="note">
+      ⚡ Fast O(1) add, remove, contains operations; allows null once.
+    </div>
+  
+    <!-- 2. LinkedHashSet Overview -->
+    <h2>2. LinkedHashSet</h2>
+    <p>
+      <b>LinkedHashSet</b> extends HashSet and maintains <b>insertion order</b>.  
+      Internally, it combines hash table with a linked list.
+    </p>
+    <div class="note">
+      ⚡ Use when iteration order matters and duplicates must be avoided.
+    </div>
+  
+    <!-- 3. TreeSet Overview -->
+    <h2>3. TreeSet</h2>
+    <p>
+      <b>TreeSet</b> stores elements in <b>sorted order</b> according to natural ordering or Comparator.  
+      Internally uses a <b>Red-Black Tree</b>.
+    </p>
+    <div class="note">
+      ⚡ Useful for range queries and sorted output; O(log n) add/remove/contains.
+    </div>
+  
+    <!-- 4. EnumSet Overview -->
+    <h2>4. EnumSet</h2>
+    <p>
+      <b>EnumSet</b> is a specialized Set implementation that works <b>only with enum types</b>.  
+      Extremely memory-efficient and fast, internally represented as a bit vector.
+    </p>
+    <div class="note">
+      ⚡ Type-safe, maintains natural enum order, does not allow null.
+    </div>
+  
+    <!-- 5. Comparison Table -->
+    <h2>5. Comparison Table: HashSet vs LinkedHashSet vs TreeSet vs EnumSet</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>HashSet</th>
+          <th>LinkedHashSet</th>
+          <th>TreeSet</th>
+          <th>EnumSet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Order</td>
+          <td>No guarantee</td>
+          <td>Insertion order</td>
+          <td>Sorted order</td>
+          <td>Enum declaration order</td>
+        </tr>
+        <tr>
+          <td>Duplicates</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Null Allowed</td>
+          <td>Yes (once)</td>
+          <td>Yes (once)</td>
+          <td>No (Java 8+)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Internal Data Structure</td>
+          <td>Hash Table</td>
+          <td>Hash Table + Linked List</td>
+          <td>Red-Black Tree</td>
+          <td>Bit Vector</td>
+        </tr>
+        <tr>
+          <td>Performance (add/remove/contains)</td>
+          <td>O(1)</td>
+          <td>O(1)</td>
+          <td>O(log n)</td>
+          <td>O(1)</td>
+        </tr>
+        <tr>
+          <td>Iteration Order</td>
+          <td>Unpredictable</td>
+          <td>Insertion order</td>
+          <td>Sorted order</td>
+          <td>Enum order</td>
+        </tr>
+        <tr>
+          <td>Best Use Case</td>
+          <td>Fast lookup, no order needed</td>
+          <td>Maintain insertion order</td>
+          <td>Sorted output, range queries</td>
+          <td>Enum constants, flags</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- 6. Internal Working Summary -->
+    <h2>Internal Working Summary</h2>
+    <ul>
+      <li><b>HashSet:</b> Stores elements in buckets using hash code → fast lookup.</li>
+      <li><b>LinkedHashSet:</b> HashSet + doubly-linked list → maintains insertion order.</li>
+      <li><b>TreeSet:</b> Red-Black Tree → self-balancing binary search tree → sorted order.</li>
+      <li><b>EnumSet:</b> Bit vector → each enum constant corresponds to a bit → extremely fast.</li>
+    </ul>
+  
+    <!-- 7. Advantages & Disadvantages -->
+    <h2>Advantages & Disadvantages</h2>
+    <ul>
+      <li><b>HashSet:</b> Fast, memory-efficient, allows null; unordered iteration.</li>
+      <li><b>LinkedHashSet:</b> Maintains insertion order; slightly slower than HashSet, allows null.</li>
+      <li><b>TreeSet:</b> Sorted output, range queries; slower, no null.</li>
+      <li><b>EnumSet:</b> Extremely fast and memory-efficient; only enums allowed, no null.</li>
+    </ul>
+  
+    <!-- 8. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Choose the right Set implementation based on order, performance, and data type.</li>
+        <li>EnumSet and TreeSet are the most optimized for enums and sorted data respectively.</li>
+        <li>HashSet is usually the default choice for general-purpose sets.</li>
+      </ul>
+    </div>
+  
+    <!-- 9. Latest Java Updates -->
+    <h2>Latest Java Updates</h2>
+    <ul>
+      <li>Java 8+: Stream API support for all Sets (<code>set.stream()</code>).</li>
+      <li>Java 17–21: Minor performance and internal optimizations.</li>
+      <li>EnumSet still most efficient for enums; TreeSet uses optimized Red-Black Tree traversal.</li>
+    </ul>
+  
+    <!-- 10. Enhancement Tips -->
+    <h2>Enhancement Tips</h2>
+    <ul>
+      <li>Prefer <b>EnumSet</b> over HashSet for enum data.</li>
+      <li>Use <b>LinkedHashSet</b> when iteration order matters.</li>
+      <li>Use <b>TreeSet</b> for sorted data or range queries.</li>
+      <li>Wrap Sets with <code>Collections.synchronizedSet()</code> if thread-safety is required.</li>
+    </ul>
+  
+    <!-- 11. Extra Corner Points / Interview Traps -->
+    <h2>Interview Traps</h2>
+    <ul>
+      <li>HashSet and LinkedHashSet allow one null element; TreeSet and EnumSet do not allow null.</li>
+      <li>TreeSet uses natural ordering unless Comparator provided.</li>
+      <li>EnumSet is type-safe and extremely memory-efficient.</li>
+      <li>Iteration order differences are commonly asked in interviews.</li>
+    </ul>
+  
+    <!-- 12. Interview Questions -->
+    <div class="interview">
+      <h2>Interview Questions</h2>
+      <ul>
+        <li>Difference between HashSet, LinkedHashSet, TreeSet, EnumSet?</li>
+        <li>Which Set implementation maintains insertion order?</li>
+        <li>How does TreeSet maintain sorted order internally?</li>
+        <li>Can EnumSet store null?</li>
+        <li>Time complexity of add(), remove(), contains() for each Set?</li>
+        <li>When would you use LinkedHashSet over HashSet?</li>
+        <li>Explain EnumSet internal working and advantages.</li>
+        <li>Difference between TreeSet and HashSet when iteration order matters?</li>
+      </ul>
+    </div>
+  
+  </section>
+  
+  

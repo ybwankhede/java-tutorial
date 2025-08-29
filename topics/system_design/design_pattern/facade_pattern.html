@@ -1,0 +1,147 @@
+<section id="facade_pattern">
+      <h1>Facade Pattern</h1>
+    
+      <h2>Introduction & History</h2>
+      <p>The <strong>Facade Pattern</strong> is a <em>structural design pattern</em> that provides a <strong>unified, simplified interface</strong> to a set of interfaces in a subsystem. It hides the complexities of the subsystem and makes the subsystem easier to use. It was introduced in the <strong>GoF (Gang of Four)</strong> book in 1994 as one of the structural design patterns.</p>
+    
+      <h2>Real-Life Analogy</h2>
+      <ul>
+        <li><strong>Hotel Receptionist</strong>: You don’t directly contact kitchen, housekeeping, or maintenance. Instead, you call the receptionist, who coordinates everything for you.</li>
+        <li><strong>Universal Remote Control</strong>: A remote controls TV, sound system, and DVD player with simple buttons, instead of dealing with each device separately.</li>
+        <li><strong>Customer Service Desk</strong>: You talk to one desk, they talk to multiple departments internally.</li>
+      </ul>
+    
+      <h2>Structure Diagram</h2>
+      <pre>
+      +----------------+
+      |   Facade       |-----> Simplified interface for clients
+      +----------------+
+              |
+       -----------------------
+       |          |          |
+    +------+   +------+   +------+
+    | Sub1 |   | Sub2 |   | Sub3 |
+    +------+   +------+   +------+
+      </pre>
+    
+      <h2>Example</h2>
+      <pre>
+    // Subsystem classes
+    class AudioSystem {
+        void on() { System.out.println("Audio system ON"); }
+        void setVolume(int level) { System.out.println("Volume set to " + level); }
+    }
+    
+    class Projector {
+        void on() { System.out.println("Projector ON"); }
+        void setInput(String source) { System.out.println("Projector input set to " + source); }
+    }
+    
+    class DVDPlayer {
+        void on() { System.out.println("DVD Player ON"); }
+        void play(String movie) { System.out.println("Playing movie: " + movie); }
+    }
+    
+    // Facade class
+    class HomeTheaterFacade {
+        private AudioSystem audio;
+        private Projector projector;
+        private DVDPlayer dvd;
+    
+        public HomeTheaterFacade(AudioSystem audio, Projector projector, DVDPlayer dvd) {
+            this.audio = audio;
+            this.projector = projector;
+            this.dvd = dvd;
+        }
+    
+        public void watchMovie(String movie) {
+            System.out.println("Get ready to watch a movie...");
+            audio.on();
+            audio.setVolume(7);
+            projector.on();
+            projector.setInput("DVD");
+            dvd.on();
+            dvd.play(movie);
+        }
+    }
+    
+    // Client code
+    public class FacadePatternDemo {
+        public static void main(String[] args) {
+            AudioSystem audio = new AudioSystem();
+            Projector projector = new Projector();
+            DVDPlayer dvd = new DVDPlayer();
+    
+            HomeTheaterFacade homeTheater = new HomeTheaterFacade(audio, projector, dvd);
+            homeTheater.watchMovie("Inception");
+        }
+    }
+      </pre>
+    
+      <h2>Advantages</h2>
+      <ul>
+        <li>Simplifies usage of complex subsystems.</li>
+        <li>Reduces dependency on internal subsystem structure.</li>
+        <li>Improves readability and maintainability.</li>
+        <li>Promotes loose coupling between client and subsystems.</li>
+      </ul>
+    
+      <h2>Disadvantages</h2>
+      <ul>
+        <li>Can become a <strong>god object</strong> if it tries to handle too much logic.</li>
+        <li>Hides subsystem functionality, which may limit flexibility for advanced users.</li>
+        <li>If not carefully designed, can lead to duplication of code.</li>
+      </ul>
+    
+      <h2>Use Cases in Frameworks/Libraries</h2>
+      <ul>
+        <li><strong>JDBC</strong>: The <code>DriverManager</code> acts as a facade for multiple database drivers.</li>
+        <li><strong>Hibernate</strong>: The <code>Session</code> provides a simple facade over complex ORM operations.</li>
+        <li><strong>Spring</strong>: The <code>JdbcTemplate</code> is a facade to simplify JDBC boilerplate code.</li>
+        <li><strong>Logging</strong>: <code>SLF4J</code> is a facade for various logging frameworks (Log4j, JUL, Logback).</li>
+      </ul>
+    
+      <h2>Variants of Facade</h2>
+      <ul>
+        <li><strong>Simple Facade</strong>: Provides only basic simplified operations (e.g., SLF4J Logger).</li>
+        <li><strong>Abstract Facade</strong>: Provides an interface that can be implemented differently for multiple subsystems.</li>
+        <li><strong>Multiple Facades</strong>: Large systems may have multiple facades, each focusing on a different subsystem.</li>
+      </ul>
+    
+      <h2>Alternatives</h2>
+      <ul>
+        <li><strong>Mediator</strong>: Manages communication between multiple objects (more dynamic).</li>
+        <li><strong>Adapter</strong>: Converts one interface into another (focuses on compatibility).</li>
+        <li><strong>Proxy</strong>: Controls access to an object, adding additional behavior.</li>
+      </ul>
+    
+      <h2>Interview Questions</h2>
+      <div class="interview">
+        <ul>
+          <li>What problem does the Facade Pattern solve?</li>
+          <li>How does it differ from the Adapter Pattern?</li>
+          <li>Can you give a real-world framework example of Facade?</li>
+          <li>What are the trade-offs of using Facade in large systems?</li>
+          <li>When would you prefer Mediator over Facade?</li>
+        </ul>
+      </div>
+    
+      <h2>Notes</h2>
+      <div class="note">
+        <ul>
+          <li><strong>Subsystem</strong>: Group of related classes working together to perform complex tasks.</li>
+          <li><strong>Unified Interface</strong>: A single class/method exposed to clients hiding internal complexity.</li>
+          <li><strong>Abstraction</strong>: Hiding implementation details, exposing only the necessary functionality.</li>
+        </ul>
+      </div>
+    
+      <h2>Developer Tips</h2>
+      <div class="tip">
+        <ul>
+          <li>Use Facade when the subsystem is complex and frequently used by clients.</li>
+          <li>Don’t put too much logic in the Facade — keep it a delegator, not a decision maker.</li>
+          <li>Use multiple smaller facades instead of one massive facade for scalability.</li>
+          <li>Combine Facade with <strong>Singleton</strong> if only one facade object is required globally.</li>
+        </ul>
+      </div>    
+</section>

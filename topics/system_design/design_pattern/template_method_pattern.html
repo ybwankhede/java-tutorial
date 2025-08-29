@@ -1,0 +1,155 @@
+<section id="template_method_pattern">
+    <h1>Template Method Pattern in Java</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>
+        The <b>Template Method Pattern</b> is a behavioral design pattern where a superclass defines
+        the <b>skeleton (template)</b> of an algorithm, but lets subclasses override certain steps
+        without changing the overall structure.
+    </p>
+    <p>
+        Origin: This pattern was first introduced in the famous <i>Gang of Four (GoF)</i> book in 1994
+        and is one of the most commonly used patterns in frameworks like <b>Spring</b> and <b>Java API</b>.
+    </p>
+
+    <h2>2. Real-Life Analogy</h2>
+    <ul>
+        <li><b>Cooking Recipe:</b> A recipe defines steps like “boil water”, “add ingredients”, “serve”. Each chef might
+            implement it differently (spices, techniques), but the steps remain the same.</li>
+        <li><b>Document Creation:</b> Think of Microsoft Word templates. The structure (cover page, body, footer) is
+            fixed, but the content inside can vary.</li>
+    </ul>
+
+    <h2>3. Structure Diagram</h2>
+    <div class="diagram">
+        AbstractClass
+        + templateMethod() <-- defines skeleton + primitiveOperation1() + primitiveOperation2() ConcreteClassA +
+            primitiveOperation1() implementation + primitiveOperation2() implementation ConcreteClassB +
+            primitiveOperation1() implementation + primitiveOperation2() implementation </div>
+
+            <h2>4. Java Example</h2>
+            <div class="code">
+                abstract class DataProcessor {
+                // Template Method - defines the skeleton
+                public final void process() {
+                readData();
+                processData();
+                saveData();
+                }
+
+                // Steps that can vary
+                abstract void readData();
+                abstract void processData();
+
+                // Common step
+                void saveData() {
+                System.out.println("Saving data to database...");
+                }
+                }
+
+                // Concrete Implementation 1
+                class CSVDataProcessor extends DataProcessor {
+                void readData() {
+                System.out.println("Reading CSV data...");
+                }
+                void processData() {
+                System.out.println("Processing CSV data...");
+                }
+                }
+
+                // Concrete Implementation 2
+                class ExcelDataProcessor extends DataProcessor {
+                void readData() {
+                System.out.println("Reading Excel file...");
+                }
+                void processData() {
+                System.out.println("Processing Excel data...");
+                }
+                }
+
+                // Client
+                public class TemplateMethodDemo {
+                public static void main(String[] args) {
+                DataProcessor csv = new CSVDataProcessor();
+                csv.process();
+
+                DataProcessor excel = new ExcelDataProcessor();
+                excel.process();
+                }
+                }
+            </div>
+
+            <h2>5. Advantages</h2>
+            <ul>
+                <li>Encapsulates algorithm structure and allows subclasses to define details.</li>
+                <li>Promotes <b>code reuse</b> (common parts stay in base class).</li>
+                <li>Easy to extend by creating new subclasses.</li>
+            </ul>
+
+            <h2>6. Disadvantages</h2>
+            <ul>
+                <li>Inheritance-based → can lead to tight coupling.</li>
+                <li>Difficult to maintain if too many subclasses are added.</li>
+                <li>Rigid structure – subclasses must follow the template steps.</li>
+            </ul>
+
+            <h2>7. Real-World Uses</h2>
+            <ul>
+                <li><b>Java API:</b> The <code>java.util.AbstractList</code>, <code>java.util.AbstractSet</code> use
+                    Template Method.</li>
+                <li><b>Spring Framework:</b> Classes like <code>JdbcTemplate</code> and <code>HibernateTemplate</code>
+                    define template methods for database operations.</li>
+                <li><b>Servlets:</b> The <code>doGet()</code> and <code>doPost()</code> methods in HttpServlet work as
+                    hooks in a template.</li>
+            </ul>
+
+            <h2>8. Variants</h2>
+            <ul>
+                <li><b>Hook Methods:</b> Optional methods in the superclass that subclasses may override (like
+                    <code>afterProcess()</code>).</li>
+                <li><b>Framework Templates:</b> Often used in libraries like Spring, where you provide only the missing
+                    logic.</li>
+            </ul>
+
+            <h2>9. Alternatives</h2>
+            <ul>
+                <li><b>Strategy Pattern:</b> Use if you want composition instead of inheritance (plug-in behaviors at
+                    runtime).</li>
+                <li><b>Factory Method:</b> If object creation is the step that varies, consider Factory Method instead
+                    of Template Method.</li>
+            </ul>
+
+            <h2>10. Interview Questions</h2>
+            <div class="interview">
+                <p><b>Q1:</b> What is the Template Method Pattern?</p>
+                <p><b>A:</b> It defines the skeleton of an algorithm in a base class and lets subclasses fill in
+                    specific steps.</p>
+
+                <p><b>Q2:</b> How does Template Method differ from Strategy?</p>
+                <p><b>A:</b> Template Method uses inheritance (subclasses override steps), while Strategy uses
+                    composition (swap behaviors at runtime).</p>
+
+                <p><b>Q3:</b> Give an example of Template Method in Java libraries.</p>
+                <p><b>A:</b> AbstractList, AbstractSet, HttpServlet <code>doGet/doPost</code>, Spring JdbcTemplate.</p>
+            </div>
+
+            <h2>11. Notes</h2>
+            <div class="note">
+                <ul>
+                    <li><b>abstract:</b> A Java keyword meaning the method must be implemented by subclasses.</li>
+                    <li><b>final method:</b> Template method is usually declared <code>final</code> to prevent
+                        overriding its structure.</li>
+                    <li><b>hook:</b> A method with default implementation that subclasses may override.</li>
+                </ul>
+            </div>
+
+            <h2>12. Developer Tips</h2>
+            <div class="tips">
+                <ul>
+                    <li>Use Template Method when you have a fixed workflow but variable steps.</li>
+                    <li>Keep common logic in the abstract class to avoid code duplication.</li>
+                    <li>Combine with <b>hooks</b> to allow customization without forcing subclasses.</li>
+                    <li>If runtime flexibility is required, prefer <b>Strategy</b> over Template Method.</li>
+                </ul>
+            </div>
+</section>

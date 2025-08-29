@@ -1,0 +1,126 @@
+
+<section id="checked_exception">
+
+  <h2>Checked Exceptions</h2>
+
+  <p>
+    <strong>Definition:</strong><br> 
+    A <b>Checked Exception</b> in Java is an exception that the compiler forces you to handle
+    (either with <code>try-catch</code> or by declaring <code>throws</code> in the method signature).
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Imagine you are booking a train ticket online. If the payment gateway is down, 
+    your program <b>must handle</b> this situation (otherwise your booking fails silently).  
+    Similarly, in Java, checked exceptions make sure that you <b>prepare for possible problems</b>.
+  </p>
+
+  <div class="note">
+    🔹 If you don’t handle a checked exception, your code won’t even compile.
+  </div>
+
+  <h3>Examples of Checked Exceptions</h3>
+  <ul>
+    <li><code>IOException</code> → When file/network operations fail</li>
+    <li><code>SQLException</code> → When database access fails</li>
+    <li><code>ClassNotFoundException</code> → When a class is not found at runtime</li>
+    <li><code>InterruptedException</code> → When a thread is interrupted</li>
+  </ul>
+
+  <h3>Example</h3>
+  <pre>
+import java.io.*;
+
+public class CheckedExample {
+    public static void main(String[] args) {
+        try {
+            FileReader file = new FileReader("data.txt");  // may throw FileNotFoundException
+            BufferedReader br = new BufferedReader(file);
+            System.out.println(br.readLine());
+        } catch (IOException e) {  // must handle IOException
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+}
+  </pre>
+
+  <h3>UML Representation</h3>
+  <pre>
+                Throwable
+                   |
+              Exception
+                   |
+      -----------------------------
+      |                           |
+ CheckedException        UncheckedException
+  (IOException,           (RuntimeException,
+   SQLException, …)         NullPointerException, …)
+  </pre>
+
+  <h3>✅ Advantages</h3>
+  <ul>
+    <li>Forces developers to handle risky code</li>
+    <li>Makes the program more <b>robust and reliable</b></li>
+    <li>Improves <b>error visibility</b> at compile-time</li>
+  </ul>
+
+  <h3>⚠️ Disadvantages</h3>
+  <ul>
+    <li>Can make code look <b>cluttered with try-catch</b></li>
+    <li>Too many checked exceptions reduce readability</li>
+    <li>Sometimes developers misuse <code>throws Exception</code> everywhere → not good practice</li>
+  </ul>
+
+  <h3>Specific Keywords & Concepts</h3>
+  <ul>
+    <li><code>try</code>, <code>catch</code>, <code>finally</code></li>
+    <li><code>throws</code> (method declaration)</li>
+    <li><code>throw</code> (for explicitly throwing exception)</li>
+    <li>Checked vs Unchecked exceptions</li>
+  </ul>
+
+  <h3>Realistic Examples</h3>
+  <ul>
+    <li>Reading a missing file → <code>FileNotFoundException</code></li>
+    <li>Database server down → <code>SQLException</code></li>
+    <li>Sleep interrupted → <code>InterruptedException</code></li>
+  </ul>
+
+  <h3>Latest Java Updates</h3>
+  <ul>
+    <li>Java 7 introduced <b>multi-catch</b> → catch multiple exceptions in one block.</li>
+    <li>Java 9 improved <b>try-with-resources</b> for better resource handling.</li>
+    <li>Java 14+ encourages using <code>record</code> or <code>sealed</code> classes in custom exceptions.</li>
+  </ul>
+
+  <h3>💡 Enhancement Tips (for senior developers)</h3>
+  <div class="tip">
+    ✔ Use <b>custom checked exceptions</b> for business rules (e.g., <code>InsufficientFundsException</code>)  
+    ✔ Avoid throwing generic <code>Exception</code> → be specific.  
+    ✔ Prefer <b>logging frameworks</b> (Log4j, SLF4J) instead of <code>System.out.println</code>.  
+  </div>
+
+  <h3>🎯 Interview Questions</h3>
+  <div class="interview">
+    <b>Q1:</b> What is a checked exception?  
+    <b>A:</b> An exception that must be handled at compile-time using try-catch or throws.
+
+    <br><br>
+    <b>Q2:</b> Can you name 3 checked exceptions in Java?  
+    <b>A:</b> IOException, SQLException, ClassNotFoundException.
+
+    <br><br>
+    <b>Q3:</b> Difference between checked and unchecked exceptions?  
+    <b>A:</b> Checked exceptions are checked at compile-time, unchecked at runtime.
+
+    <br><br>
+    <b>Q4:</b> Why did Java designers create checked exceptions?  
+    <b>A:</b> To make programs more reliable by forcing developers to handle failures.
+
+    <br><br>
+    <b>Q5 (advanced):</b> How do checked exceptions affect API design?  
+    <b>A:</b> They make API contracts explicit but may reduce developer convenience.
+  </div>
+
+</section>

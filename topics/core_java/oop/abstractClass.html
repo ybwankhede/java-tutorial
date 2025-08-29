@@ -1,0 +1,137 @@
+<section id="abstract-class">
+    <h2>Abstract Class</h2>
+  
+    <p>
+      <strong>Definition:</strong><br>
+      An <b>abstract class</b> in Java is a special type of class that cannot be directly
+      instantiated (we cannot create objects of it). It can contain <b>abstract methods</b>
+      (methods without body) and <b>concrete methods</b> (methods with implementation).
+      It acts like a blueprint for other classes.
+    </p>
+  
+    <h3>Simple Understanding</h3>
+    <p>
+      Think of a <b>Bank Account</b> (abstract class). You can’t open “just a bank account.”
+      You need specific types like <b>SavingsAccount</b> or <b>CurrentAccount</b>.  
+      Common features like <b>deposit()</b> are shared, but <b>withdraw()</b> rules differ.
+    </p>
+    
+    <h3>Real-Life Example</h3>
+    <p>
+      Imagine a <b>Vehicle</b> – it is an abstract concept. You cannot ride “a vehicle”
+      directly, but you can ride specific vehicles like <b>Car</b> or <b>Bike</b>.  
+      Similarly, an abstract class defines <b>common structure + behavior</b>, while leaving
+      specific details for subclasses to implement.
+    </p>
+  
+    <h3>Example</h3>
+    <pre>
+    abstract class Vehicle {
+        String brand;
+    
+        // Abstract method (must be implemented by child class)
+        abstract void start();
+    
+        // Concrete method (already implemented)
+        void fuelType() {
+            System.out.println("Most vehicles use Petrol or Diesel.");
+        }
+    }
+    
+    class Car extends Vehicle {
+        @Override
+        void start() {
+            System.out.println("Car starts with a key ignition or push button.");
+        }
+    }
+    
+    class Bike extends Vehicle {
+        @Override
+        void start() {
+            System.out.println("Bike starts with a kick or self-start button.");
+        }
+    }
+    
+    public class AbstractClassDemo {
+        public static void main(String[] args) {
+            Vehicle v1 = new Car();
+            v1.start();      // Car-specific implementation
+            v1.fuelType();   // Shared implementation
+    
+            Vehicle v2 = new Bike();
+            v2.start();      // Bike-specific implementation
+        }
+    }
+    </pre>
+  
+    <h3>UML (Text-Based)</h3>
+    <pre>
+              +-------------------+
+              |   <<abstract>>    |
+              |     Vehicle       |
+              +-------------------+
+              | - brand : String  |
+              +-------------------+
+              | + start() : void* |  (* abstract method)
+              | + fuelType() : void |
+              +-------------------+
+                 ^            ^
+                 |            |
+          +------+     +------+
+          | Car  |     | Bike |
+          +------+     +------+
+    </pre>
+  
+    <h3>Advantages</h3>
+    <ul>
+      <li>Provides <b>code reusability</b> with concrete methods.</li>
+      <li>Supports <b>partial abstraction</b> (some methods abstract, some implemented).</li>
+      <li>Improves <b>design clarity</b> by grouping common logic.</li>
+      <li>Encourages developers to follow a <b>template-like approach</b>.</li>
+    </ul>
+  
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>A class can extend only <b>one abstract class</b> (due to single inheritance).</li>
+      <li>Cannot achieve full abstraction like <b>interfaces</b> (unless all methods are abstract).</li>
+      <li>Abstract classes make hierarchy more rigid (less flexible than interfaces).</li>
+    </ul>
+  
+    <h3>Focused Keywords</h3>
+    <ul>
+      <li><code>abstract</code> keyword → used to declare abstract class/method.</li>
+      <li>Cannot use <code>final</code> with <code>abstract</code> methods (contradiction).</li>
+      <li>Can have <b>constructors</b> → used when subclass objects are created.</li>
+      <li>Can have <b>static methods</b> and <b>final methods</b>.</li>
+      <li>Supports <b>instance variables</b> (unlike interfaces before Java 8).</li>
+    </ul>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Since Java 8, interfaces became more powerful with <b>default</b> and <b>static</b> methods.</li>
+      <li>Abstract classes are still useful where we need <b>state (fields)</b> along with behavior.</li>
+      <li>In modern Java (14+), abstract classes can work alongside <b>sealed classes</b>
+          to control inheritance in a more strict manner.</li>
+    </ul>
+  
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use abstract classes in <b>Template Method Pattern</b> to define fixed algorithm steps.</li>
+      <li>Mix abstract classes + interfaces → Abstract class for common code, interfaces for contracts.</li>
+      <li>With <b>sealed classes</b> in Java 17+, you can restrict which classes extend your abstract class.</li>
+      <li>Prefer <b>interfaces</b> for flexibility, but abstract classes for <b>shared state + behavior</b>.</li>
+    </ul>
+
+    <h3>Interview Questions</h3>
+    <ul>
+      <li>Can we create an object of an abstract class? (Answer: No)</li>
+      <li>Can abstract classes have constructors in Java?</li>
+      <li>Can we declare an abstract class without any abstract method?</li>
+      <li>When should you choose an abstract class over an interface?</li>
+      <li>What happens if a subclass does not implement all abstract methods?</li>
+      <li>Can abstract classes have <code>main()</code> method in Java?</li>
+      <li>How does abstract class help in <b>Template Design Pattern</b>?</li>
+    </ul>
+    
+  </section>
+  

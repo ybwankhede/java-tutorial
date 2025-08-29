@@ -1,0 +1,601 @@
+<section id="collection">
+
+    <h2>Collections Framework</h2>
+    <p>
+        <strong>Definition:</strong><br> 
+        The <b>Java Collection Framework (JCF)</b> is a set of classes and interfaces
+        in Java that provide ready-made data structures like <b>List, Set, Map, Queue</b>.
+        It helps us store, manage, and process data efficiently instead of building data
+        structures from scratch.
+    </p>
+
+    <h2>Simple Understanding</h2>
+    <p>
+        Think of the Collection Framework as a <b>toolbox</b> that already has
+        useful containers (like boxes, bags, baskets, and maps) to store and organize
+        different types of objects. Instead of building your own storage system,
+        you just pick the right container from this toolbox.
+    </p>
+
+    <!-- <h3>Simple Understanding</h3>
+  <p>
+    Imagine you are managing a library 📚:
+    - You keep a <b>list</b> of books in order (like ArrayList).  
+    - You ensure no duplicate library cards (<b>Set</b>).  
+    - You map each book’s ISBN number to its title (<b>Map</b>).  
+    - You maintain a queue of people waiting to borrow books (<b>Queue</b>).
+  </p> -->
+
+    <div class="note">
+        The Collections Framework helps developers avoid "reinventing the wheel" by providing built-in, optimized data
+        structures.
+    </div>
+
+    <h3>Real-Life Example</h3>
+    <p>
+        Think of <b>Collections</b> as different types of containers:
+        - <b>List</b> → Shopping list (order matters, duplicates allowed).
+        - <b>Set</b> → Student ID cards (unique, no duplicates).
+        - <b>Map</b> → Dictionary (word → meaning mapping).
+        - <b>Queue</b> → People standing in line for movie tickets (FIFO order).
+    </p>
+
+    <h3>Example</h3>
+    <pre>
+import java.util.*;
+
+public class CollectionExample {
+    public static void main(String[] args) {
+        // List
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Mango");
+        fruits.add("Apple"); // duplicate allowed
+        System.out.println("List: " + fruits);
+
+        // Set
+        Set<String> uniqueFruits = new HashSet<>(fruits);
+        System.out.println("Set: " + uniqueFruits);
+
+        // Map
+        Map<Integer, String> studentMap = new HashMap<>();
+        studentMap.put(101, "Alice");
+        studentMap.put(102, "Bob");
+        System.out.println("Map: " + studentMap);
+
+        // Queue
+        Queue<String> queue = new LinkedList<>();
+        queue.add("Task1");
+        queue.add("Task2");
+        System.out.println("Queue: " + queue);
+    }
+}
+  </pre>
+
+    <h3>UML-like Diagram</h3>
+    <pre>
+              Collection (interface)
+                     |
+        --------------------------------
+        |              |               |
+       List           Set            Queue
+        |              |               |
+  ArrayList,      HashSet,        PriorityQueue,
+  LinkedList,     TreeSet         LinkedList
+  Vector
+                     
+               Map (interface)
+                     |
+             HashMap, TreeMap, LinkedHashMap
+  </pre>
+
+    <h2>📌 Notes</h2>
+    <div class="note">
+        - Every collection is part of <b>java.util package</b>. <br>
+        - Most collections are not synchronized → need <b>Collections.synchronizedList()</b> or use <b>Concurrent
+            Collections</b>.<br>
+        - Generics introduced in Java 5 made collections type-safe. <br>
+    </div>
+
+    <h3>Advantages</h3>
+    <ul>
+        <li>Pre-built and optimized data structures.</li>
+        <li>Improves productivity (no need to code from scratch).</li>
+        <li>Rich API with sorting, searching, iteration.</li>
+        <li>Reduces bugs through tested implementations.</li>
+        <li>Supports Generics for type-safety.</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+        <li>May be less efficient than specialized custom structures.</li>
+        <li>Learning curve (many classes and interfaces).</li>
+        <li>Improper choice of collection → performance issues.</li>
+    </ul>
+
+    <h3>Specific Keywords & Concepts</h3>
+    <ul>
+        <li>Interfaces: <b>Collection, List, Set, Map, Queue</b></li>
+        <li>Classes: <b>ArrayList, HashSet, HashMap, LinkedList, TreeSet, TreeMap</b></li>
+        <li>Utility: <b>Collections, Arrays, Helper methods like sort(), reverse().</b></li>
+        <li>Generics: Type-safe collections (e.g., List&lt;String&gt;)</li>
+        <li><b>Iterable Interface</b> → Base for for-each loop.</li>
+        <li><b>Fail-fast vs Fail-safe</b> → Iterator behavior on modification.</li>
+    </ul>
+
+    <h3>Notes</h3>
+    <div class="note">
+        Always choose the right collection:<br>
+        - <b>ArrayList</b> → fast random access.<br>
+        - <b>LinkedList</b> → fast insertion/deletion.<br>
+        - <b>HashSet</b> → no duplicates, fast lookup.<br>
+        - <b>HashMap</b> → key-value storage.<br>
+    </div>
+
+    <h3>Tips</h3>
+    <div class="tip">
+        For interview coding questions:<br>
+        - If order matters → use <b>List</b>.<br>
+        - If uniqueness is required → use <b>Set</b>.<br>
+        - If key-value pairs → use <b>Map</b>.<br>
+        - If FIFO/LIFO needed → use <b>Queue/Deque</b>.<br>
+    </div>
+
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li><b>Java 8</b> → Streams API for functional-style operations on collections.</li>
+        <li><b>Java 9+</b> → Factory methods for immutable collections (List.of, Set.of, Map.of).</li>
+        <li><b>Java 16+</b> → Records can be stored in collections to represent data models easily.</li>
+    </ul>
+
+    <h3>Enhancement Tips (For Senior Developers)</h3>
+    <div class="tip">
+        - Prefer <b>immutable collections</b> for thread safety. <br>
+        - Use <b>Concurrent Collections</b> (e.g., ConcurrentHashMap) in multi-threaded apps. <br>
+        - Monitor <b>Big-O complexity</b> while choosing collection types. <br>
+        - Use <b>Streams & Lambdas</b> to write clean, declarative code with collections.
+    </div>
+
+    <h3>Interview Questions</h3>
+    <div class="interview">
+        <ul>
+            <li>What is the difference between List, Set, and Map?</li>
+            <li>Why is HashMap not synchronized?</li>
+            <li>What is the difference between fail-fast and fail-safe iterators?</li>
+            <li>When would you use ArrayList vs LinkedList?</li>
+            <li>Explain the difference between HashSet and TreeSet.</li>
+            <li>What is the role of Generics in Collections?</li>
+        </ul>
+    </div>
+
+</section>
+
+<section id="comparison_collections">
+    <h1>Comparison of Java Collections: List vs Set vs Map vs Queue vs Deque</h1>
+
+    <p>
+        In Java, Collections Framework provides multiple data structures to store and process data efficiently.
+        Each type has different rules regarding <b>ordering, duplicates, null values, and performance</b>.
+        Below is a **quick revision comparison table** for interviews and practical coding.
+    </p>
+
+    <h2>Quick Comparison Table</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>List</th>
+            <th>Set</th>
+            <th>Map</th>
+            <th>Queue</th>
+            <th>Deque</th>
+        </tr>
+        <tr>
+            <td><b>Ordering</b></td>
+            <td>Maintains insertion order (e.g., ArrayList, LinkedList)</td>
+            <td>No guaranteed order (e.g., HashSet) / Sorted order (TreeSet)</td>
+            <td>Key-value pairs, ordering depends on implementation (HashMap - no order, TreeMap - sorted)</td>
+            <td>FIFO (First-In-First-Out)</td>
+            <td>Both ends accessible (Insertion & Removal from head & tail)</td>
+        </tr>
+        <tr>
+            <td><b>Duplicates Allowed?</b></td>
+            <td>✅ Yes</td>
+            <td>❌ No</td>
+            <td>❌ Keys - No <br> ✅ Values - Yes</td>
+            <td>Depends (PriorityQueue ignores duplicates)</td>
+            <td>Depends, but usually allows duplicates</td>
+        </tr>
+        <tr>
+            <td><b>Nulls Allowed?</b></td>
+            <td>✅ Multiple nulls</td>
+            <td>✅ At most one null</td>
+            <td>✅ One null key (HashMap), multiple null values</td>
+            <td>✅ Generally allows, but implementation-dependent</td>
+            <td>✅ Allows, but implementation-dependent</td>
+        </tr>
+        <tr>
+            <td><b>Access</b></td>
+            <td>Index-based (get by index)</td>
+            <td>No index, uses iteration</td>
+            <td>Access by key</td>
+            <td>Front/Rear access</td>
+            <td>Front + Rear access</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>Fast random access (ArrayList), slower insertion in middle</td>
+            <td>Fast lookup in HashSet, slower in TreeSet</td>
+            <td>Fast key-based lookup (HashMap O(1))</td>
+            <td>Optimized for ordered processing</td>
+            <td>Optimized for double-end operations</td>
+        </tr>
+        <tr>
+            <td><b>When to Use?</b></td>
+            <td>Need ordered & indexed data</td>
+            <td>Need unique elements</td>
+            <td>Need key-value mapping</td>
+            <td>Need FIFO/LIFO processing</td>
+            <td>Need double-end operations</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <b>Note:</b> <code>Collections</code> (like List, Set, Queue, Deque) are part of <b>java.util</b> package.
+        <code>Map</code> is not a child of Collection but part of the Collections Framework.
+    </div>
+
+    <div class="tip">
+        💡 <b>Tip for Interviews:</b> Always mention both <b>order</b> and <b>duplicate rules</b> when explaining
+        differences.
+        Also, highlight <b>Map ≠ Collection</b>, which is a common tricky question.
+    </div>
+
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is the difference between List and Set?</li>
+            <li>Why is Map not part of Collection interface?</li>
+            <li>Which collection allows null keys and values?</li>
+            <li>When would you prefer Deque over Queue?</li>
+            <li>What are the performance differences between HashMap, TreeMap, and LinkedHashMap?</li>
+            <li>Can you implement a Stack using Deque?</li>
+        </ul>
+    </div>
+</section>
+
+<section id="list_vs_set">
+    <h2>List vs Set</h2>
+
+    <!-- Definition -->
+    <h3>Definition</h3>
+    <p>
+        <b>List:</b> A collection that stores elements in <b>ordered sequence</b> and allows <b>duplicates</b>.
+        <b>Set:</b> A collection that stores <b>unique elements</b> and does <b>not allow duplicates</b>.
+    </p>
+
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        - <b>List:</b> Like a shopping list – you can have "Milk" twice.
+        - <b>Set:</b> Like a voter ID list – one person (unique) can only be registered once.
+    </p>
+
+    <!-- UML -->
+    <h3>UML-like Structure</h3>
+    <pre>
+    Collection
+       |
+       |-- List (ArrayList, LinkedList, Vector)
+       |
+       |-- Set  (HashSet, LinkedHashSet, TreeSet)
+    </pre>
+
+    <!-- Java Code Example -->
+    <h3>Java Code Example</h3>
+    <pre><code>
+  // Example of List
+  import java.util.*;
+  class ListSetDemo {
+      public static void main(String[] args) {
+          List<String> shoppingList = new ArrayList<>();
+          shoppingList.add("Milk");
+          shoppingList.add("Bread");
+          shoppingList.add("Milk"); // duplicate allowed
+          System.out.println("List: " + shoppingList);
+  
+          Set<String> voterIds = new HashSet<>();
+          voterIds.add("ID123");
+          voterIds.add("ID456");
+          voterIds.add("ID123"); // duplicate ignored
+          System.out.println("Set: " + voterIds);
+      }
+  }
+    </code></pre>
+
+    <!-- Pros & Cons -->
+    <h3>Pros & Cons</h3>
+    <ul>
+        <li><b>List Pros:</b> Maintains order, allows duplicates, index-based access.</li>
+        <li><b>List Cons:</b> More memory if duplicates stored.</li>
+        <li><b>Set Pros:</b> Ensures uniqueness, faster lookup (HashSet).</li>
+        <li><b>Set Cons:</b> No index-based access, order not guaranteed (except LinkedHashSet/TreeSet).</li>
+    </ul>
+
+    <!-- Keywords -->
+    <h3>Keywords & Concepts</h3>
+    <p>
+        - <b>List:</b> ArrayList, LinkedList, Vector.
+        - <b>Set:</b> HashSet, LinkedHashSet, TreeSet.
+        - <b>Duplicates:</b> Allowed in List, not in Set.
+        - <b>Order:</b> Preserved in List, not always in Set.
+    </p>
+
+    <!-- Real-life Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+        - <b>List:</b> Student attendance list – the same student can sign multiple times.
+        - <b>Set:</b> Student roll numbers – each student has only one unique roll number.
+    </p>
+
+    <!-- Latest Updates -->
+    <h3>Latest Java Updates</h3>
+    <p>
+        - Java 9 introduced <b>List.of()</b> and <b>Set.of()</b> methods for creating immutable lists and sets.
+        - Example: <code>List.of("A","B","C")</code>, <code>Set.of("X","Y","Z")</code>.
+    </p>
+
+    <!-- Notes -->
+    <div class="note">
+        ⚡ <b>Note:</b> Use <b>List</b> when order & duplicates matter. Use <b>Set</b> when uniqueness is required.
+    </div>
+
+    <!-- Tips -->
+    <div class="tip">
+        ✅ <b>Tip for Seniors:</b> For large datasets, prefer <b>HashSet</b> over <b>ArrayList.contains()</b> because
+        lookup is O(1) vs O(n).
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is the difference between List and Set?</li>
+            <li>Which one allows duplicates? Which maintains order?</li>
+            <li>When would you prefer Set over List?</li>
+            <li>How does HashSet internally handle duplicates?</li>
+            <li>What’s the difference between HashSet and LinkedHashSet?</li>
+        </ul>
+    </div>
+
+</section>
+
+<section id="set_vs_map">
+    <h2>Set vs Map</h2>
+
+    <!-- Definition -->
+    <h3>Definition</h3>
+    <p>
+        <b>Set:</b> A collection of unique elements (no duplicates, no key-value pairs).
+        <b>Map:</b> A collection of <b>key-value pairs</b> where keys are unique, but values can be duplicate.
+    </p>
+
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        - <b>Set:</b> Like a basket of unique fruits – no two same fruits allowed.
+        - <b>Map:</b> Like a dictionary – each word (key) maps to one meaning (value).
+    </p>
+
+    <!-- UML -->
+    <h3>UML-like Structure</h3>
+    <pre>
+    Collection
+       |
+       |-- Set (HashSet, LinkedHashSet, TreeSet)
+  
+    Map (separate hierarchy)
+       |-- HashMap
+       |-- LinkedHashMap
+       |-- TreeMap
+       |-- Hashtable
+    </pre>
+
+    <!-- Java Code Example -->
+    <h3>Example</h3>
+    <pre><code>
+  import java.util.*;
+  
+  class SetMapDemo {
+      public static void main(String[] args) {
+          // Using Set
+          Set<String> fruits = new HashSet<>();
+          fruits.add("Apple");
+          fruits.add("Banana");
+          fruits.add("Apple"); // duplicate ignored
+          System.out.println("Set: " + fruits);
+  
+          // Using Map
+          Map<Integer, String> studentMap = new HashMap<>();
+          studentMap.put(101, "Alice");
+          studentMap.put(102, "Bob");
+          studentMap.put(101, "Charlie"); // key duplicate replaces old value
+          System.out.println("Map: " + studentMap);
+      }
+  }
+    </code></pre>
+
+    <!-- Pros & Cons -->
+    <h3>Pros & Cons</h3>
+    <ul>
+        <li><b>Set Pros:</b> Ensures uniqueness, faster search in large data (HashSet).</li>
+        <li><b>Set Cons:</b> Stores only values, no direct mapping of one value to another.</li>
+        <li><b>Map Pros:</b> Key-value structure, faster retrieval based on key.</li>
+        <li><b>Map Cons:</b> Uses more memory (stores keys + values), keys must be unique.</li>
+    </ul>
+
+    <!-- Keywords -->
+    <h3>Keywords & Concepts</h3>
+    <p>
+        - <b>Set:</b> HashSet, LinkedHashSet, TreeSet.
+        - <b>Map:</b> HashMap, LinkedHashMap, TreeMap, Hashtable.
+        - <b>Duplicates:</b> Not allowed in Set; keys unique in Map but values can duplicate.
+        - <b>Nulls:</b> Set allows one null; Map allows one null key (HashMap) & multiple null values.
+    </p>
+
+    <!-- Real-life Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+        - <b>Set:</b> Unique roll numbers of students.
+        - <b>Map:</b> Roll number (key) → Student name (value).
+    </p>
+
+    <!-- Latest Updates -->
+    <h3>Latest Java Updates</h3>
+    <p>
+        - Java 9 introduced <b>Set.of()</b> and <b>Map.of()</b> for creating immutable sets and maps.
+        - Example: <code>Set.of("A","B","C")</code>, <code>Map.of(1,"One",2,"Two")</code>.
+        - Java 8 introduced <b>Map.forEach()</b>, <b>computeIfAbsent()</b>, and <b>merge()</b>.
+    </p>
+
+    <!-- Notes -->
+    <div class="note">
+        ⚡ <b>Note:</b>
+        - If you only care about <b>uniqueness</b> → Use <b>Set</b>.
+        - If you want <b>mapping between elements</b> → Use <b>Map</b>.
+    </div>
+
+    <!-- Tips -->
+    <div class="tip">
+        ✅ <b>Tip for Seniors:</b>
+        - If you need a Set but also want fast lookup, consider <b>Map’s keySet()</b>.
+        - Example: <code>Set&lt;K&gt; keys = map.keySet();</code>
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is the difference between Set and Map in Java?</li>
+            <li>Can a Map contain duplicate keys or values?</li>
+            <li>What happens if you put the same key twice in a HashMap?</li>
+            <li>How does HashSet internally use HashMap?</li>
+            <li>Can we use Set as a key in a Map?</li>
+        </ul>
+    </div>
+</section>
+
+<section id="queue_vs_deque">
+    <h2>Queue vs Deque</h2>
+
+    <!-- Definition -->
+    <h3>Definition</h3>
+    <p>
+        <b>Queue:</b> A collection used to store elements in <b>FIFO (First In, First Out)</b> order.
+        <b>Deque:</b> A <b>double-ended queue</b> that allows insertion and removal from both front and rear. Supports
+        FIFO and LIFO.
+    </p>
+
+    <!-- Simple Understanding -->
+    <h3>Simple Understanding</h3>
+    <p>
+        - <b>Queue:</b> Like a line at a ticket counter – first come, first served.
+        - <b>Deque:</b> Like a flexible line – people can enter/exit from both ends.
+    </p>
+
+    <!-- UML -->
+    <h3>UML-like Structure</h3>
+    <pre>
+    Queue (Interface)
+       ↑
+    -----------------------------
+    | PriorityQueue | LinkedList |
+  
+    Deque (Interface)
+       ↑
+    -----------------------------
+    | ArrayDeque | LinkedList |
+    </pre>
+
+    <!-- Java Code Example -->
+    <h3>Example</h3>
+    <pre><code>
+  import java.util.*;
+  
+  class QueueDequeDemo {
+      public static void main(String[] args) {
+          // Queue Example
+          Queue<String> queue = new LinkedList<>();
+          queue.offer("Alice");
+          queue.offer("Bob");
+          System.out.println("Queue Head: " + queue.peek());
+          System.out.println("Queue Removed: " + queue.poll());
+  
+          // Deque Example
+          Deque<String> deque = new ArrayDeque<>();
+          deque.addFirst("Front1");
+          deque.addLast("Rear1");
+          System.out.println("Deque: " + deque);
+          System.out.println("Removed from Front: " + deque.pollFirst());
+          System.out.println("Removed from Rear: " + deque.pollLast());
+      }
+  }
+    </code></pre>
+
+    <!-- Pros & Cons -->
+    <h3>Pros & Cons</h3>
+    <ul>
+        <li><b>Queue Pros:</b> Simple FIFO ordering, good for task scheduling.</li>
+        <li><b>Queue Cons:</b> Only single-ended access.</li>
+        <li><b>Deque Pros:</b> Flexible insertion/removal from both ends, can mimic Stack or Queue.</li>
+        <li><b>Deque Cons:</b> Slightly more complex than Queue, may use more memory.</li>
+    </ul>
+
+    <!-- Keywords -->
+    <h3>Keywords & Concepts</h3>
+    <ul>
+        <li><b>Queue:</b> offer(), poll(), peek()</li>
+        <li><b>Deque:</b> addFirst(), addLast(), pollFirst(), pollLast(), peekFirst(), peekLast()</li>
+        <li>Deque can be used as Stack (LIFO) or Queue (FIFO)</li>
+    </ul>
+
+    <!-- Real-life Example -->
+    <h3>Real-Life Example</h3>
+    <p>
+        - <b>Queue:</b> Supermarket line – first in, first out.
+        - <b>Deque:</b> Browser history – you can go back (removeLast) or add new page at front/rear.
+    </p>
+
+    <!-- Latest Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8: Stream API supports Queue and Deque iteration with forEach()</li>
+        <li>Java 21: Performance enhancements in concurrent queues and deques</li>
+    </ul>
+
+    <!-- Notes -->
+    <div class="note">
+        ⚡ <b>Note:</b> Use Deque when you need both ends access. Use Queue for simple FIFO tasks.
+        ArrayDeque is generally faster than LinkedList for stack or queue operations.
+    </div>
+
+    <!-- Tips -->
+    <div class="tip">
+        ✅ <b>Tip for Seniors:</b> Use ConcurrentLinkedQueue or BlockingQueue for thread-safe queues.
+        For stack behavior, use ArrayDeque instead of Stack class.
+    </div>
+
+    <!-- Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>What is the main difference between Queue and Deque?</li>
+            <li>How can you implement Stack using Deque?</li>
+            <li>When would you choose ArrayDeque over LinkedList?</li>
+            <li>Can Deque handle both FIFO and LIFO? Explain.</li>
+            <li>Difference between PriorityQueue and Deque?</li>
+        </ul>
+    </div>
+
+
+</section>

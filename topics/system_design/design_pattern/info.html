@@ -1,0 +1,460 @@
+<section id="system_design_patterns">
+    <h1>System Design Patterns</h1>
+
+    <p>
+        <strong>Definition:</strong><br>
+        A <b>System Design Pattern</b> is a reusable solution to a common design problem in software
+        systems.
+        Instead of reinventing the wheel, developers apply proven templates that solve recurring challenges
+        like object creation, communication between modules, data sharing, scalability, or flexibility.
+    </p>
+
+    <div class="note">
+        📌 <b>Note:</b> A design pattern is not code itself but a blueprint or recipe.
+        Developers adapt it to their language (Java, Python, etc.) and context.
+    </div>
+
+    <h2>History</h2>
+    <p>
+        - The concept of "patterns" was first introduced by <b>Christopher Alexander</b> in architecture
+        (1970s).
+        - In software, <b>Gang of Four (GoF)</b> — Erich Gamma, Richard Helm, Ralph Johnson, and John
+        Vlissides —
+        published the classic book <i>"Design Patterns: Elements of Reusable Object-Oriented Software"</i>
+        in 1994.
+        - Since then, design patterns have become a fundamental skill for developers and system architects.
+    </p>
+
+    <h2>Why Use Patterns?</h2>
+    <ul>
+        <li>They provide <b>standard solutions</b> that many developers understand.</li>
+        <li>They improve <b>code readability, reusability, and maintainability</b>.</li>
+        <li>They make systems more <b>flexible and scalable</b>.</li>
+        <li>They reduce risk by using <b>time-tested practices</b>.</li>
+    </ul>
+
+    <h2>Simple Understanding</h2>
+    <div class="example">
+        Think of <b>house construction</b>:
+        - Every house has similar parts (walls, roof, doors, windows).
+        - Instead of designing from scratch every time, architects reuse <b>blueprints</b>.
+        - Similarly, in software, patterns are blueprints to solve recurring problems.
+    </div>
+
+    <h2>Real-life Example</h2>
+    <p>
+        Suppose you want to connect to a <b>database</b> in multiple places in your app.
+        Without a pattern, you might create multiple connections, wasting memory.
+        With the <b>Singleton pattern</b>, you ensure only one connection object is used everywhere.
+    </p>
+
+    <pre>
+// Singleton Example: Database Connection
+class DatabaseConnection {
+    private static DatabaseConnection instance;
+    
+    private DatabaseConnection() {
+        // private constructor prevents direct instantiation
+        System.out.println("Connected to DB");
+    }
+
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DatabaseConnection db1 = DatabaseConnection.getInstance();
+        DatabaseConnection db2 = DatabaseConnection.getInstance();
+        System.out.println(db1 == db2); // true → same instance reused
+    }
+}
+  </pre>
+
+    <h2>Types of Design Patterns</h2>
+    <ul>
+        <li><b>Creational Patterns</b> → Focus on object creation (Singleton, Factory, Abstract Factory,
+            Builder, Prototype).</li>
+        <li><b>Structural Patterns</b> → Focus on class/object composition (Adapter, Bridge, Composite,
+            Decorator, Facade, Flyweight, Proxy).</li>
+        <li><b>Behavioral Patterns</b> → Focus on communication between objects (Chain of Responsibility,
+            Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method,
+            Visitor).</li>
+    </ul>
+
+    <h2>Diagram (Pattern Categories)</h2>
+    <pre>
+  +-------------------+
+  |  Creational       | → Object creation
+  +-------------------+
+  | Singleton, Factory, Builder...
+  +-------------------+
+
+  +-------------------+
+  |  Structural       | → Object composition
+  +-------------------+
+  | Adapter, Decorator, Proxy...
+  +-------------------+
+
+  +-------------------+
+  |  Behavioral       | → Communication
+  +-------------------+
+  | Observer, Strategy, Iterator...
+  +-------------------+
+  </pre>
+
+    <h2>Advantages</h2>
+    <ul>
+        <li>Time-tested solutions (reduce bugs).</li>
+        <li>Improves maintainability and scalability.</li>
+        <li>Encourages best practices (OOP principles like Abstraction, Encapsulation, Polymorphism).</li>
+        <li>Helps during team collaboration and interviews.</li>
+    </ul>
+
+    <h2>Disadvantages</h2>
+    <ul>
+        <li>May add complexity if overused.</li>
+        <li>Requires understanding — can confuse beginners.</li>
+        <li>Sometimes patterns can be replaced with simpler code.</li>
+    </ul>
+
+    <h2>Developer Tips</h2>
+    <div class="tip">
+        ✅ Don’t try to memorize patterns blindly. Instead, focus on the <b>problem each pattern solves</b>.
+        ✅ Apply patterns only when needed — not every design problem requires them.
+        ✅ Study real-world libraries (e.g., Java Collections, Spring Framework) — they already use patterns.
+    </div>
+
+    <h2>Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What is a design pattern? How is it different from an algorithm?</li>
+            <li>Who are the Gang of Four (GoF)?</li>
+            <li>Can you give a real-world analogy of the Singleton pattern?</li>
+            <li>What are the three main categories of patterns?</li>
+            <li>When should you avoid using design patterns?</li>
+        </ul>
+    </div>
+</section>
+
+<section id="design-patterns_summary">
+    <h1>💡 Design Patterns Summary & Comparison Cheat-Sheet</h1>
+    <p>
+        This cheat-sheet provides a quick reference for all major design patterns, grouped into
+        <b>Creational</b>, <b>Structural</b>, and <b>Behavioral</b> categories.
+        It explains the intent, real-life analogy, advantages/disadvantages, and usage scenarios.
+        Great for interviews and daily coding decisions.
+    </p>
+
+    <h2>📦 Creational Patterns</h2>
+    <table>
+        <tr>
+            <th>Pattern</th>
+            <th>Intent</th>
+            <th>Real-life Analogy</th>
+            <th>Advantages</th>
+            <th>Disadvantages</th>
+            <th>When to Use</th>
+        </tr>
+        <tr>
+            <td>Singleton</td>
+            <td>Ensure only one instance of a class exists</td>
+            <td>President of a country (only one leader)</td>
+            <td>Global access, controlled resource</td>
+            <td>Difficult in multithreading, testing issues</td>
+            <td>Logging, config, cache</td>
+        </tr>
+        <tr>
+            <td>Factory Method</td>
+            <td>Create objects without exposing creation logic</td>
+            <td>Hiring manager delegating interview to HR</td>
+            <td>Loose coupling, flexible instantiation</td>
+            <td>May lead to many subclasses</td>
+            <td>Frameworks, plugin systems</td>
+        </tr>
+        <tr>
+            <td>Abstract Factory</td>
+            <td>Group of related factories</td>
+            <td>Furniture set factory (chair+table+sofa)</td>
+            <td>Ensures family consistency</td>
+            <td>Complex structure</td>
+            <td>UI toolkits, cross-platform products</td>
+        </tr>
+        <tr>
+            <td>Builder</td>
+            <td>Step-by-step complex object creation</td>
+            <td>Ordering a custom burger</td>
+            <td>Readable, flexible creation</td>
+            <td>Verbose for simple objects</td>
+            <td>Immutable objects, DTOs</td>
+        </tr>
+        <tr>
+            <td>Prototype</td>
+            <td>Clone existing objects</td>
+            <td>Photocopy machine</td>
+            <td>Efficient, reduces subclassing</td>
+            <td>Cloning complexity</td>
+            <td>Game dev, object caching</td>
+        </tr>
+    </table>
+
+    <h2>🏗️ Structural Patterns</h2>
+    <table>
+        <tr>
+            <th>Pattern</th>
+            <th>Intent</th>
+            <th>Real-life Analogy</th>
+            <th>Advantages</th>
+            <th>Disadvantages</th>
+            <th>When to Use</th>
+        </tr>
+        <tr>
+            <td>Adapter</td>
+            <td>Convert one interface into another</td>
+            <td>Phone charger adapter</td>
+            <td>Reusability, flexibility</td>
+            <td>Extra complexity</td>
+            <td>Integrating legacy code</td>
+        </tr>
+        <tr>
+            <td>Bridge</td>
+            <td>Separate abstraction & implementation</td>
+            <td>TV remote & TV</td>
+            <td>Independent extension</td>
+            <td>Extra indirection</td>
+            <td>Device drivers, GUI</td>
+        </tr>
+        <tr>
+            <td>Composite</td>
+            <td>Treat objects & groups uniformly</td>
+            <td>Company hierarchy</td>
+            <td>Recursive structures</td>
+            <td>Harder to restrict hierarchy</td>
+            <td>File systems, menus</td>
+        </tr>
+        <tr>
+            <td>Decorator</td>
+            <td>Dynamically add functionality</td>
+            <td>Coffee + milk + sugar</td>
+            <td>Flexible, no subclassing</td>
+            <td>Too many small classes</td>
+            <td>Streams, UI widgets</td>
+        </tr>
+        <tr>
+            <td>Facade</td>
+            <td>Provide simplified interface</td>
+            <td>Universal remote</td>
+            <td>Easy usage, hides complexity</td>
+            <td>May become a god-object</td>
+            <td>APIs, SDKs</td>
+        </tr>
+        <tr>
+            <td>Flyweight</td>
+            <td>Share common object state</td>
+            <td>Text editor characters</td>
+            <td>Memory efficiency</td>
+            <td>Hard to manage state</td>
+            <td>Game dev, caching</td>
+        </tr>
+        <tr>
+            <td>Proxy</td>
+            <td>Control access to object</td>
+            <td>Credit card instead of cash</td>
+            <td>Security, lazy loading</td>
+            <td>Added indirection</td>
+            <td>Security, logging, lazy init</td>
+        </tr>
+    </table>
+
+    <h2>🤝 Behavioral Patterns</h2>
+    <table>
+        <tr>
+            <th>Pattern</th>
+            <th>Intent</th>
+            <th>Real-life Analogy</th>
+            <th>Advantages</th>
+            <th>Disadvantages</th>
+            <th>When to Use</th>
+        </tr>
+        <tr>
+            <td>Chain of Responsibility</td>
+            <td>Pass request along chain</td>
+            <td>Customer support escalation</td>
+            <td>Decouples sender & receiver</td>
+            <td>Harder debugging</td>
+            <td>Event handling, approvals</td>
+        </tr>
+        <tr>
+            <td>Interpreter</td>
+            <td>Define grammar for language</td>
+            <td>SQL/Regex parser</td>
+            <td>Custom languages</td>
+            <td>Complex for big grammars</td>
+            <td>DSLs, rules engines</td>
+        </tr>
+        <tr>
+            <td>Iterator</td>
+            <td>Sequentially access collection</td>
+            <td>TV channel remote</td>
+            <td>Uniform traversal</td>
+            <td>Extra code layer</td>
+            <td>Collections, tree traversal</td>
+        </tr>
+        <tr>
+            <td>Mediator</td>
+            <td>Central communication hub</td>
+            <td>Air traffic control</td>
+            <td>Reduces coupling</td>
+            <td>Mediator may grow complex</td>
+            <td>Chat apps, GUIs</td>
+        </tr>
+        <tr>
+            <td>Memento</td>
+            <td>Save & restore state</td>
+            <td>Game save checkpoint</td>
+            <td>Undo/Redo support</td>
+            <td>High memory usage</td>
+            <td>Editors, games</td>
+        </tr>
+        <tr>
+            <td>Observer</td>
+            <td>Notify dependents on state change</td>
+            <td>YouTube subscriptions</td>
+            <td>Event-driven, loose coupling</td>
+            <td>Unexpected notifications</td>
+            <td>Event systems, GUIs</td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>Change behavior per state</td>
+            <td>Traffic lights</td>
+            <td>Encapsulated state logic</td>
+            <td>Many state classes</td>
+            <td>Workflow engines, games</td>
+        </tr>
+        <tr>
+            <td>Strategy</td>
+            <td>Swap algorithms at runtime</td>
+            <td>Payment method choice</td>
+            <td>Flexible algorithms</td>
+            <td>More objects</td>
+            <td>Sorting, compression</td>
+        </tr>
+        <tr>
+            <td>Template Method</td>
+            <td>Define algorithm skeleton</td>
+            <td>Cooking recipe</td>
+            <td>Reusability, consistency</td>
+            <td>Rigid structure</td>
+            <td>Frameworks, data processing</td>
+        </tr>
+        <tr>
+            <td>Visitor</td>
+            <td>Add behavior without modifying class</td>
+            <td>Customs officer checking luggage</td>
+            <td>Extensible operations</td>
+            <td>Hard to add new elements</td>
+            <td>Compilers, AST processing</td>
+        </tr>
+        <tr>
+            <td>Command</td>
+            <td>Encapsulate request as object</td>
+            <td>Restaurant order slip</td>
+            <td>Undo/redo, queueing</td>
+            <td>Extra complexity</td>
+            <td>Task queues, macros</td>
+        </tr>
+    </table>
+
+    <h1>📌 Design Patterns Mind-Map</h1>
+
+    <div>
+        <h2>🌐 Visual Overview</h2>
+        <pre>
+Design Patterns
+│
+├── Creational (How objects are created)
+│   ├── Singleton        (One instance → e.g., CEO of a company)
+│   ├── Factory Method   (Factory produces objects → Pizza shop)
+│   ├── Abstract Factory (Factory of factories → UI themes)
+│   ├── Builder          (Step-by-step construction → Car assembly)
+│   └── Prototype        (Cloning existing object → Duplicate ID card)
+│
+├── Structural (How classes/objects are composed)
+│   ├── Adapter      (Convert one interface to another → Power plug adapter)
+│   ├── Bridge       (Decouple abstraction & implementation → TV remote + device)
+│   ├── Composite    (Tree structures → Folder & Files system)
+│   ├── Decorator    (Add behavior dynamically → Coffee with toppings)
+│   ├── Facade       (Simplify interface → Hotel reception desk)
+│   ├── Flyweight    (Share common state → Characters in a text editor)
+│   └── Proxy        (Placeholder with control → ATM as proxy to Bank server)
+│
+└── Behavioral (How objects interact)
+    ├── Chain of Responsibility (Request passes handlers → Tech support levels)
+    ├── Command        (Encapsulate request → Remote control buttons)
+    ├── Interpreter    (Define grammar & evaluate → Regex engine, calculators)
+    ├── Iterator       (Traverse collection → TV channel remote)
+    ├── Mediator       (Central coordinator → Air traffic controller)
+    ├── Memento        (Snapshot/restore → Game save/load)
+    ├── Observer       (One-to-many updates → YouTube subscribers)
+    ├── State          (Change behavior per state → Traffic light)
+    ├── Strategy       (Different algorithms → Payment method choice)
+    ├── Template Method (Skeleton with steps → Cooking recipe)
+    └── Visitor        (Add operation without modifying → Tax calculation)
+    </pre>
+    </div>
+
+    <div>
+        <h2>💡 Notes</h2>
+        <div class="note">
+            - <b>Creational</b>: Focus on <u>object creation</u> logic.<br>
+            - <b>Structural</b>: Focus on <u>object composition</u> (how parts fit together).<br>
+            - <b>Behavioral</b>: Focus on <u>interaction between objects</u>.
+        </div>
+    </div>
+
+    <div>
+        <h2>⚡ Developer Tip</h2>
+        <div class="tip">
+            Don’t memorize blindly — connect each pattern with a <b>real-life analogy</b>.<br>
+            Example: Think of <b>Observer</b> as YouTube notifications — You (subscribers) get notified when Creator
+            uploads.<br>
+            This trick makes patterns <b>stick in your head permanently</b>.
+        </div>
+    </div>
+
+    <h2>📝 Notes & Interview Prep</h2>
+    <div class="note">
+        🔑 Remember:
+        <ul>
+            <li><b>Creational</b> → How objects are created.</li>
+            <li><b>Structural</b> → How objects are composed.</li>
+            <li><b>Behavioral</b> → How objects interact.</li>
+        </ul>
+    </div>
+
+    <div class="interview">
+        <b>Common Interview Questions:</b>
+        <ul>
+            <li>What’s the difference between Factory Method & Abstract Factory?</li>
+            <li>When would you prefer Strategy over State?</li>
+            <li>Explain Singleton drawbacks in multithreading.</li>
+            <li>How does Observer differ from Pub-Sub?</li>
+            <li>Real-world example of Proxy vs Decorator?</li>
+        </ul>
+    </div>
+
+    <div class="tips">
+        💡 <b>Developer Tips:</b>
+        <ul>
+            <li>Don’t use patterns blindly — they solve specific problems.</li>
+            <li>Start simple, refactor into patterns when duplication arises.</li>
+            <li>Know pros/cons: every pattern adds some complexity.</li>
+            <li>Use analogies in interviews to stand out (e.g., "Observer is like YouTube notifications").</li>
+        </ul>
+    </div>
+</section>

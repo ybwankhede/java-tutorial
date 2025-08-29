@@ -1,0 +1,192 @@
+<section>
+    <h2>Deque (ArrayDeque)</h2>
+
+    <!-- 1. Definition -->
+    <p>
+        <strong>Definition:</strong><br> 
+        <b>Deque</b> (Double-Ended Queue) is an interface in Java that allows insertion and removal of elements at both
+        ends.
+        <b>ArrayDeque</b> is a resizable array implementation of Deque. It is not synchronized but faster than Stack and
+        LinkedList for stack/queue operations.
+    </p>
+    <div class="note">
+        ⚡ <b>Note:</b> ArrayDeque is preferred over Stack for LIFO and LinkedList for FIFO due to better performance.
+    </div>
+
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <p>
+        - Deque supports:
+    <ul>
+        <li>Insertion at both ends: <code>addFirst()</code>, <code>addLast()</code></li>
+        <li>Removal at both ends: <code>removeFirst()</code>, <code>removeLast()</code></li>
+        <li>Access without removal: <code>peekFirst()</code>, <code>peekLast()</code></li>
+    </ul>
+    - ArrayDeque is implemented using a dynamically resizable array.
+    - Random access by index is not supported; designed for stack/queue operations.
+    </p>
+
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+        <li>Think of a train where carriages can be added or removed from either front or back.</li>
+        <li>Useful in real-life scenarios like undo/redo stacks, task scheduling, sliding window problems.</li>
+    </ul>
+
+    <!-- 4. UML (Text-based) -->
+    <h3>UML</h3>
+    <pre>
+  Deque (Interface)
+     |
+     |-- ArrayDeque (Class)
+           - implements Deque, Serializable, Cloneable
+           - dynamic array based, non-synchronized
+           - Methods: addFirst(), addLast(), offerFirst(), offerLast(), removeFirst(), removeLast(), peekFirst(), peekLast(), push(), pop()
+
+    </pre>
+
+    <!-- 5. Java Code Examples (Basic to Advanced) -->
+    <h3>Examples</h3>
+    <pre>
+  // Basic ArrayDeque
+  import java.util.*;
+  
+  class ArrayDequeDemo {
+      public static void main(String[] args) {
+          ArrayDeque<String> deque = new ArrayDeque<>();
+  
+          // Adding elements
+          deque.addFirst("Task1");
+          deque.addLast("Task2");
+          deque.addLast("Task3");
+          System.out.println("Deque: " + deque);
+  
+          // Access elements
+          System.out.println("First Element: " + deque.peekFirst());
+          System.out.println("Last Element: " + deque.peekLast());
+  
+          // Removing elements
+          deque.removeFirst();
+          deque.removeLast();
+          System.out.println("After removal: " + deque);
+      }
+  }
+  
+  // Advanced Example: Using as Stack and Queue
+  class ArrayDequeAdvanced {
+      public static void main(String[] args) {
+          ArrayDeque<Integer> deque = new ArrayDeque<>();
+  
+          // Stack behavior (LIFO)
+          deque.push(10);
+          deque.push(20);
+          System.out.println("Stack Pop: " + deque.pop());
+  
+          // Queue behavior (FIFO)
+          deque.add(30);
+          deque.add(40);
+          System.out.println("Queue Remove: " + deque.remove());
+      }
+  }
+    </pre>
+
+    <h3>Methods</h3>
+    <ul>
+        <li><b>addFirst(E e) / addLast(E e):</b> Add element at front or rear, throws exception if capacity exceeded.
+        </li>
+        <li><b>offerFirst(E e) / offerLast(E e):</b> Add element at front/rear, returns false if full.</li>
+        <li><b>removeFirst() / removeLast():</b> Remove element from front/rear, throws exception if empty.</li>
+        <li><b>pollFirst() / pollLast():</b> Remove element from front/rear, returns null if empty.</li>
+        <li><b>peekFirst() / peekLast():</b> Get element from front/rear without removal.</li>
+        <li><b>size():</b> Get number of elements.</li>
+        <li><b>contains(Object o):</b> Check if element exists.</li>
+    </ul>
+
+    <!-- 6. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+        <li><b>Advantages:</b> Fast insertion/removal at both ends, resizable array, faster than Stack and LinkedList,
+            flexible for stack/queue operations.</li>
+        <li><b>Disadvantages:</b> Not synchronized (needs external synchronization if used in multithreaded
+            environments), no random access by index.</li>
+    </ul>
+
+    <!-- 7. Java-specific Terms -->
+    <h3>Java-specific Terms</h3>
+    <ul>
+        <li>addFirst(), addLast(), removeFirst(), removeLast(), peekFirst(), peekLast()</li>
+        <li>push(), pop() for stack behavior</li>
+        <li>offer(), poll() for queue behavior</li>
+        <li>Implements Serializable, Cloneable</li>
+    </ul>
+
+    <!-- 8. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+        ArrayDeque internally uses a <b>resizable circular array</b>:
+    </p>
+    <ul>
+        <li>Front and rear pointers track the start and end of deque.</li>
+        <li>Adding/removing at either end is O(1).</li>
+        <li>Array automatically resizes when capacity is exceeded (usually doubles).</li>
+        <li>Random access by index is not supported.</li>
+    </ul>
+
+    <!-- Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Front --> [Task1] [Task2] [Task3] <-- Rear
+  
+  Operations:
+  addFirst("New") → adds at front
+  removeLast() → removes from rear
+  push(…) → adds at front (stack behavior)
+  pop() → removes from front (stack behavior)
+    </pre>
+
+    <!-- 10. Notes -->
+    <div class="note">
+        ⚡ <b>Notes:</b>
+        <ul>
+            <li>ArrayDeque is faster than Stack/LinkedList for stack/queue operations.</li>
+            <li>Use for algorithms requiring double-ended insertion/removal.</li>
+            <li>Do not use null elements (ArrayDeque does not allow null).</li>
+        </ul>
+    </div>
+
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+        <li>Java 8+: Supports Stream API (<code>deque.stream()</code>).</li>
+        <li>Java 21+: Performance improvements for internal circular array resizing.</li>
+    </ul>
+
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+        <li>Prefer ArrayDeque over Stack for LIFO and LinkedList for FIFO operations.</li>
+        <li>Predefine initial capacity to reduce resizing overhead.</li>
+        <li>Use methods appropriately for stack (push/pop) and queue (offer/poll) operations.</li>
+    </ul>
+
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+        <li>Null elements are not allowed – common trick question.</li>
+        <li>ArrayDeque vs LinkedList: ArrayDeque is faster due to contiguous memory.</li>
+        <li>Random access not supported; only sequential traversal possible.</li>
+        <li>Stack vs ArrayDeque: ArrayDeque preferred in modern Java for stack implementation.</li>
+    </ul>
+
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+        <h3>Interview Questions</h3>
+        <ul>
+            <li>Explain how ArrayDeque works internally in Java.</li>
+            <li>Difference between ArrayDeque and LinkedList for Deque operations?</li>
+            <li>Why is ArrayDeque preferred over Stack?</li>
+            <li>How does circular array implementation help in performance?</li>
+            <li>Can ArrayDeque store null elements?</li>
+        </ul>
+    </div>
+</section>

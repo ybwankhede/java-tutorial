@@ -1,0 +1,154 @@
+<section id = "interceptor_pattern">
+    <h1>Interpreter Pattern</h1>
+
+  <h2>1. Introduction & History</h2>
+  <p>
+    The <b>Interpreter Pattern</b> is a <b>behavioral design pattern</b> used to define a representation for a grammar of a language 
+    and provides an interpreter to interpret sentences in that language.
+  </p>
+  <p>
+    It was popularized by the <b>Gang of Four (GoF)</b> in their 1994 book. While not as common in business apps, it is crucial in 
+    compilers, query engines, and rule-based systems.
+  </p>
+
+  <h2>2. Real-Life Example</h2>
+  <p>
+    Think about <b>Google Translate</b>. You type a sentence, and it interprets it into another language based on grammar rules.  
+    Similarly, the interpreter pattern defines rules (grammar) and evaluates expressions (sentences).
+  </p>
+  <p>
+    Another analogy: A <b>music notation system</b>. Notes and symbols form the grammar. The interpreter (musician) reads and executes them.
+  </p>
+
+  <h2>3. Structure Diagram</h2>
+  <pre>
+  Context (input data like sentence, string, query)
+         |
+         v
+  AbstractExpression
+       /       \
+TerminalExpression  NonTerminalExpression
+       \           /
+        Interpreter (evaluate expressions)
+  </pre>
+
+  <h2>4. Example</h2>
+  <p><b>Example:</b> Interpreting a simple grammar for checking whether a string is "Java" or "Spring".</p>
+
+  <pre>
+// Step 1: Expression interface
+interface Expression {
+    boolean interpret(String context);
+}
+
+// Step 2: Terminal Expression (basic rule)
+class TerminalExpression implements Expression {
+    private String data;
+
+    public TerminalExpression(String data) {
+        this.data = data;
+    }
+
+    @Override
+    public boolean interpret(String context) {
+        return context.contains(data);
+    }
+}
+
+// Step 3: Non-Terminal Expression (combines rules)
+class OrExpression implements Expression {
+    private Expression expr1;
+    private Expression expr2;
+
+    public OrExpression(Expression expr1, Expression expr2) {
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    @Override
+    public boolean interpret(String context) {
+        return expr1.interpret(context) || expr2.interpret(context);
+    }
+}
+
+// Step 4: Client
+public class InterpreterDemo {
+    public static void main(String[] args) {
+        Expression java = new TerminalExpression("Java");
+        Expression spring = new TerminalExpression("Spring");
+
+        Expression isJavaOrSpring = new OrExpression(java, spring);
+
+        System.out.println("Is 'I love Java'? " + 
+            isJavaOrSpring.interpret("I love Java"));
+        System.out.println("Is 'Spring Boot rocks'? " + 
+            isJavaOrSpring.interpret("Spring Boot rocks"));
+    }
+}
+  </pre>
+
+  <h2>5. Advantages</h2>
+  <ul>
+    <li>Good for designing simple language interpreters.</li>
+    <li>Makes grammar rules explicit and easy to understand.</li>
+    <li>Easy to extend grammar by adding new expressions.</li>
+  </ul>
+
+  <h2>6. Disadvantages</h2>
+  <ul>
+    <li>Can lead to class explosion (many expression classes).</li>
+    <li>Not efficient for complex grammars (use parser libraries instead).</li>
+    <li>Hard to maintain if grammar grows too large.</li>
+  </ul>
+
+  <h2>7. Real-World Uses</h2>
+  <ul>
+    <li>SQL query interpreters.</li>
+    <li>Regular expression engines.</li>
+    <li>Compilers and interpreters (Java, Python, etc.).</li>
+    <li>Rule engines in workflow automation.</li>
+  </ul>
+
+  <h2>8. Variants of Interpreter</h2>
+  <ul>
+    <li><b>Terminal Expression:</b> Represents atomic rules (words, tokens).</li>
+    <li><b>Non-Terminal Expression:</b> Combines other rules (e.g., OR, AND).</li>
+    <li><b>Context-based Interpreter:</b> Uses external context to resolve meaning.</li>
+  </ul>
+
+  <h2>9. Alternatives</h2>
+  <ul>
+    <li>For complex grammars → use <b>ANTLR</b> or <b>parser generators</b>.</li>
+    <li>Instead of custom interpreters, sometimes <b>Strategy</b> or <b>State</b> patterns can help.</li>
+  </ul>
+
+  <h2>10. Interview Questions</h2>
+  <div class="interview">
+    <ul>
+      <li>What is the Interpreter Pattern and where is it used?</li>
+      <li>Difference between Terminal and Non-Terminal expressions?</li>
+      <li>Can Interpreter Pattern handle large grammars efficiently?</li>
+      <li>How does it differ from Strategy Pattern?</li>
+      <li>Give a real-world example of Interpreter Pattern in Java.</li>
+    </ul>
+  </div>
+
+  <h2>11. Notes</h2>
+  <div class="note">
+    <ul>
+      <li><b>interface</b>: In Java, used to define contracts for expressions.</li>
+      <li><b>abstract class</b>: Sometimes used as AbstractExpression to provide common logic.</li>
+      <li><b>context</b>: Stores input data being interpreted.</li>
+    </ul>
+  </div>
+
+  <h2>12. Developer Tips</h2>
+  <div class="tips">
+    <ul>
+      <li>Use Interpreter only for small, simple grammars (otherwise it becomes unmanageable).</li>
+      <li>Combine with Composite pattern to represent complex expressions.</li>
+      <li>For real-world compilers, prefer tools like ANTLR instead of writing by hand.</li>
+      <li>Good choice for <b>rule engines</b> or <b>domain-specific languages (DSLs)</b>.</li>
+    </ul>
+  </div>
+</section>

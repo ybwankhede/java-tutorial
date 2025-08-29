@@ -1,0 +1,177 @@
+
+<section id="variables">
+  <h2>Variables</h2>
+
+  <p>
+    <strong>Definition:</strong><br>
+    A <b>variable</b> in Java is a named memory location that stores data. 
+    It is like a container that holds values which may change during program execution. 
+    In Java, every variable has a type that determines the size and layout of the variable's memory.
+  </p>
+
+  <h3>Simple Understanding</h3>
+  <p>
+    Think of a variable as a <b>labeled jar</b> where you keep things. 
+    Example: A jar labeled <code>sugar</code> contains 2 kg sugar. Tomorrow, you can refill it with 3 kg sugar.
+  </p>
+
+  <h3>Types of variables</h3>
+  <ul>
+    <li><b>Local variables</b> — declared inside a method or block. They must be initialized before use and their
+      scope ends when the block/method finishes.</li>
+    <li><b>Instance (non-static) variables</b> — declared at class level without <code>static</code>. Each object has
+      its own copy. Default values are assigned when an object is created.</li>
+    <li><b>Static (class) variables</b> — declared with <code>static</code>. Shared by all instances of the class and
+      stored in the class area.</li>
+    <li><b>Final variables (constants)</b> — declared with <code>final</code>. Value cannot change once assigned. Use
+      for constants.</li>
+  </ul>
+
+
+  <h3>Syntax & Types</h3>
+  <table cellpadding="6">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Syntax</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Local Variable</td>
+        <td><code>datatype varName = value;</code></td>
+        <td><code>int age = 25;</code></td>
+      </tr>
+      <tr>
+        <td>Instance Variable</td>
+        <td>Declared inside class but outside methods</td>
+        <td><code>String name;</code></td>
+      </tr>
+      <tr>
+        <td>Static Variable</td>
+        <td><code>static datatype varName;</code></td>
+        <td><code>static int count = 0;</code></td>
+      </tr>
+      <tr>
+        <td>Final Variable (Constant)</td>
+        <td><code>final datatype varName = value;</code></td>
+        <td><code>final double PI = 3.14159;</code></td>
+      </tr>
+    </tbody>
+  </table>  
+
+  <h3>Real-Life Example</h3>
+  <p>
+    Imagine a <b>school</b>:
+  </p>
+  <ul>
+    <li><b>Static (class) Variable:</b> "School Name" → Same for all students.</li>
+    <li><b>Instance (non-static) Variable:</b> "Student Name" → Different for each student.</li>
+    <li><b>Final variables (constants)</b> — "Enrollment Number" -> The enrollment number is permanent and will not change but Different for each student</li>
+    <li><b>Local Variable:</b> "Exam Score (temporary)" → Exists only during exam calculation.</li>    
+  </ul>
+
+  <h3>Example</h3>
+  <pre>
+  class Student {
+      // Instance variable
+      String name;
+      
+      // Final variable
+      final String enrollmentNumber;;
+
+      // Static variable
+      static String school = "ABC School";
+
+      // Constructor
+      Student(String n) {
+          name = n; // local variable
+      }
+
+      public void display() {
+          System.out.println(name + " studies at " + school);
+      }
+
+      public static void main(String[] args) {
+          Student s1 = new Student("Ravi");
+          Student s2 = new Student("Priya");
+
+          s1.display(); // Ravi studies at ABC School
+          s2.display(); // Priya studies at ABC School
+      }
+  }
+  </pre>
+
+  <h3>UML View of Variable Scopes</h3>
+  <pre>
+  +----------------------------+
+  |        Class Memory        |
+  +----------------------------+
+  | Static Variable (Shared)   |
+  | Instance Variables (Per Obj)|
+  | Local Variables (Method)   |
+  | Final Variables (Per Obj)  |
+  +----------------------------+
+  </pre>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Provide data storage inside programs.</li>
+    <li>Helps in memory management (local scope frees quickly).</li>
+    <li>Supports code readability with meaningful names.</li>
+  </ul>
+  
+  <h3>Disadvantages</h3>
+  <ul>
+    <li>Wrong use of static variables may cause memory leaks.</li>
+    <li>Overuse of global/static variables reduces modularity.</li>
+  </ul>
+
+  <h3>Specific Notes</h3>
+  <ul>
+    <li>All variables must be declared before use.</li>
+    <li>Default values: <code>0</code> for numbers, <code>false</code> for boolean, <code>null</code> for objects.</li>
+    <li><b>Local variables</b> must be initialized before use (no default value).</li>
+  </ul>
+
+  <h3>Latest Java Update</h3>
+  <p>
+    Java 10 introduced <code>var</code> for local variable type inference.
+  </p>
+  <pre>
+  // Java 10+ feature
+  var message = "Hello Java"; // compiler infers String
+  var number = 42;            // compiler infers int
+  </pre>
+  <div class="note">
+    ⚠️ Note: <code>var</code> can only be used for local variables inside methods, not for class/instance/static fields.
+  </div>
+
+  <div class="card">
+    <h2>Enhancement Tips</h2>
+    <div class="tip">
+      - Use <b>meaningful variable names</b> (follow Java naming conventions).<br>
+      - Prefer <b>constants (final static)</b> for fixed values like PI, URLs, configuration keys.<br>
+      - Avoid unnecessary <b>static variables</b> in multi-threaded apps (risk of shared-state issues).<br>
+      - Leverage <b>var</b> for cleaner code, but don’t overuse it (can reduce readability).<br>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Note</strong>- Java 17–21 Updates: Pattern Matching for switch (Java 21) can simplify type checks using variables directly.
+  </div>
+
+  <div class="card">
+    <h2>Interview Notes</h2>
+    <div class="interview">
+      - Q: What are different types of variables in Java?<br>
+      - Q: What is the default value of an uninitialized instance variable?<br>
+      - Q: Why do local variables not have default values?<br>
+      - Q: Difference between instance and static variables?<br>
+      - Q: What is the use of <code>final</code> variables?<br>
+      - Q: Explain <code>var</code> in Java 10.<br>      
+    </div>
+  </div>
+  
+</section>

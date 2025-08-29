@@ -1,0 +1,174 @@
+<section id="composite_pattern">
+    <h1>Composite Pattern</h1>
+
+    <h2>1. Introduction & History</h2>
+    <p>
+        The <b>Composite Pattern</b> is a <b>structural design pattern</b> that allows you to treat individual objects
+        and compositions of objects <b>uniformly</b>.
+        It was introduced in the famous <i>Gang of Four (GoF)</i> book in 1994 as one of the 23 core patterns.
+    </p>
+    <p>
+        It is used when you need to represent a tree-like structure (hierarchies). The core idea is that both <b>leaf
+            objects</b> and <b>composite objects</b> implement the same interface.
+    </p>
+
+    <h2>2. Real-Life Analogy</h2>
+    <ul>
+        <li><b>Company Hierarchy</b>: CEO → Managers → Employees. Both employees and managers can be treated the same
+            way.</li>
+        <li><b>File System</b>: Folder can contain files or sub-folders. Both files and folders share some operations
+            (like open, delete).</li>
+        <li><b>Menu System</b>: A menu can contain items or sub-menus. Both should behave like a <i>MenuComponent</i>.
+        </li>
+    </ul>
+
+    <h2>3. Structure Diagram</h2>
+    <pre>
+             Component (interface)
+             /            \
+         Leaf              Composite
+                              |
+                      +---------------+
+                      | children list |
+    </pre>
+
+    <h2>4. Example</h2>
+    <pre>
+    // Component Interface
+    interface Employee {
+        void showDetails();
+    }
+    
+    // Leaf Class
+    class Developer implements Employee {
+        private String name;
+        private String role;
+    
+        public Developer(String name, String role) {
+            this.name = name;
+            this.role = role;
+        }
+    
+        @Override
+        public void showDetails() {
+            System.out.println("Developer: " + name + " (" + role + ")");
+        }
+    }
+    
+    // Another Leaf
+    class Designer implements Employee {
+        private String name;
+    
+        public Designer(String name) {
+            this.name = name;
+        }
+    
+        @Override
+        public void showDetails() {
+            System.out.println("Designer: " + name);
+        }
+    }
+    
+    // Composite Class
+    import java.util.*;
+    class Manager implements Employee {
+        private String name;
+        private List<Employee> team = new ArrayList<>();
+    
+        public Manager(String name) {
+            this.name = name;
+        }
+    
+        public void addEmployee(Employee emp) {
+            team.add(emp);
+        }
+    
+        @Override
+        public void showDetails() {
+            System.out.println("Manager: " + name);
+            for (Employee emp : team) {
+                emp.showDetails();
+            }
+        }
+    }
+    
+    // Client Code
+    public class CompositeDemo {
+        public static void main(String[] args) {
+            Developer dev1 = new Developer("Alice", "Frontend");
+            Developer dev2 = new Developer("Bob", "Backend");
+            Designer des1 = new Designer("Charlie");
+    
+            Manager manager = new Manager("Diana");
+            manager.addEmployee(dev1);
+            manager.addEmployee(dev2);
+            manager.addEmployee(des1);
+    
+            manager.showDetails();
+        }
+    }
+    </pre>
+
+    <h2>5. Advantages</h2>
+    <ul>
+        <li>Simplifies client code by treating leaf and composite objects uniformly.</li>
+        <li>Makes it easy to add new leaf or composite components.</li>
+        <li>Encourages recursive and hierarchical structures.</li>
+    </ul>
+
+    <h2>6. Disadvantages</h2>
+    <ul>
+        <li>Can make the design overly general and harder to restrict usage.</li>
+        <li>May become complex if the hierarchy is very deep.</li>
+    </ul>
+
+    <h2>7. Real-World Uses</h2>
+    <ul>
+        <li><b>Java AWT & Swing:</b> Component containers and child components.</li>
+        <li><b>File System APIs:</b> Folders & Files.</li>
+        <li><b>XML/HTML DOM:</b> Node → Element/Attribute.</li>
+    </ul>
+
+    <h2>8. Variants</h2>
+    <ul>
+        <li><b>Safe Composite:</b> Only composite has child management methods (add/remove).</li>
+        <li><b>Transparent Composite:</b> Both leaf and composite have add/remove (but leaves may throw exception).</li>
+    </ul>
+
+    <h2>9. Alternatives</h2>
+    <ul>
+        <li><b>Decorator:</b> Use when you want to add responsibilities without hierarchy.</li>
+        <li><b>Flyweight:</b> Use when you want to share common parts of objects instead of building hierarchies.</li>
+    </ul>
+
+    <h2>10. Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What problem does the Composite Pattern solve?</li>
+            <li>What’s the difference between Safe and Transparent composite?</li>
+            <li>How is Composite different from Decorator?</li>
+            <li>Where have you seen Composite used in Java frameworks?</li>
+        </ul>
+    </div>
+
+    <h2>11. Notes for Keywords</h2>
+    <div class="note">
+        <ul>
+            <li><b>Interface:</b> Defines the common contract for both leaf and composite objects.</li>
+            <li><b>Recursive Structure:</b> Composite pattern relies on recursion to process hierarchies.</li>
+            <li><b>Composition:</b> Composite holds a list of child components.</li>
+        </ul>
+    </div>
+
+    <h2>12. Developer Tips</h2>
+    <div class="tips">
+        <ul>
+            <li>Prefer Safe Composite if you want strong type safety (only composites manage children).</li>
+            <li>Use Transparent Composite when you need uniformity but ensure clients know leaves can’t have children.
+            </li>
+            <li>Keep methods consistent across Component interface to reduce client confusion.</li>
+            <li>Best used when building GUIs, file systems, or tree-like hierarchical models.</li>
+        </ul>
+    </div>
+
+</section>

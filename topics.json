@@ -1,0 +1,154 @@
+{
+    "topics": [
+      {
+        "title": "Java",
+        "children": [
+          { "title": "Introduction", "page": "topics/core_java/sub_topic/introduction.html" },
+          {
+            "title": "Core Java",
+            "children": [
+              {
+                "title": "core",
+                "children": [
+                    { "title": "Variables", "page": "topics/core_java/sub_topic/variables.html" },
+                    { "title": "Data Types", "page": "topics/core_java/sub_topic/dataTypes.html" },
+                    { "title": "Operators", "page": "topics/core_java/sub_topic/operators.html" },
+                    { "title": "Control Statements", "page": "topics/core_java/sub_topic/control-statements.html" },
+                    { "title": "String Class", "page": "topics/core_java/sub_topic/string-class.html" }
+                ]
+              },
+              {
+                "title": "Calss & Objects",
+                "children": [
+                    { "title": "Class", "page": "topics/core_java/oop/class.html" },
+                    { "title": "Object", "page": "topics/core_java/oop/objcet.html" },
+                    { "title": "Interface", "page": "topics/core_java/oop/interface.html" },
+                    { "title": "Abstract Class", "page": "topics/core_java/oop/abstractClass.html" },
+                    { "title": "Access Specifiers", "page": "topics/core_java/oop/access-specifiers.html" }
+                ]
+              },
+                {
+                "title": "OOP",
+                "children": [
+                    { "title": "Introduction", "page": "topics/core_java/oop/oop.html" },
+                    { "title": "Encapsulation", "page": "topics/core_java/oop/encapsulation.html" },
+                    { "title": "Inheritance", "page": "topics/core_java/oop/inheritance.html" },
+                    { "title": "Polymorphism", "page": "topics/core_java/oop/polymorphism.html" },
+                    { "title": "Abstraction", "page": "topics/core_java/oop/abstraction.html" },
+                    { "title": "Additional OOP Principles", "page": "topics/core_java/oop/additional-oop-principles.html" }
+                ]
+                }
+            ]
+          },
+          {
+            "title": "Exceptions",
+            "children": [
+              { "title": "Exception", "page": "topics/core_java/exceptions/exceptions.html" },
+              { "title": "Exception Keywords", "page": "topics/core_java/exceptions/exception_handling_keywords.html" },
+              { "title": "Checked Exception", "page": "topics/core_java/exceptions/checked_exception.html" },
+              { "title": "Unchecked Exception", "page": "topics/core_java/exceptions/unchecked_exceptions.html" },
+              { "title": "Custom Exception", "page": "topics/core_java/exceptions/custom_exception.html" },
+              { "title": "Errors", "page": "topics/core_java/exceptions/errors.html" }
+            ]
+          },
+          {
+            "title": "Collections",
+            "children": [
+              { "title": "Introduction", "page": "topics/core_java/collections/list/list_interface.html" },
+              {
+                "title": "List",
+                "children": [
+                    { "title": "Introduction", "page": "topics/core_java/collections/list/list_interface.html" },
+                    { "title": "ArrayList", "page": "topics/core_java/collections/list/array_list.html" },
+                    { "title": "LinkedList", "page": "topics/core_java/collections/list/linked_list.html" },
+                    { "title": "Vector", "page": "topics/core_java/collections/list/vector_and_stack.html" }
+                ]
+              },
+              {
+                "title": "Set",
+                "children": [
+                   { "title": "Introduction", "page": "topics/core_java/collections/set/set_interface.html" },
+                    { "title": "HashSet", "page": "topics/core_java/collections/set/hash_set.html" },
+                    { "title": "LinkedHashSet", "page": "topics/core_java/collections/set/linked_hash_set.html" },
+                    { "title": "TreeSet", "page": "topics/core_java/collections/set/tree_set.html" },
+                    { "title": "EnumSet", "page": "topics/core_java/collections/set/enum_set.html" }
+                ]
+              },
+              {
+                "title": "Queue",
+                "children": [
+                    { "title": "Introduction", "page": "topics/core_java/collections/queue/queue_interface.html" },
+                    { "title": "Priority Queue", "page": "topics/core_java/collections/queue/priority_queue.html" },
+                    {
+                      "title": "Deque",
+                      "children": [
+                          { "title": "Introduction", "page": "topics/core_java/collections/queue/deque/deque_interface.html" },
+                          { "title": "Array Deque", "page": "topics/core_java/collections/queue/deque/array_deque.html" }
+                      ]
+                    }
+                ]
+              },
+              {
+                "title": "Map",
+                "children": [
+                    { "title": "Introduction", "page": "topics/core_java/collections/map/map_interface.html" },
+                    { "title": "HashMap", "page": "topics/core_java/collections/map/hash_map.html" },
+                    { "title": "LinkedHashMap", "page": "topics/core_java/collections/map/linked_hash_map.html" },
+                    { "title": "TreeMap", "page": "topics/core_java/collections/map/tree_map.html" },
+                    { "title": "EnumMap", "page": "topics/core_java/collections/map/enum_map.html" },
+                    { "title": "AbstractMap", "page": "topics/core_java/collections/map/abstract_map.html" }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Lambdas",
+            "children": [
+              { "title": "Introduction", "page": "topics/core_java/lambdas/lambdas.html" },
+              { "title": "Functional Programming", "page": "topics/core_java/lambdas/functional_programming.html" }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "System Design",
+        "children": [
+            { "title": "Introduction", "page": "topics/system_design/design_pattern/info.html" },
+            {
+                "title": "Creational Patterns",
+                "children": [
+                    { "title": "Sigleton Pattern", "page": "topics/system_design/design_pattern/singleton_pattern.html" },
+                    { "title": "Factory Pattern", "page": "topics/system_design/design_pattern/factory_pattern.html" },
+                    { "title": "Abstract Factory Pattern", "page": "topics/system_design/design_pattern/abstract_factory_pattern.html" },
+                    { "title": "Builder Pattern", "page": "topics/system_design/design_pattern/builder_pattern_tutorial.html" },
+                    { "title": "Prototype Pattern", "page": "topics/system_design/design_pattern/prototype_pattern.html" }
+                ]
+            },
+            {
+                "title": "Structural Patterns",
+                "children": [
+                    { "title": "Adapter Pattern", "page": "topics/system_design/design_pattern/adapter_pattern.html" },
+                    { "title": "Bridge Pattern", "page": "topics/system_design/design_pattern/bridge_pattern.html" },
+                    { "title": "Composite Pattern", "page": "topics/system_design/design_pattern/composite_pattern.html" },
+                    { "title": "Decorator Pattern", "page": "topics/system_design/design_pattern/decorator_pattern.html" },
+                    { "title": "Facade Pattern", "page": "topics/system_design/design_pattern/facade_pattern.html" },
+                    { "title": "Flyweight Pattern", "page": "topics/system_design/design_pattern/flyweight_pattern.html" },
+                    { "title": "Proxy Pattern", "page": "topics/system_design/design_pattern/proxy_pattern.html" }
+            ]
+            },
+            {
+                "title": "Behavioral Patterns",
+                "children": [
+                    { "title": "Observer Pattern", "page": "topics/system_design/design_pattern/observer_pattern.html" },
+                    { "title": "Chain of Responsibility Pattern", "page": "topics/system_design/design_pattern/chain_of_responsibility_pattern.html" },
+                    { "title": "Interpreter Pattern", "page": "topics/system_design/design_pattern/interpreter_pattern.html" },
+                    { "title": "Iterator Pattern", "page": "topics/system_design/design_pattern/iterator_pattern.html" },
+                    { "title": "Mediator Pattern", "page": "topics/system_design/design_pattern/mediator_pattern.html" },
+                    { "title": "Memento Pattern", "page": "topics/system_design/design_pattern/memento_pattern.html" }                    
+            ]
+            }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,179 @@
+<section id="tree_map_class">
+    <h2>TreeMap</h2>
+  
+    <!-- 1. Definition -->
+    <p>
+      <strong>Definition:</strong><br> 
+      <b>TreeMap</b> is a Map implementation that stores <b>key-value pairs</b> in a <b>sorted order</b> based on the natural ordering of keys or a custom <code>Comparator</code>.  
+      Internally, it uses a <b>Red-Black Tree</b> (self-balancing binary search tree).
+    </p>
+    <div class="note">
+      ⚡ TreeMap does not allow <b>null keys</b> (but values can be null).  
+      Use TreeMap when sorted key order is required.
+    </div>
+  
+    <!-- 2. Detailed Explanation -->
+    <h3>Detailed Explanation</h3>
+    <ul>
+      <li>Each key is unique; values can be duplicated.</li>
+      <li>Automatically keeps keys sorted.</li>
+      <li>Null keys are not allowed (throws <code>NullPointerException</code>), but null values are allowed.</li>
+      <li>Operations like <code>get()</code>, <code>put()</code>, <code>remove()</code> take O(log n) time.</li>
+      <li>Useful for range queries and ordered iteration.</li>
+    </ul>
+  
+    <!-- 3. Real-Life Analogy -->
+    <h3>Real-Life Example</h3>
+    <ul>
+      <li>Think of a phonebook sorted alphabetically by name.</li>
+      <li>Adding a new contact automatically keeps the list sorted.</li>
+      <li>Searching for a contact is efficient due to sorted structure.</li>
+    </ul>
+  
+    <!-- 4. UML -->
+    <h3>UML (Text-based)</h3>
+    <pre>
+            Map
+             |
+          SortedMap
+             |
+         TreeMap<K,V>
+             - Red-Black Tree
+             - Implements Map, NavigableMap, Serializable, Cloneable
+             - Core Methods: put(), get(), remove(), firstKey(), lastKey(), subMap(), headMap(), tailMap()
+    </pre>
+  
+    <!-- 5. Java Code Examples -->
+    <h3>Examples</h3>
+    <pre>
+  import java.util.*;
+  
+  class TreeMapDemo {
+      public static void main(String[] args) {
+          // Create a TreeMap
+          TreeMap<String, Integer> map = new TreeMap<>();
+  
+          // Add key-value pairs
+          map.put("Charlie", 35);
+          map.put("Alice", 30);
+          map.put("Bob", 25);
+          map.put("David", null); // null value allowed
+  
+          System.out.println("TreeMap: " + map); // Sorted by keys
+  
+          // Get value
+          System.out.println("Alice's age: " + map.get("Alice"));
+  
+          // Remove element
+          map.remove("Bob");
+          System.out.println("After removal: " + map);
+  
+          // Iteration (sorted order)
+          for(Map.Entry<String, Integer> entry : map.entrySet()) {
+              System.out.println(entry.getKey() + " => " + entry.getValue());
+          }
+  
+          // Range query
+          System.out.println("Keys between A and C: " + map.subMap("A", "C"));
+          System.out.println("First key: " + map.firstKey());
+          System.out.println("Last key: " + map.lastKey());
+      }
+  }
+    </pre>
+  
+    <!-- 6. Key Methods -->
+    <h3>Methods</h3>
+    <ul>
+      <li><b>put(K key, V value):</b> Adds key-value pair.</li>
+      <li><b>get(Object key):</b> Returns value for the key.</li>
+      <li><b>remove(Object key):</b> Removes key-value pair.</li>
+      <li><b>firstKey(), lastKey():</b> Returns smallest/largest key.</li>
+      <li><b>subMap(K fromKey, K toKey):</b> Returns view of keys in range [fromKey, toKey).</li>
+      <li><b>headMap(K toKey), tailMap(K fromKey):</b> Returns view of keys less than or greater than specified key.</li>
+      <li><b>keySet(), values(), entrySet():</b> Return keys, values, entries.</li>
+      <li><b>ceilingKey(), floorKey(), higherKey(), lowerKey():</b> NavigableMap methods for closest keys.</li>
+    </ul>
+  
+    <!-- 7. Internal Working -->
+    <h3>Internal Working</h3>
+    <p>
+      - TreeMap stores entries in a <b>Red-Black Tree</b> → self-balancing binary search tree.  
+      - Each node contains key, value, left, right, parent, and color (red/black).  
+      - Adding an element:
+        <ol>
+          <li>Compare key with root → traverse left/right.</li>
+          <li>Insert node at leaf position.</li>
+          <li>Rebalance tree to maintain Red-Black properties.</li>
+        </ol>
+      - Sorted order is maintained automatically.
+    </p>
+  
+    <!-- 8. Visual Representation -->
+    <h3>Visual Representation</h3>
+    <pre>
+  Keys: Alice, Bob, Charlie, David
+  Red-Black Tree:
+           Charlie
+          /       \
+       Alice       David
+         \
+          Bob
+  Iteration order: Alice -> Bob -> Charlie -> David
+    </pre>
+  
+    <!-- 9. Advantages & Disadvantages -->
+    <h3>Advantages & Disadvantages</h3>
+    <ul>
+      <li><b>Advantages:</b> Sorted keys, range queries, fast search O(log n), predictable iteration order.</li>
+      <li><b>Disadvantages:</b> Slower than HashMap (O(log n) vs O(1)), higher memory usage, no null keys.</li>
+    </ul>
+  
+    <!-- 10. Notes -->
+    <div class="note">
+      ⚡ <b>Notes:</b>
+      <ul>
+        <li>Use TreeMap when sorted key order or range queries are required.</li>
+        <li>Null keys not allowed; null values allowed.</li>
+        <li>Supports NavigableMap interface for advanced key navigation.</li>
+      </ul>
+    </div>
+  
+    <!-- 11. Latest Java Updates -->
+    <h3>Latest Java Updates</h3>
+    <ul>
+      <li>Java 8+: Stream API support (map.entrySet().stream()).</li>
+      <li>Java 17–21: Internal Red-Black Tree optimizations, better performance for iteration.</li>
+    </ul>
+  
+    <!-- 12. Enhancement Tips -->
+    <h3>Enhancement Tips</h3>
+    <ul>
+      <li>Use TreeMap for sorted datasets, leaderboard applications, or range queries.</li>
+      <li>Provide custom Comparator to change sorting behavior.</li>
+      <li>Combine with subMap/headMap/tailMap for efficient partial views.</li>
+    </ul>
+  
+    <!-- 13. Extra Corner Points / Interview Traps -->
+    <h3>Interview Traps</h3>
+    <ul>
+      <li>Null keys are not allowed → throws <code>NullPointerException</code>.</li>
+      <li>Iteration order is always sorted → not insertion order.</li>
+      <li>Time complexity O(log n) for get/put/remove, unlike HashMap O(1).</li>
+      <li>Supports NavigableMap methods for ceiling/floor/higher/lower keys.</li>
+    </ul>
+  
+    <!-- 14. Interview Questions -->
+    <div class="interview">
+      <h3>Interview Questions</h3>
+      <ul>
+        <li>Difference between HashMap, LinkedHashMap, and TreeMap?</li>
+        <li>How does TreeMap maintain sorted order internally?</li>
+        <li>Why does TreeMap not allow null keys?</li>
+        <li>Time complexity for basic operations?</li>
+        <li>Explain subMap(), headMap(), tailMap() methods.</li>
+        <li>When would you use TreeMap over HashMap?</li>
+        <li>Difference between natural ordering and custom Comparator?</li>
+      </ul>
+    </div>
+  </section>
+  

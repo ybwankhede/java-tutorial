@@ -1,0 +1,178 @@
+<section id="prototype_pattern">
+    <h1>Prototype Pattern in Java</h1>
+
+    <h2>Introduction & History</h2>
+    <p>The <strong>Prototype Pattern</strong> is a <em>creational design pattern</em> that allows us to create new
+        objects by <u>cloning existing ones</u>. Instead of creating objects from scratch using constructors, we
+        duplicate an existing object (the prototype) to produce new instances.</p>
+    <p>This pattern was described in the <strong>GoF (Gang of Four)</strong> book (1994) as one of the 23 classic design
+        patterns. It is particularly useful when object creation is costly or complex.</p>
+
+    <h2>Real-Life Analogy</h2>
+    <ul>
+        <li><strong>Photocopy Machine:</strong> Instead of rewriting a document, you make a copy of the original.</li>
+        <li><strong>Resumes:</strong> You keep a base resume template and duplicate it with minor changes for different
+            job applications.</li>
+        <li><strong>Biology:</strong> Cells reproduce by cloning themselves (DNA copy).</li>
+    </ul>
+
+    <h2>Structure Diagram</h2>
+    <pre>
+    Prototype Pattern Structure:
+    
+      +------------------+
+      |   Prototype      | <--- Interface (declares clone method)
+      +------------------+
+                ^
+                |
+      +------------------+
+      | ConcretePrototype| <--- Implements clone()
+      +------------------+
+                ^
+                |
+      +------------------+
+      |   Client         | <--- Uses prototype to clone new objects
+      +------------------+
+    </pre>
+
+    <h2>Example</h2>
+    <pre>
+    // Step 1: Prototype Interface
+    interface Prototype extends Cloneable {
+        Prototype clone();
+    }
+    
+    // Step 2: Concrete Prototype
+    class Employee implements Prototype {
+        private String name;
+        private String department;
+    
+        public Employee(String name, String department) {
+            this.name = name;
+            this.department = department;
+        }
+    
+        @Override
+        public Prototype clone() {
+            // Shallow copy (copies primitive fields and references)
+            return new Employee(this.name, this.department);
+        }
+    
+        @Override
+        public String toString() {
+            return "Employee{name='" + name + "', department='" + department + "'}";
+        }
+    }
+    
+    // Step 3: Client
+    public class PrototypeDemo {
+        public static void main(String[] args) {
+            Employee emp1 = new Employee("Alice", "IT");
+            Employee emp2 = (Employee) emp1.clone();
+    
+            System.out.println(emp1);
+            System.out.println(emp2);
+        }
+    }
+    </pre>
+
+    <h2>Variants of Prototype</h2>
+    <ul>
+        <li><strong>Shallow Copy:</strong> Only top-level fields are copied. Object references still point to the same
+            objects.
+            <pre>
+    class ShallowCloneExample implements Cloneable {
+        int id;
+        List<String> tasks;
+    
+        @Override
+        public ShallowCloneExample clone() {
+            try {
+                return (ShallowCloneExample) super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+        </pre>
+        </li>
+        <li><strong>Deep Copy:</strong> Copies everything, including nested objects.
+            <pre>
+    class DeepCloneExample implements Cloneable {
+        int id;
+        List<String> tasks;
+    
+        @Override
+        public DeepCloneExample clone() {
+            DeepCloneExample copy = new DeepCloneExample();
+            copy.id = this.id;
+            copy.tasks = new ArrayList<>(this.tasks); // new list ensures independence
+            return copy;
+        }
+    }
+        </pre>
+        </li>
+    </ul>
+
+    <h2>Advantages</h2>
+    <ul>
+        <li>Reduces the cost of creating complex objects.</li>
+        <li>Cloning can be faster than constructing new objects.</li>
+        <li>Provides a way to keep object initialization logic in one place (the prototype).</li>
+    </ul>
+
+    <h2>Disadvantages</h2>
+    <ul>
+        <li>Deep copy can be complex to implement correctly.</li>
+        <li>Cloning objects with circular references is tricky.</li>
+        <li>Shallow copies may cause unintended side-effects.</li>
+    </ul>
+
+    <h2>Use Cases</h2>
+    <ul>
+        <li><strong>Java:</strong> <code>Object.clone()</code> is the built-in Prototype mechanism.</li>
+        <li><strong>Spring Framework:</strong> Beans can be defined with <code>scope="prototype"</code>.</li>
+        <li><strong>Game Development:</strong> Cloning characters, items, or levels for efficiency.</li>
+    </ul>
+
+    <h2>Alternatives</h2>
+    <ul>
+        <li>Use <strong>Factory Pattern</strong> if object creation is simpler and doesn’t need cloning.</li>
+        <li>Use <strong>Builder Pattern</strong> if objects have complex construction logic instead of duplication.</li>
+    </ul>
+
+    <h2>Interview Questions</h2>
+    <div class="interview">
+        <ul>
+            <li>What is the Prototype Pattern and when would you use it?</li>
+            <li>What is the difference between shallow and deep copy?</li>
+            <li>How does Java’s <code>clone()</code> method work?</li>
+            <li>What are the disadvantages of using Prototype?</li>
+            <li>What is the difference between Prototype and Factory Pattern?</li>
+        </ul>
+    </div>
+
+    <h2>Notes for Keywords</h2>
+    <div class="note">
+        <ul>
+            <li><strong>Cloneable:</strong> A marker interface in Java that enables object cloning via
+                <code>clone()</code>.</li>
+            <li><strong>Shallow Copy:</strong> Duplicates object but keeps references to same sub-objects.</li>
+            <li><strong>Deep Copy:</strong> Duplicates everything recursively, creating independent objects.</li>
+            <li><strong>Serializable:</strong> Sometimes used for deep cloning by serializing and deserializing objects.
+            </li>
+        </ul>
+    </div>
+
+    <h2>Developer Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Prefer deep copy when working with mutable nested objects.</li>
+            <li>Consider using libraries (e.g., Apache Commons Lang <code>SerializationUtils.clone()</code>) for deep
+                copy.</li>
+            <li>Be cautious with performance when cloning large graphs of objects.</li>
+            <li>Use Prototype for performance-critical apps where objects are frequently duplicated.</li>
+        </ul>
+    </div>
+
+</section>
