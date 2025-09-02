@@ -27,10 +27,14 @@ fetch("topics.json")
 // ---------- Dynamic content loader ----------
 async function loadPage(url, push = true) {
   try {
-    const res = await fetch(url);
-    const html = await res.text();
-    document.getElementById("contentArea").innerHTML = html;
-
+    if (url.includes('graph')) {
+        window.open(url, '_blank');
+    } else {
+      const res = await fetch(url);
+      const html = await res.text();
+      document.getElementById("contentArea").innerHTML = html;  
+    }
+    
     // close offcanvas on mobile after navigation
     const offcanvasEl = document.querySelector(".offcanvas.show");
     if (offcanvasEl) bootstrap.Offcanvas.getInstance(offcanvasEl)?.hide();

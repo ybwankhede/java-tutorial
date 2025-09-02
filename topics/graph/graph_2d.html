@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expandable Graph with Tooltips</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #graph {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+    <script src="https://unpkg.com/force-graph"></script>
+</head>
+
+<body>
+    <div id="graph"></div>
+
+    <script>
+        // --- Full Graph Data ---
+        const allNodes = [];
+        const allLinks = [];
+        for (let i = 1; i <= 20; i++) {
+            allNodes.push({
+                id: "C" + i,
+                label: "Company " + i,
+                type: i % 2 === 0 ? "Supplier" : "Customer",
+                revenue: Math.floor(Math.random() * 1000) + "M USD"
+            });
+        }
+        for (let i = 0; i < 40; i++) {
+            const src = "C" + (Math.floor(Math.random() * 20) + 1);
+            const tgt = "C" + (Math.floor(Math.random() * 20) + 1);
+            if (src !== tgt) {
+                allLinks.push({
+                    source: src,
+                    target: tgt,
+                    relation: Math.random() > 0.5 ? "Partner" : "Supplier",
+                    strength: (Math.random() * 100).toFixed(1) + "%"
+                });
+            }
+        }
+
+        // --- Color Generator ---
+        function getNodeColor(node) {
+            let hash = 0;
+            for (let i = 0; i < node.id.length; i++) {
+                hash = node.id.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            /*  const hue = hash % 360;
+             return `hsl(${hue},70%,50%)`; */
+
+            // Snap hue to 30° steps (gives 12 very distinct base colors)
+            const hue = Math.abs(hash % 12) * 30;
+
+            // Vary saturation/lightness to avoid collisions
+            const sat = 65 + (Math.abs(hash) % 20);   // 65–85%
+            const light = 45 + (Math.abs(hash) % 20); // 45–65%
+
+            return `hsl(${hue}, ${sat}%, ${light}%)`;
+        }
+
+        // --- Expandable Graph Data ---
+        const shownNodes = new Map();
+        const shownLinks = [];
+
+        // Show one node + its neighbors
+        function initGraph(rootId) {
+            expandNode(rootId);
+            return { nodes: Array.from(shownNodes.values()), links: shownLinks };
+        }
+
+        // Expand neighbors of a node
+        function expandNode(nodeId) {
+            allLinks.forEach(l => {
+                if (l.source === nodeId || l.target === nodeId) {
+                    const src = typeof l.source === "string" ? l.source : l.source.id;
+                    const tgt = typeof l.target === "string" ? l.target : l.target.id;
+
+                    if (!shownNodes.has(src)) {
+                        shownNodes.set(src, allNodes.find(n => n.id === src));
+                    }
+                    if (!shownNodes.has(tgt)) {
+                        shownNodes.set(tgt, allNodes.find(n => n.id === tgt));
+                    }
+
+                    if (!shownLinks.find(ex =>
+                        (ex.source === src && ex.target === tgt) ||
+                        (ex.source === tgt && ex.target === src))) {
+                        shownLinks.push({ source: src, target: tgt, relation: l.relation, strength: l.strength });
+                    }
+                }
+            });
+        }
+
+        let selectedNodeId = null;
+
+        const Graph = ForceGraph()(document.getElementById("graph"))
+            .graphData(initGraph("C1")) // load one node network
+            .nodeId("id")
+            .nodeCanvasObject((node, ctx) => {
+                const isSelected = node.id === selectedNodeId;
+                const radius = isSelected ? 14 : 8;
+
+                // Circle
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
+                ctx.fillStyle = getNodeColor(node);
+                ctx.fill();
+
+                if (isSelected) {
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = "red";
+                    ctx.stroke();
+                }
+
+                // Label below node
+                const fontSize = isSelected ? 3 : 2;
+                ctx.font = `${isSelected ? "bold" : "normal"} ${fontSize}px Sans-Serif`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                ctx.fillStyle = "black";
+                ctx.fillText(node.label, node.x, node.y + radius + 2);
+            })
+            .linkWidth(l => (l.source.id === selectedNodeId || l.target.id === selectedNodeId) ? 2.5 : 1)
+            .linkColor(l => (l.source.id === selectedNodeId || l.target.id === selectedNodeId) ? "red" : "#aaa")
+            .onNodeClick(node => {
+                selectedNodeId = node.id;
+                expandNode(node.id);
+                Graph.graphData({
+                    nodes: Array.from(shownNodes.values()),
+                    links: shownLinks
+                });
+                setTimeout(() => Graph.zoomToFit(1000, 80), 300); // auto fit
+            })
+            .nodeCanvasObjectMode(() => "after")
+
+            // --- TOOLTIP CONFIGURATION ---
+            .nodeLabel(node =>
+                `<b>${node.label}</b><br>
+         Type: ${node.type}<br>
+         Revenue: ${node.revenue}`
+            )
+            .linkLabel(link =>
+                `Relation: ${link.relation}<br>
+         Strength: ${link.strength}<br>
+         ${link.source.id} ↔ ${link.target.id}`
+            );
+
+        // Initial fit
+        setTimeout(() => Graph.zoomToFit(1000, 80), 500);
+    </script>
+</body>
+
+</html>

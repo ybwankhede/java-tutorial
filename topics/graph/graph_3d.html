@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>3D Force Graph with Bigger Labels & Centered Camera</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #graph {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      z-index: 10;
+    }
+  </style>
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.125.2/build/three.min.js"></script>
+
+  <!-- 3D Force Graph UMD -->
+  <script src="https://unpkg.com/3d-force-graph@1.72.0/dist/3d-force-graph.min.js"></script>
+</head>
+
+<body>
+  <div id="graph"></div>
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    // --- Sample Graph Data ---
+    const nodes = [];
+    const links = [];
+    const N = 15;
+    /* for (let i = 0; i < N; i++) {
+      nodes.push({
+        id: "Node" + i,
+        label: "Node " + i,
+        type: i % 2 === 0 ? "Supplier" : "Customer",
+        revenue: Math.floor(Math.random()*1000)+"M USD",
+        size: i % 4 === 0 ? 10 : 5
+      });
+    }
+    for (let i = 1; i < N; i++) {
+      links.push({
+        source: "Node" + i,
+        target: "Node" + Math.floor(Math.random() * i),
+        relation: Math.random() > 0.5 ? "Partner" : "Supplier",
+        strength: (Math.random() * 100).toFixed(1) + "%"
+      });
+    } */
+
+    for (let i = 1; i <= 20; i++) {
+      nodes.push({
+        id: "C" + i,
+        label: "Company " + i,
+        type: i % 2 === 0 ? "Supplier" : "Customer",
+        revenue: Math.floor(Math.random() * 1000) + "M USD"
+      });
+    }
+    for (let i = 0; i < 40; i++) {
+      const src = "C" + (Math.floor(Math.random() * 20) + 1);
+      const tgt = "C" + (Math.floor(Math.random() * 20) + 1);
+      if (src !== tgt) {
+        links.push({
+          source: src,
+          target: tgt,
+          relation: Math.random() > 0.5 ? "Partner" : "Supplier",
+          strength: (Math.random() * 100).toFixed(1) + "%"
+        });
+      }
+    }
+
+    const tooltip = document.getElementById("tooltip");
+    let selectedNodeId = null;
+
+    const Graph = ForceGraph3D()(document.getElementById('graph'))
+      .graphData({ nodes, links })
+      .nodeId('id')
+      .linkSource('source')
+      .linkTarget('target')
+      .nodeAutoColorBy('id')
+      .linkWidth(link => (link.source.id === selectedNodeId || link.target.id === selectedNodeId) ? 3 : 1)
+      .linkColor(link => (link.source.id === selectedNodeId || link.target.id === selectedNodeId) ? 'red' : '#888')
+      .nodeThreeObject(node => {
+        const group = new THREE.Group();
+
+        // Node sphere
+        const radius = node.size || 5;
+        const sphere = new THREE.Mesh(
+          new THREE.SphereGeometry(radius, 16, 16),
+          new THREE.MeshBasicMaterial({ color: node.color })
+        );
+        group.add(sphere);
+
+        // White Label sprite (bigger)
+        const canvas = document.createElement('canvas');
+        const size = 256;  // bigger canvas for better resolution
+        canvas.width = canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.font = '32px Sans-Serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(node.label, size / 2, size / 2);
+        const texture = new THREE.CanvasTexture(canvas);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+        sprite.scale.set(20, 10, 1);
+        sprite.position.set(0, radius + 8, 0); // above node
+        group.add(sprite);
+
+        // Highlight selected node
+        if (node.id === selectedNodeId) {
+          const ring = new THREE.Mesh(
+            new THREE.RingGeometry(radius + 1, radius + 2, 32),
+            new THREE.MeshBasicMaterial({ color: 'red', side: THREE.DoubleSide })
+          );
+          ring.rotation.x = Math.PI / 2;
+          group.add(ring);
+        }
+
+        return group;
+      })
+      .nodeThreeObjectExtend(true)
+      .onNodeClick(node => {
+        selectedNodeId = node.id;
+
+        // Animate camera to focus clicked node
+        const distance = 80;
+        const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+        Graph.cameraPosition(
+          { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+          node,
+          1000
+        );
+
+        // Animate particles on selected links
+        Graph.linkDirectionalParticles(2)
+          .linkDirectionalParticleWidth(l => (l.source.id === selectedNodeId || l.target.id === selectedNodeId) ? 4 : 0)
+          .linkDirectionalParticleColor(l => (l.source.id === selectedNodeId || l.target.id === selectedNodeId) ? 'red' : 'rgba(0,0,0,0)')
+          .linkDirectionalParticleSpeed(0.02);
+
+        Graph.graphData({ nodes, links });
+      })
+      .onNodeHover(node => {
+        if (node) {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `<b>${node.label}</b><br>Type: ${node.type}<br>Revenue: ${node.revenue}`;
+        } else tooltip.style.display = 'none';
+      })
+      .onLinkHover(link => {
+        if (link) {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `Relation: ${link.relation}<br>Strength: ${link.strength}<br>${link.source.id} → ${link.target.id}`;
+        } else tooltip.style.display = 'none';
+      });
+
+    document.addEventListener('mousemove', evt => {
+      tooltip.style.left = (evt.pageX + 10) + 'px';
+      tooltip.style.top = (evt.pageY + 10) + 'px';
+    });
+
+    // Center camera at start with mid zoom
+    Graph.cameraPosition(
+      { x: 0, y: 0, z: 80 }, // mid zoom
+      { x: 0, y: 0, z: 0 },  // look at center
+      1000
+    );
+
+    // Auto-rotate
+    Graph.controls().autoRotate = true;
+    Graph.controls().autoRotateSpeed = 0.5;
+  </script>
+</body>
+
+</html>

@@ -148,6 +148,13 @@
             ]
             }
         ]
+      },
+      {
+        "title": "Graph",
+        "children": [
+            { "title": "2d", "page": "topics/graph/graph_2d.html" },
+            { "title": "3d", "page": "topics/graph/graph_3d.html" }           
+        ]
       }
     ]
   }
