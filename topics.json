@@ -18,7 +18,7 @@
                 ]
               },
               {
-                "title": "Calss & Objects",
+                "title": "Class & Objects",
                 "children": [
                     { "title": "Class", "page": "topics/core_java/oop/class.html" },
                     { "title": "Object", "page": "topics/core_java/oop/objcet.html" },
